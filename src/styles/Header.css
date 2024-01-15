@@ -1,0 +1,39 @@
+
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    background-color: #EEE6DA;
+    flex-direction: row;
+  }
+  
+  .language {
+    display: flex;
+    flex-direction: row;
+    margin-left: 1rem;
+    gap: 10rem;
+    align-items: center;
+  }
+  
+ 
+  
+  .silhouet {
+    width: 27rem;
+    margin-top: auto;
+  }
+  
+  .silhouet img {
+    margin-top: 2.5rem;
+    width: 100%;
+    height: auto;
+    vertical-align: bottom;
+  }
+  
+  .login {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1rem;
+    margin-right: 1rem;
+  }
+ 
