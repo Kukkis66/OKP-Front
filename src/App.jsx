@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Header } from './components/Header.jsx'
 import './styles/App.css'
 
 function App() {
@@ -6,7 +7,7 @@ function App() {
 
   return (
     <>
-    {/* Components go here */}
+    <Header/>
     </>
   )
 }
