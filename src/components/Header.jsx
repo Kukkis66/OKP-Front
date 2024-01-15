@@ -5,7 +5,9 @@ import '../styles/Header.css';
 export const Header = () => {
 
     return (
+        
         <header className='header'>
+            <div className='top-section'>
             <div className='language'>
             <a  href="">ENGLISH</a>
             <figure className='silhouet'>
@@ -17,6 +19,8 @@ export const Header = () => {
                 <img src={arrow} alt="login" />
             </figure>
             </a>
+            </div>
+            <div className='bottom-section'><h1>Löydä tietoa rakennuksista, tallenna suosikkejasi, rakenna reittejä</h1></div>
         </header>
             
 

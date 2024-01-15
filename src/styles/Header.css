@@ -2,11 +2,17 @@
 
 .header {
     display: flex;
+    flex-direction: column;
+  }
+
+  .top-section {
+    display: flex;
     justify-content: space-between;
     background-color: #EEE6DA;
     flex-direction: row;
     position: relative;
     min-height: 8rem;
+
   }
   
   .language {
@@ -39,4 +45,20 @@
     gap: 1rem;
     margin-right: 1rem;
   }
+  
+  .bottom-section {
+    background-color: #1B1B1A;
+    min-height: 15rem;
+    display: flex;
+
+    
+    align-items: center;
+}
+
+.bottom-section h1 {
+    font-size: 2rem;
+    color: #AD7851;
+   margin: auto auto 4rem;
+}
+
  
