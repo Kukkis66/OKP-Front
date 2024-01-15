@@ -5,6 +5,8 @@
     justify-content: space-between;
     background-color: #EEE6DA;
     flex-direction: row;
+    position: relative;
+    min-height: 8rem;
   }
   
   .language {
@@ -23,10 +25,11 @@
   }
   
   .silhouet img {
-    margin-top: 2.5rem;
+    
     width: 100%;
     height: auto;
-    vertical-align: bottom;
+    margin-bottom: -6.7rem;
+    
   }
   
   .login {
