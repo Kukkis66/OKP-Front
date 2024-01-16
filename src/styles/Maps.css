@@ -1,0 +1,12 @@
+.mapContainer {
+   background-color: #E8D3CC;
+   padding: 1rem;
+}
+
+.map {
+    width: 66%;
+    height: 40rem;
+    margin: 2rem;
+    border: solid black;
+    
+}
