@@ -70,8 +70,7 @@ To achieve an S+ grade, the project includes the following bonus features:
 
 ## Getting Started
 
-1. Clone the repository.
-2. Install dependencies using `npm install` or `yarn install`.
-3. Run the application using `npm start` or `yarn start`.
+1. Make .env file to root and 
+
 
 Happy exploring!

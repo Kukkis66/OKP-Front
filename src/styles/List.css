@@ -17,10 +17,24 @@
 
 
 
-h1 {
+.h2 {
     font-size: 1.2rem;
-    
-    
+    font-family: 'Red Hat Display', sans-serif;
+    font-weight: 700;
+    flex-grow: 2;
+}
+
+.p {
+    font-family: 'Mulish', sans-serif;
+    font-size: 1rem;
+}
+
+.zoom {
+    font-family: 'Red Rose', serif;
+    font-weight: 300;
+    font-size: 1.1rem;
+    padding-top: 1rem;
+
 }
 
 .card {
@@ -39,22 +53,25 @@ h1 {
 }
 
 .picture_url {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    
     width: 18rem;
-    height: 11rem;
+    height: 12rem;
     text-align: center;
     border: #1B1B1A solid 0.18rem;
-    overflow: hidden; 
+    
+    
 }
 
 .picture_url img {
     
     width: 100%;
+    height: 100%;
     
     
     
     
+}
+
+.info > * {
+    padding-bottom: 1rem;
 }

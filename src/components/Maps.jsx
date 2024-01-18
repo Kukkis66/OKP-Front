@@ -11,9 +11,14 @@ const center = {
   lng: 24.9384, // default longitude
 };
 
+
+
+
+
+
 export const Maps = () => {
   const { isLoaded, loadError } = useLoadScript({
-    googleMapsApiKey: import.meta.env.VITE_APIKEY,
+    googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAPS_APIKEY,
     libraries,
   });
 
@@ -24,6 +29,10 @@ export const Maps = () => {
   if (!isLoaded) {
     return <div>Loading maps</div>;
   }
+
+
+
+
 
 
   const mapOptions = {
