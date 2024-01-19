@@ -68,9 +68,6 @@ To achieve an S+ grade, the project includes the following bonus features:
 - **Places:** Helsinki City Service Map REST API.
 - **Events:** Linked Events.
 
-## Getting Started
-
-1. Make .env file to root and 
 
 
 Happy exploring!
