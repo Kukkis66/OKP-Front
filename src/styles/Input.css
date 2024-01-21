@@ -1,0 +1,21 @@
+.inputContainer {
+
+   margin: 5rem 0rem 3rem 3rem;
+}
+
+.searchInfo{
+    font-size: 2.33rem;
+    font-family: 'Red Hat Display', sans-serif;
+    font-weight: 300;
+    padding-bottom: 1rem;
+}
+
+
+.inputField {
+    padding: 0.6rem;
+    border-radius: 0.2rem;
+    border: solid grey 0.12rem;
+    width: 31rem;
+    font-family: 'Mulish', sans-serif;
+    font-size: 1rem;
+}
