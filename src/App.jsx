@@ -15,7 +15,7 @@ const [searchField, setSearchField] = useState('')
 
 useEffect(() => {
   getAll()
-  
+  fetchData()
   
 }, [])
 
@@ -45,12 +45,13 @@ const handleSearch = (event) => {
   }
   
   
-  useEffect(() => {
+ 
     const fetchData = async () => {
       try {
-        const backendRes = await fetch('http://localhost:3001/api/data');
+        const backendRes = await fetch('http://localhost:5289/api/DataHub');
         const backendData = await backendRes.json();
         
+
         setHubData(backendData);
         console.log(hubData)
       } catch (error) {
@@ -58,8 +59,7 @@ const handleSearch = (event) => {
       }
     };
 
-    fetchData();
-  }, []);
+ 
     
 
   
@@ -78,7 +78,7 @@ const handleSearch = (event) => {
       
       
     <Maps/>
-    <List filteredList={filteredList}/>
+    <List hubData={hubData}/>
     <Footer/>
     
     </>
