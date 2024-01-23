@@ -15,6 +15,7 @@ namespace OKPBackend.Mappings
             CreateMap<User, UserDto>().ReverseMap();
             CreateMap<User, UserLoginDto>().ReverseMap();
             CreateMap<User, UserRegisterDto>().ReverseMap();
+
         }
     }
 }

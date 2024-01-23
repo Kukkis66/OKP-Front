@@ -34,6 +34,7 @@ namespace OKPBackend.Controllers
             string client_secret = Environment.GetEnvironmentVariable("client_secret");
             string username = Environment.GetEnvironmentVariable("username");
             string password = Environment.GetEnvironmentVariable("password");
+            string publishing_id = Environment.GetEnvironmentVariable("publishing_id");
 
             try
             {
@@ -56,16 +57,34 @@ namespace OKPBackend.Controllers
 
                 var graphqlQuery = new
                 {
-                    query = @"
-                        query GetGroupedProducts {
-                            groupedProducts(args: {publishing_id: ""a5d8d6e4-869c-4de6-abf8-5cd5d288447a""}) {
-                                id
-                                productInformations(where: { language: { _eq: fi } }) {
-                                    name
-                                    description
-                                }
-                            }
-                        }"
+                    query = $@"
+                                query GetGroupedProducts {{
+                                    groupedProducts(args: {{ publishing_id: ""{publishing_id}"" }}) {{
+                                        id
+                                        productInformations(where: {{ language: {{ _eq: fi }} }}) {{
+                                            name
+                                            description
+                                        }}
+                                        productImages {{
+                                            copyright
+                                            filename
+                                            altText
+                                            largeUrl
+                                            originalUrl
+                                            thumbnailUrl
+                                            coverPhoto
+                                            orientation
+                                            originalWidth
+                                            originalHeight
+                                        }}
+                                        postalAddresses {{
+                                            location
+                                            postalCode
+                                            streetName
+                                            city
+                                        }}
+                                    }}
+                                }}"
                 };
 
                 _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", authResult.access_token);
