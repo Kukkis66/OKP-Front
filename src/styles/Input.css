@@ -13,9 +13,21 @@
 
 .inputField {
     padding: 0.6rem;
-    border-radius: 0.2rem;
-    border: solid grey 0.12rem;
+    border-radius: 0.5rem;
+    border:  0.12rem solid rgba(27, 27, 26, 0.5);
     width: 31rem;
     font-family: 'Mulish', sans-serif;
-    font-size: 1rem;
+    /* font-size: 1rem; */
+    font-size: 18px;
+}
+
+.button {
+    background-color: AD7851;
+    color: var(--white);
+    font-family: 'Red Rose', sans-serif;
+    text-transform: capitalize;
+    font-size: 20px;
+    box-shadow: 0px 0px 0px 8px rgba(0,0,0,0.3);    
+    padding: 1rem;
+    width: 74.4rem;
 }
