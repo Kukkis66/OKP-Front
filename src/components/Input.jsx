@@ -12,7 +12,7 @@ export const Input = ({searchField, handleSearch}) => {
         value={searchField}
         onChange={handleSearch}
         />
-        
+       
         </div>
 
 

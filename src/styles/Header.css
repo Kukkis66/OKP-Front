@@ -53,6 +53,9 @@
     font-size: 1.1rem;
   }
   
+  .arrow {
+    max-height: 2rem;
+  }
   
   .bottom-section {
     background-color: var(--black);

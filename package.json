@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "proxy": "http://localhost:3000/",
+  "proxy": "http://localhost:5289/",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -27,7 +27,7 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.5",
     
-    "vite": "^5.0.8",
+    "vite": "^5.0.8"
     
   }
 }
