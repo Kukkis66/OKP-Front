@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using OKPBackend.Models.Domain;
+using OKPBackend.Models.DTO.Favorites;
 using OKPBackend.Models.DTO.Users;
 
 namespace OKPBackend.Mappings
@@ -16,6 +17,9 @@ namespace OKPBackend.Mappings
             CreateMap<User, UserLoginDto>().ReverseMap();
             CreateMap<User, UserRegisterDto>().ReverseMap();
 
+
+            CreateMap<Favorite, AddFavoriteDto>().ReverseMap();
+            CreateMap<Favorite, FavoriteDto>().ReverseMap();
         }
     }
 }
