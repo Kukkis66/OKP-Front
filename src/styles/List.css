@@ -1,7 +1,15 @@
+.searchInfo{
+    font-size: 2.33rem;
+    font-family: 'Red Hat Display', sans-serif;
+    font-weight: 300;
+    padding-bottom: 1rem;
+
+}
+
 .cardContainer {
-    background-color: #E8D3CC;
+    background-color: var(--pink);
     margin: 2rem;
-    border-radius: 0.2rem;
+    border-radius: 0.5rem;
     padding: 1rem;
 }
 
@@ -20,6 +28,7 @@
 .h2 {
     font-size: 1.2rem;
     font-family: 'Red Hat Display', sans-serif;
+    text-transform: capitalize;
     font-weight: 700;
     flex-grow: 2;
 }
@@ -39,12 +48,12 @@
 
 .card {
     padding: 2rem;
-    border: solid #1B1B1A 0.18rem;
-    border-radius: 0.2rem;
-    background-color: #FCFAF8;
+    border: solid #1B1B1A 0.12rem;
+    border-radius: 0.5rem;
+    background-color: var(--white);
     
-    width: 18rem;
-    height: 30rem;
+    width: 22.5rem;
+    height: 32rem;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -54,10 +63,11 @@
 
 .picture_url {
     
-    width: 18rem;
-    height: 12rem;
+    width: 18.75rem;
+    height: 13rem;
     text-align: center;
-    border: #1B1B1A solid 0.18rem;
+    /* border: #1B1B1A solid 0.18rem; */
+    border-radius: 0.5rem;
     
     
 }
@@ -74,4 +84,8 @@
 
 .info > * {
     padding-bottom: 1rem;
+}
+
+.navigation-arrows {
+    
 }

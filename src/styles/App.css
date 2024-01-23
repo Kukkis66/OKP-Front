@@ -3,9 +3,17 @@ html {
     
 }
 
+:root {
+    --beige: #F1EDE7;
+    --black: #1b1b1a;
+    --white: #FCFAF8;
+    --pink: #E8D3CC;
+    --brown: #AD7851;
+}
+
 body {
     background-color: #EEE6DA;
-    
+    color: var(--black);
     
      
 }

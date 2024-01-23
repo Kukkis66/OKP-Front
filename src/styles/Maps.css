@@ -1,5 +1,5 @@
 .mapContainer {
-   background-color: #E8D3CC;
+   background-color: var(--pink);
    padding: 1rem;
 }
 
@@ -7,6 +7,6 @@
     width: 66%;
     height: 40rem;
     margin: 2rem;
-    border: solid black;
-    
+    border: solid #1B1B1A 0.12rem;
+    border-radius: 0.5rem;
 }
