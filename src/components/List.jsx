@@ -3,7 +3,8 @@ import sort from '../assets/sort.png'
 import arrowDown from '../assets/arrow-down.png'
 import { Popup } from './CardPopUp.jsx'
 import '../styles/List.css'
-
+import arrowLeft from '../assets/arrowLeft.png'
+import arrowRight from '../assets/arrowRight.png'
 
 export const List = ({hubData}) => {
 
@@ -62,30 +63,32 @@ export const List = ({hubData}) => {
     
     return (
     <div>
-        <h1>SELAA RAKENNUKSIA</h1>
+        <h1 className="listHeader">SELAA RAKENNUKSIA</h1>
         <div className='sortContainer'>
+       
         <div className='dropdown'>
             <img src={sort} alt="sortLogo" />
             <a>NÄYTÄ {itemsPerPage}</a>
-            <div class="dropdown-content">
+            <div className="dropdown-content">
             <button onClick={() => handleCardCount(6)}>6</button>
             <button onClick={() => handleCardCount(12)}>12</button>
             <button onClick={() => handleCardCount(24)}>24</button>
             </div>
+        
         </div>
-        <div className='wards'>
+        
     {isBackwards ? (
-        <div>
-        <span>A-Ö</span>
+        <div className='wards'>
+        <span>A - Ö</span>
         <img onClick={() => handleWards()} src={arrowDown} alt="arrow-down" />
         </div>
     ) : (
-        <div>
-        <span>Ö-A</span>
+        <div className='wards'>
+        <span>Ö - A</span>
         <img onClick={() => handleWards()} src="" alt="arrow-up" />
         </div>
     )}
-    </div>
+    
         </div>
         <div className='cardContainer'>
         <ul >
@@ -114,6 +117,9 @@ export const List = ({hubData}) => {
         </ul>
         {selectedBuilding && <Popup building={selectedBuilding} onClose={() => handleClosePopup()} />}
         </div>
+        
+        <div className="navigation-arrows">
+        <a onClick={() => handlePageChange(currentPage - 1)}><img src={arrowLeft} alt="arrowLeft" /></a>
         <div className="pagination">
             {pageNumbers.map((pageNumber) => (
                 <span
@@ -127,10 +133,11 @@ export const List = ({hubData}) => {
         </div>
 
 
-        <div className="navigation-arrows">
-            <a onClick={() => handlePageChange(currentPage - 1)}>&lt; Prev</a>
-            <a onClick={() => handlePageChange(currentPage + 1)}>Next &gt;</a>
+        
+            
+            <a onClick={() => handlePageChange(currentPage + 1)}><img src={arrowRight} alt="arrowRight" /></a>
         </div>
+        
 
     </div>
       
