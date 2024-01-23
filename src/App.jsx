@@ -4,6 +4,7 @@ import { Footer } from './components/Footer.jsx'
 import { Maps } from './components/Maps.jsx'
 import { List } from './components/List.jsx'
 import { Input } from './components/Input.jsx'
+import { Login } from './components/Login.jsx'
 import axios from 'axios'
 import './styles/App.css'
 
@@ -12,10 +13,11 @@ function App() {
 const [data, setData] = useState([])
 const [hubData, setHubData] = useState([])
 const [searchField, setSearchField] = useState('')
+const [loginForm, setLoginForm] = useState(false)
 
 useEffect(() => {
   getAll()
-  
+  fetchData()
   
 }, [])
 
@@ -31,6 +33,9 @@ const handleSearch = (event) => {
   setSearchField(event.target.value)
 }
 
+const handleLoginForm = () => {
+  setLoginForm(!loginForm)
+}
 
   const getAll = async () => {
     try {
@@ -45,12 +50,13 @@ const handleSearch = (event) => {
   }
   
   
-  useEffect(() => {
+ 
     const fetchData = async () => {
       try {
-        const backendRes = await fetch('http://localhost:3001/api/data');
+        const backendRes = await fetch('http://localhost:5289/api/DataHub');
         const backendData = await backendRes.json();
         
+
         setHubData(backendData);
         console.log(hubData)
       } catch (error) {
@@ -58,8 +64,7 @@ const handleSearch = (event) => {
       }
     };
 
-    fetchData();
-  }, []);
+ 
     
 
   
@@ -71,14 +76,14 @@ const handleSearch = (event) => {
   return (
     <>
    
-    <Header/>
+    <Header handleLoginForm={handleLoginForm}/>
     <Input handleSearch={handleSearch} searchField={searchField}/>
     
-    
+    <Login loginForm={loginForm} handleLoginForm={handleLoginForm}/>
       
       
     <Maps/>
-    <List filteredList={filteredList}/>
+    <List hubData={hubData}/>
     <Footer/>
     
     </>

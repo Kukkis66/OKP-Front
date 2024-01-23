@@ -11,12 +11,12 @@
 }
 
 .top {
-    background-color: #EEE6DA;
+    background-color: var(--beige);
     width: 100%;
     min-height: 7rem;
 }
 .bottom {
-    background-color: #1B1B1A;
+    background-color: var(--black);
     width: 100%;
     display: flex;
     justify-content: center; 
@@ -26,8 +26,10 @@
 }
 .silhoutte p {
     text-align: center;
-    color: #EEE6DA;
+    color: var(--white);
     padding: 3rem;
+    font-family: 'Mulish', sans-serif;
+    font-size: 1rem;
 }
 .silhoutte img {
     margin-top: -6rem;

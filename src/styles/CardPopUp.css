@@ -1,0 +1,43 @@
+.cardPopup {
+    background: #EEE6DA;
+    width: 60%;
+    padding: 1.2rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 0 1rem rgba(0, 0, 0, 0.8);
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    
+  }
+
+
+
+.popupCard {
+    margin: 5rem 1rem 1rem 1rem;
+    padding: 2rem;
+    background: #fff;
+    border: solid black 0.14rem;
+    border-radius: 0.2rem;
+
+}
+
+  
+.picture_popup {
+    max-height: 100%;
+    max-width: 100%;
+    
+}
+
+  .cardPopup * {
+    margin-bottom: 3rem;
+  }
+  
+  .popupClose {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    padding: 1rem;
+    cursor: pointer;
+  }
