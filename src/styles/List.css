@@ -34,6 +34,8 @@
     font-weight: 300;
     font-size: 1.1rem;
     padding-top: 1rem;
+    text-decoration-line: underline;
+  cursor: pointer;
 
 }
 
@@ -69,8 +71,10 @@
     
     
     
-    
+  
 }
+
+
 
 .info > * {
     padding-bottom: 1rem;
