@@ -112,8 +112,8 @@ export const Maps = () => {
             "elementType": "labels",
             "stylers": [
                 {
-                    "visibility": "off"
-                }
+                    "visibility": "on"
+                },
             ]
         },
         {
@@ -247,4 +247,3 @@ export const Maps = () => {
     </div>
   );
 };
-

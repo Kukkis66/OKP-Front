@@ -54,7 +54,7 @@ export const List = ({hubData}) => {
         <div className='dropdown'>
             <img src={sort} alt="sortLogo" />
             <a>NÄYTÄ {itemsPerPage}</a>
-            <div class="dropdown-content">
+            <div className="dropdown-content">
             <button onClick={() => handleCardCount(9)}>9</button>
             <button onClick={() => handleCardCount(12)}>12</button>
             <button onClick={() => handleCardCount(15)}>15</button>
@@ -70,6 +70,7 @@ export const List = ({hubData}) => {
         <div>
         <span>Ö-A</span>
         <img onClick={() => handleWards()} src="" alt="arrow-up" />
+        
         </div>
     )}
     </div>
@@ -91,7 +92,7 @@ export const List = ({hubData}) => {
             </figure>
             
 
-            <a href='' className='zoom'>LUE LISÄÄ</a>
+            <a href='#'className='zoom'>LUE LISÄÄ</a>
         </li>
         
         ))}
