@@ -1,17 +1,30 @@
 import { useState } from 'react';
 import sort from '../assets/sort.png'
 import arrowDown from '../assets/arrow-down.png'
+import { Popup } from './CardPopUp.jsx'
 import '../styles/List.css'
 
 
 export const List = ({hubData}) => {
 
 
-    console.log(hubData)
-    const [currentPage, setCurrentPage] = useState(1);
-    const [itemsPerPage, setItemsPerPage] = useState(9);
-    const [isBackwards, setIsBackwards] = useState(false)
     
+    const [currentPage, setCurrentPage] = useState(1);
+    const [itemsPerPage, setItemsPerPage] = useState(6);
+    const [isBackwards, setIsBackwards] = useState(true)
+    const [selectedBuilding, setSelectedBuilding] = useState(null);
+    
+
+    const handleReadMore = (building) => {
+        setSelectedBuilding(building);
+      };
+    
+
+    const handleClosePopup = () => {
+        setSelectedBuilding(null);
+
+      };
+
 
     const handleCardCount = (count) => {
         setItemsPerPage(count)
@@ -55,9 +68,9 @@ export const List = ({hubData}) => {
             <img src={sort} alt="sortLogo" />
             <a>NÄYTÄ {itemsPerPage}</a>
             <div class="dropdown-content">
-            <button onClick={() => handleCardCount(9)}>9</button>
+            <button onClick={() => handleCardCount(6)}>6</button>
             <button onClick={() => handleCardCount(12)}>12</button>
-            <button onClick={() => handleCardCount(15)}>15</button>
+            <button onClick={() => handleCardCount(24)}>24</button>
             </div>
         </div>
         <div className='wards'>
@@ -91,12 +104,15 @@ export const List = ({hubData}) => {
             </figure>
             
 
-            <a href='' className='zoom'>LUE LISÄÄ</a>
+            <a className='zoom' onClick={() => handleReadMore(building)}>
+              LUE LISÄÄ
+            </a>
+            
         </li>
         
         ))}
         </ul>
-     
+        {selectedBuilding && <Popup building={selectedBuilding} onClose={() => handleClosePopup()} />}
         </div>
         <div className="pagination">
             {pageNumbers.map((pageNumber) => (

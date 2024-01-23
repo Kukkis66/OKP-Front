@@ -1,0 +1,79 @@
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2;
+  }
+  
+  .popup {
+    background: #EEE6DA;
+    width: 60%;
+    height: 60%;
+    padding: 1.2rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 0 1rem rgba(0, 0, 0, 0.8);
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    
+  }
+
+  .popup * {
+    margin-bottom: 1rem;
+    font-family: 'Mulish', sans-serif;
+    font-size: 1rem;
+    
+    
+  }
+
+  
+
+  .loginHeader {
+    margin-bottom: 2.5rem;
+    display: flex;
+    justify-content: center;
+    font-size: 2.33rem;
+    font-family: 'Red Hat Display', sans-serif;
+    font-weight: 300;
+  }
+
+ .inputs {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: end;
+    gap: 1rem;
+ }
+
+ .loginCenter {
+    display: flex;
+    justify-content: center;
+ }
+ 
+ .newUser {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+ }
+ .newUser a {
+    font-family: 'Red Rose', serif;
+    font-weight: 300;
+    font-size: 1.1rem;
+ }
+  
+  .close {
+    position: absolute;
+    top: 2rem;
+    right: 2rem;
+    
+    cursor: pointer;
+  }
+  

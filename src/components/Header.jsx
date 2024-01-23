@@ -1,9 +1,11 @@
 import silhouet from '../assets/logo-project.png';
-import arrow from '../assets/arrow-right.svg';
+import arrow from '../assets/login.svg';
+import arrowOut from '../assets/logout.png'
 import '../styles/Header.css';
+import { useAuth } from '../context/AuthContext.jsx';
 
-export const Header = () => {
-
+export const Header = ({handleLoginForm}) => {
+    const { isLoggedIn, login, logout } = useAuth();
     return (
         
         <header className='header'>
@@ -13,12 +15,23 @@ export const Header = () => {
             <figure className='silhouet'>
                 <img src={silhouet} alt="silhuetti" />
             </figure>
-            </div>
-            <a className='login' href="">KIRJAUDU SISÄÄN
+            </div>{isLoggedIn ? (
+                <div className='login'>
+                <a >NIMI</a>
+        <a href='#' onClick={logout}>KIRJAUDU ULOS</a>
+        <figure>
+            <img className='arrow' src={arrowOut} alt="logout" />
+        </figure>
+        
+        </div>
+      ) : (
+        <a className='login' href='#' onClick={handleLoginForm}>KIRJAUDU SISÄÄN
             <figure>
                 <img src={arrow} alt="login" />
             </figure>
-            </a>
+        </a>
+      )}
+            
             </div>
             <div className='bottom-section'><h1>Löydä tietoa rakennuksista, tallenna suosikkejasi, rakenna reittejä</h1></div>
         </header>
