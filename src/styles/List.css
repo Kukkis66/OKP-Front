@@ -128,7 +128,7 @@
   background-color: var(--white);
   
   width:  320px;
-  height: 511px;
+  height: 480px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
