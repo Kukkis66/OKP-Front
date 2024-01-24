@@ -53,7 +53,7 @@ const handleLoginForm = () => {
  
     const fetchData = async () => {
       try {
-        const backendRes = await fetch('http://localhost:5289/api/DataHub');
+        const backendRes = await fetch('http://localhost:5143/api/DataHub');
         const backendData = await backendRes.json();
         
 
