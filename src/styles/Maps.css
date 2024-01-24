@@ -8,6 +8,11 @@
     
     height: 40rem;
     margin: 2rem;
-    border: solid #1B1B1A 0.12rem;
+    border: solid #1B1B1A 0.18rem;
     border-radius: 0.5rem;
+}
+
+.map * {
+    border-radius: 0.5rem;
+    
 }

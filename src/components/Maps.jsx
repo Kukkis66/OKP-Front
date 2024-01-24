@@ -6,6 +6,9 @@ const mapContainerStyle = {
   width: '100%',
   height: '100%',
 };
+
+
+
 const center = {
   lat: 60.1699, // default latitude
   lng: 24.9384, // default longitude
