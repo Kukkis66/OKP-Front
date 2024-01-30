@@ -15,11 +15,12 @@
 
 .cardPopup {
     background: var(--pink);
-    width: 80%;
-    padding: 1.2rem;
+    width: 70%;
+    /* padding: 1.2rem; */
+    /* padding: 5.2rem 2.2rem 2.2rem 2.2rem;; */
     border-radius: 0.5rem;
     box-shadow: 0 0 1rem rgba(0, 0, 0, 0.8);
-    position: absolute;
+    position: fixed;
     top: 2rem;
     bottom: 2rem;
     display: flex;
@@ -28,13 +29,20 @@
   }
 
 
-
 .popupCard {
-    margin: 4rem 1rem 1rem 1rem;
+    /* margin: 4rem 1rem 1rem 1rem; */
     padding: 4rem 3rem;
     background: var(--white);
     border: solid var(--black) 0.14rem;
     border-radius: 0.5rem;
+    position: absolute;
+    overflow-y: scroll;
+    top: 13%;
+    bottom: 9%;
+    margin: 0 2rem 0 2rem;
+    left: 2%;
+    right: 2%;
+
 }
 
 .h2-zoom {
