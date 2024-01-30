@@ -79,7 +79,7 @@ export const Login = ({loginForm, handleLoginForm}) => {
                 />
                 </div>
                 <div className='loginCenter'>
-                <button onClick={() => { login(); handleLoginForm(); }}>KIRJAUDU SISÄÄN</button>
+                <button className='button' onClick={() => { login(); handleLoginForm(); }}>KIRJAUDU SISÄÄN</button>
                 </div>
                 <div className='newUser'>
                 <span>Oletko uusi käyttäjä?</span>

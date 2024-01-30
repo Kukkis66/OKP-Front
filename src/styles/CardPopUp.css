@@ -21,6 +21,7 @@
     box-shadow: 0 0 1rem rgba(0, 0, 0, 0.8);
     position: absolute;
     top: 2rem;
+    bottom: 2rem;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -55,10 +56,6 @@
 .popup-info {
   min-width: 40%;
   margin-inline-end: 1rem;
-}
-
-figure {
-  
 }
   
 .picture_popup {

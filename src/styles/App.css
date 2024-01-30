@@ -18,7 +18,7 @@ body {
      
 }
 
-button {
+.button {
     background-color: var(--brown);
     color: var(--white);
     font-family: 'Red rose', sans-serif;
