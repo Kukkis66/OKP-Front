@@ -50,7 +50,7 @@ export const Login = ({loginForm, handleLoginForm}) => {
                 />
                 </div>
                 <div className='loginCenter'>
-                <button>LUO KÄYTTÄJÄTILI</button>
+                <button className='button'>LUO KÄYTTÄJÄTILI</button>
                 </div>
                 <div className='newUser'>
                 <span>Onko sinulla jo käyttäjätili?</span>

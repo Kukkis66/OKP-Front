@@ -70,9 +70,9 @@ export const List = ({hubData}) => {
             <img src={sort} alt="sortLogo" />
             <a>NÄYTÄ {itemsPerPage}</a>
             <div className="dropdown-content">
-            <button onClick={() => handleCardCount(6)}>6</button>
-            <button onClick={() => handleCardCount(12)}>12</button>
-            <button onClick={() => handleCardCount(24)}>24</button>
+            <button className='button' onClick={() => handleCardCount(6)}>6</button>
+            <button className='button' onClick={() => handleCardCount(12)}>12</button>
+            <button className='button' onClick={() => handleCardCount(24)}>24</button>
             </div>
         
         </div>

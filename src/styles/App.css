@@ -12,7 +12,7 @@ html {
 }
 
 body {
-    background-color: #EEE6DA;
+    background-color: var(--beige);
     color: var(--black);
     
      
