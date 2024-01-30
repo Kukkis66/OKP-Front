@@ -17,3 +17,14 @@ body {
     
      
 }
+
+button {
+    background-color: var(--brown);
+    color: var(--white);
+    font-family: 'Red rose', sans-serif;
+    font-size: 20px;
+    border-radius: 0.5rem;
+    padding: 0.5em 1em;
+    border: none;
+    box-shadow: rgba(0, 0, 0, 0.5) 0 4px 2.6px
+}
