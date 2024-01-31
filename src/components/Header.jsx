@@ -28,7 +28,7 @@ export const Header = ({handleLoginForm}) => {
              ) : (
                     <a className='login header-grid-item' href='#' onClick={handleLoginForm}>KIRJAUDU SISÄÄN
                         <figure>
-                            <img src={arrow} alt="login" />
+                            <img className='arrow' src={arrow} alt="login" />
                         </figure>
                     </a>
             )}

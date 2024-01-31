@@ -9,9 +9,12 @@ export const Footer = () => {
             <div className='top'>
                 </div>
         
-        <div className='bottom'><figure className='silhoutte'>
-            <img src={silhouet} alt="" /><p className='copyright'>Copyright © 2024</p>
-        </figure></div>
+        <div className='bottom'>
+            <figure className='silhoutte'>
+                <img src={silhouet} alt="" />
+            </figure>
+            <p className='copyright'>Copyright © 2024</p>
+        </div>
       </footer>
             
 

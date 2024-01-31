@@ -21,9 +21,10 @@
     display: flex;
     justify-content: center; 
     align-items: center;
-    
+    flex-direction: column;
     
 }
+
 .silhoutte p {
     text-align: center;
     color: var(--white);
@@ -31,6 +32,7 @@
     font-family: 'Mulish', sans-serif;
     font-size: 1rem;
 }
+
 .silhoutte img {
     margin-top: -6rem;
 }
@@ -38,14 +40,25 @@
 .copyright {
     font-family: 'Mulish', sans-serif;
     color: var(--white);
+    margin: 2rem;
 }
   
 @media only screen and (max-width: 425px) {
 
+    .silhoutte {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+    }
 
     .silhoutte img {
         margin-bottom: -0.1rem;
         max-width: 425px;
+        max-width: 100%;
       }
+
+    .copyright {
+        font-size: 12px;
+    }
 }
   

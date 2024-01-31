@@ -1,13 +1,19 @@
 .inputContainer {
 
    margin: 5rem 0rem 3rem 3rem;
+   display: flex;
+   flex-direction: column;
+}
+
+.inputContainer >* {
+    flex-shrink: 1;
 }
 
 .searchInfo{
     font-size: 2.33rem;
     font-family: 'Red Hat Display', sans-serif;
     font-weight: 300;
-    padding-bottom: 1rem;
+    padding-bottom: 2rem;
 }
 
 
@@ -15,7 +21,7 @@
     padding: 0.6rem;
     border-radius: 0.5rem;
     border:  0.12rem solid rgba(27, 27, 26, 0.5);
-    width: 31rem;
+    max-width: 31rem;
     font-family: 'Mulish', sans-serif;
     /* font-size: 1rem; */
     font-size: 18px;
