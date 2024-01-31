@@ -29,7 +29,11 @@
   .language a {
     font-family: 'Red Rose', serif;
     font-weight: 300;
-    font-size: 1.1rem;
+    font-size: 1.3rem;
+    text-decoration-line: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 2px;
+    cursor: pointer;
   }
   
   .silhouet {
@@ -53,7 +57,11 @@
     margin-right: 1rem;
     font-family: 'Red Rose', serif;
     font-weight: 300;
-    font-size: 1.1rem;
+    font-size: 1.3rem;
+    text-decoration-line: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 2px;
+    cursor: pointer;
     flex-basis: 52rem;
     justify-content: flex-end;
   }

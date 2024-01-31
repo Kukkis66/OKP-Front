@@ -52,8 +52,17 @@
 
 @media only screen and (max-width: 425px) {
 
+    .searchInfo {
+        font-size: 28px;
+        line-height: 34px;
+    }
+
     .inputContainer {
         margin: 3rem 0rem 3rem 2rem;
         padding-inline-end: 2rem;
+    }
+
+    .inputField {
+        font-size: 14px;
     }
 }
