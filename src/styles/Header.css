@@ -7,7 +7,7 @@
 
   .top-section {
     display: flex;
-    justify-content: space-between;
+    /* justify-content: space-between; */
     background-color: var(--beige);
     flex-direction: row;
     position: relative;
@@ -19,8 +19,11 @@
     display: flex;
     flex-direction: row;
     margin-left: 1rem;
-    gap: 10rem;
+    /* gap: 10rem; */
     align-items: center;
+    flex-basis: 10rem;
+    flex-grow: 0;
+    flex-shrink: 1;
   }
   
   .language a {
@@ -32,6 +35,7 @@
   .silhouet {
     width: 27rem;
     margin-top: auto;
+    flex-shrink: 0;
   }
   
   .silhouet img {
@@ -51,6 +55,8 @@
     font-family: 'Red Rose', serif;
     font-weight: 300;
     font-size: 1.1rem;
+    flex-basis: 52rem;
+    justify-content: flex-end;
   }
   
   .arrow {
@@ -75,8 +81,71 @@
     
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 425px) {
+  
+
   body {
     background-color: lightblue;
+  
+  }
+  
+  .top-section {
+    display: grid;
+    gap: 0;
+    grid-template-rows: 4rem auto;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .language-grid-item{
+    grid-column-start: 1;
+    grid-column-end: 2;
+    grid-row-start: 1;
+    grid-row-end: 2;
+
+    display: grid;
+  }
+  
+  .silhouet {
+    grid-column-start: 1;
+    grid-column-end: 3;
+    grid-row-start: 2;
+    grid-row-end: 3;
+
+    display: flex;
+
+  }
+
+  .silhouet img {
+    margin-bottom: -0.1rem;
+    max-width: 425px;
+  }
+
+  .login {
+    grid-column-start: 2;
+    grid-column-end: 3;
+    grid-row-start: 1;
+    grid-row-end: 2;
+  }
+
+  .language {
+    display: contents;
+    gap: 0;
+    margin: 0;
+  }
+
+  .language a {
+    display: flex;
+    align-items: center;
+    margin-inline-start: 1rem;
+  }
+
+  .language a, .login {
+    font-size: 1rem;
+  }
+
+  .bottom-section h1 {
+    margin: 0 2rem;
+    font-size: 1.8rem;
+    max-width: 425px;
   }
 }

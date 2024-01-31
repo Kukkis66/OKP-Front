@@ -10,7 +10,7 @@ export const Footer = () => {
                 </div>
         
         <div className='bottom'><figure className='silhoutte'>
-            <img src={silhouet} alt="" /><p>Copyright © 2024</p>
+            <img src={silhouet} alt="" /><p className='copyright'>Copyright © 2024</p>
         </figure></div>
       </footer>
             

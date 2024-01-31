@@ -34,5 +34,18 @@
 .silhoutte img {
     margin-top: -6rem;
 }
+
+.copyright {
+    font-family: 'Mulish', sans-serif;
+    color: var(--white);
+}
   
+@media only screen and (max-width: 425px) {
+
+
+    .silhoutte img {
+        margin-bottom: -0.1rem;
+        max-width: 425px;
+      }
+}
   
