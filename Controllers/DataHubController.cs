@@ -121,8 +121,8 @@ namespace OKPBackend.Controllers
         }
 
         [HttpGet]
-        [Route("GetUserFavorites/{id:Guid}")]
-        public async Task<IActionResult> GetUserFavorites(Guid id)
+        [Route("GetUserFavorites/{id}")]
+        public async Task<IActionResult> GetUserFavorites(string id)
         {
             List<string> keys = [];
 

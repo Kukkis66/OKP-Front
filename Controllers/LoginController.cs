@@ -6,6 +6,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using OKPBackend.Models.Domain;
@@ -20,70 +21,104 @@ namespace OKPBackend.Controllers
     {
         private readonly IConfiguration config;
         private readonly IUsersRepository usersRepository;
+        private readonly UserManager<User> userManager;
 
-        public LoginController(IConfiguration config, IUsersRepository usersRepository)
+        public LoginController(IConfiguration config, IUsersRepository usersRepository, UserManager<User> userManager)
         {
 
             this.config = config;
             this.usersRepository = usersRepository;
+            this.userManager = userManager;
         }
 
-        [AllowAnonymous]
         [HttpPost]
+        [Route("auth/login")]
         public async Task<IActionResult> Login([FromBody] UserLoginDto userLoginDto)
         {
-            //Check if the user exists and if the password is correct
-            var user = await Authenticate(userLoginDto);
+            var user = await userManager.FindByEmailAsync(userLoginDto.Email);
 
-            if (user == null)
+            if (user != null)
             {
-                return NotFound("User not found");
-            }
-            //Generate a jwt token for the user
-            var token = Generate(user);
+                var checkPasswordResult = await userManager.CheckPasswordAsync(user, userLoginDto.Password);
 
-            return Ok(token);
+                if (checkPasswordResult)
+                {
+                    var roles = await userManager.GetRolesAsync(user);
 
+                    if (roles != null)
+                    {
+                        var jwtToken = usersRepository.CreateJWTToken(user, roles.ToList());
 
-        }
+                        var response = new LoginResponseDto
+                        {
+                            JwtToken = jwtToken
+                        };
 
-        private async Task<User?> Authenticate(UserLoginDto userLoginDto)
-        {
+                        return Ok(response);
+                    }
 
-            var currentUser = await usersRepository.GetByUsername(userLoginDto);
-
-            if (currentUser == null)
-            {
-                return null;
-            }
-
-            if (!BCrypt.Net.BCrypt.Verify(userLoginDto.Password, currentUser.PasswordHash))
-            {
-                return null;
+                }
             }
 
-            return currentUser;
+            return BadRequest("Didn't work");
         }
 
-        private string Generate(User user)
-        {
-            DotNetEnv.Env.Load();
-            string jwt_key = Environment.GetEnvironmentVariable("jwt_key");
-            //config["Jwt:Key"]
-            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwt_key));
-            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+        // [AllowAnonymous]
+        // [HttpPost]
+        // public async Task<IActionResult> Login([FromBody] UserLoginDto userLoginDto)
+        // {
+        //     //Check if the user exists and if the password is correct
+        //     var user = await Authenticate(userLoginDto);
 
-            var claims = new[]
-            {
-                new Claim(ClaimTypes.NameIdentifier, user.Username),
-                new Claim(ClaimTypes.Email, user.Email),
-                new Claim(ClaimTypes.Role, user.Role)
-            };
+        //     if (user == null)
+        //     {
+        //         return NotFound("User not found");
+        //     }
+        //     //Generate a jwt token for the user
+        //     var token = Generate(user);
 
-            var token = new JwtSecurityToken(config["Jwt:Issuer"], config["Jwt:Audience"], claims, expires: DateTime.Now.AddMinutes(20), signingCredentials: credentials);
+        //     return Ok(token);
 
-            return new JwtSecurityTokenHandler().WriteToken(token);
 
-        }
+        // }
+
+        // private async Task<User?> Authenticate(UserLoginDto userLoginDto)
+        // {
+
+        //     var currentUser = await usersRepository.GetByUsername(userLoginDto);
+
+        //     if (currentUser == null)
+        //     {
+        //         return null;
+        //     }
+
+        //     if (!BCrypt.Net.BCrypt.Verify(userLoginDto.Password, currentUser.PasswordHash))
+        //     {
+        //         return null;
+        //     }
+
+        //     return currentUser;
+        // }
+
+        // private string Generate(User user)
+        // {
+        //     DotNetEnv.Env.Load();
+        //     string jwt_key = Environment.GetEnvironmentVariable("jwt_key");
+        //     //config["Jwt:Key"]
+        //     var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwt_key));
+        //     var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+
+        //     var claims = new[]
+        //     {
+        //         new Claim(ClaimTypes.NameIdentifier, user.Username),
+        //         new Claim(ClaimTypes.Email, user.Email),
+        //         new Claim(ClaimTypes.Role, user.Role)
+        //     };
+
+        //     var token = new JwtSecurityToken(config["Jwt:Issuer"], config["Jwt:Audience"], claims, expires: DateTime.Now.AddMinutes(20), signingCredentials: credentials);
+
+        //     return new JwtSecurityTokenHandler().WriteToken(token);
+
+        // }
     }
 }

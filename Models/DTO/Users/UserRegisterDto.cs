@@ -16,5 +16,11 @@ namespace OKPBackend.Models.DTO.Users
         public string Username { get; set; }
         [Required]
         public string Password { get; set; }
+
+        [Required]
+        public string ConfirmPassword { get; set; }
+
+        [Required]
+        public string[] Roles { get; set; }
     }
 }

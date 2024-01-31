@@ -8,6 +8,6 @@ namespace OKPBackend.Models.DTO.Favorites
     public class AddFavoriteDto
     {
         public string Key { get; set; }
-        public Guid UserId { get; set; }
+        public string UserId { get; set; }
     }
 }
