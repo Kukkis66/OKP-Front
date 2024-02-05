@@ -23,67 +23,68 @@ export const Login = ({loginForm, handleLoginForm}) => {
               <div className="popup">
                 <span className="close" onClick={handleLoginForm}><img src={close} alt="close"/></span>
                 {newUser ? (
-                <div>
-                <h2 className='loginHeader'>UUSI KÄYTTÄJÄ</h2>
-                <div className='inputs'>
-                <p>Käyttäjätunnus:</p>
-                <input
-                className="inputField"
-                type="text"
-                placeholder="nimi"
-                />
-                 </div>
-                <div className='inputs'>
-                <p>Salasana:</p>
-                <input
-                className="inputField"
-                type="text"
-                placeholder="salasana"
-                />
-                </div>
-                <div className='inputs'>
-                <p>Vahvista salasana:</p>
-                <input
-                className="inputField"
-                type="text"
-                placeholder="vahvista salasana"
-                />
-                </div>
-                <div className='loginCenter'>
-                <button className='button'>LUO KÄYTTÄJÄTILI</button>
-                </div>
-                <div className='newUser'>
-                <span>Onko sinulla jo käyttäjätili?</span>
-                <a href='#' onClick={handleNewUser}>KIRJAUDU SISÄÄN</a>
-                </div>
+                <div className='loginContainer'>
+                  <h2 className='loginHeader'>UUSI KÄYTTÄJÄ</h2>
+                  <div className='LoginInputFieldsContainer'>
+                    <div className='inputs inputsLogin'>
+                      <p>Käyttäjätunnus:</p>
+                      <input
+                      className="inputField inputFieldLogin"
+                      type="text"
+                      placeholder="nimi"/>
+                    </div>
+                    <div className='inputs inputsLogin'>
+                      <p>Salasana:</p>
+                      <input
+                      className="inputField inputFieldLogin"
+                      type="text"
+                      placeholder="salasana"/>
+                    </div>
+                    <div className='inputs inputsLogin'>
+                    <p>Vahvista salasana:</p>
+                    <input
+                    className="inputField inputFieldLogin"
+                    type="text"
+                    placeholder="vahvista salasana"/>
+                    </div>
+                  </div>
+                    <div className='loginCenter'>
+                      <button className='button buttonLogin'>LUO KÄYTTÄJÄTILI</button>
+                    </div>
+                  <div className='newUser'>
+                    <span>Onko sinulla jo käyttäjätili?</span>
+                    <a href='#' onClick={handleNewUser}>KIRJAUDU SISÄÄN</a>
+                  </div>
                 
                 </div>
                 ) : (
-                <div>
+                <div className='loginContainer'>
     
                 <h2 className='loginHeader'>KIRJAUDU SISÄÄN</h2>
-                <div className='inputs'>
-                <p>Käyttäjätunnus:</p>
-                <input
-                className="inputField"
-                type="text"
-                placeholder="nimi"
-                />
-                 </div>
-                <div className='inputs'>
-                <p>Salasana:</p>
-                <input
-                className="inputField"
-                type="text"
-                placeholder="salasana"
-                />
+                <div className='LoginInputFieldsContainer'>
+                  <div className='inputs inputsLogin'>
+                    <p>Käyttäjätunnus:</p>
+                    <input
+                    className="inputField inputFieldLogin"
+                    type="text"
+                    placeholder="nimi"
+                    />
+                  </div>
+                  <div className='inputs inputsLogin'>
+                    <p>Salasana:</p>
+                    <input
+                    className="inputField inputFieldLogin"
+                    type="text"
+                    placeholder="salasana"
+                    />
+                  </div>
                 </div>
                 <div className='loginCenter'>
-                <button className='button' onClick={() => { login(); handleLoginForm(); }}>KIRJAUDU SISÄÄN</button>
+                  <button className='button buttonLogin' onClick={() => { login(); handleLoginForm(); }}>KIRJAUDU SISÄÄN</button>
                 </div>
                 <div className='newUser'>
-                <span>Oletko uusi käyttäjä?</span>
-                <a href='#' onClick={handleNewUser}>LUO KÄYTTÄJÄTILI</a>
+                  <span>Oletko uusi käyttäjä?</span>
+                  <a href='#' onClick={handleNewUser}>LUO KÄYTTÄJÄTILI</a>
                 </div>
                 </div>)}
               </div>
