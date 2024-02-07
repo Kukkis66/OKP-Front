@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using OKPBackend.Data;
 using OKPBackend.Models.DTO.Users;
+using OKPBackend.Services;
 
 namespace OKPBackend.Controllers
 {
@@ -17,11 +18,13 @@ namespace OKPBackend.Controllers
     {
         private readonly OKPDbContext dbContext;
         private readonly IMapper mapper;
+        private readonly EmailService emailService;
 
-        public UsersController(OKPDbContext dbContext, IMapper mapper)
+        public UsersController(OKPDbContext dbContext, IMapper mapper, EmailService emailService)
         {
             this.dbContext = dbContext;
             this.mapper = mapper;
+            this.emailService = emailService;
         }
 
         [HttpGet]
@@ -31,5 +34,8 @@ namespace OKPBackend.Controllers
 
             return Ok(mapper.Map<List<UserDto>>(users));
         }
+
+
+
     }
 }
