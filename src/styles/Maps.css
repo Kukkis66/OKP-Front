@@ -22,3 +22,14 @@
         margin: 0.5rem;
     }
 }
+
+@media only screen and (min-width: 1441px) {
+    .mapContainer {
+        padding: 3rem;
+        height: 78rem;
+    }
+
+    .map {
+        height: 74rem;
+    }
+}
