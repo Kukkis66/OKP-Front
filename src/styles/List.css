@@ -379,6 +379,7 @@
   .card {
     width: 620px;
     padding: 3rem;
+    border: solid #1B1B1A 0.22rem
   }
 
   .h2 {
