@@ -12,13 +12,13 @@ html {
 }
 
 body {
-    background-color: #EEE6DA;
+    background-color: var(--beige);
     color: var(--black);
     
      
 }
 
-button {
+.button {
     background-color: var(--brown);
     color: var(--white);
     font-family: 'Red rose', sans-serif;

@@ -12,57 +12,63 @@
   }
   
   .popup {
-    background: #EEE6DA;
-    width: 60%;
-    height: 60%;
+    background: #F1EDE7;
     border-radius: 0.5rem;
     box-shadow: 0 0 1rem rgba(0, 0, 0, 0.8);
     position: relative;
-    display: flex;
     align-items: center;
     justify-content: center;
-    padding: 4rem 5rem;
-    
-  }
+    padding: 6rem 5rem;
+}
 
-  .popup * {
-    /* margin-bottom: 1rem; */
-    /* font-family: 'Mulish', sans-serif; */
-    /* font-size: 1rem; */
-    
-    
-  }
+  .loginContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-wrap: wrap;
+    width: 100%;
+}
 
-  
+.LoginInputFieldsContainer {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+}
 
   .loginHeader {
     margin-bottom: 4rem;
-    display: flex;
-    justify-content: center;
     font-size: 2.33rem;
     font-family: 'Red Hat Display', sans-serif;
     font-weight: 300;
   }
 
- .inputs {
+   
+  .inputFieldLogin {
+    max-width: none;
     display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: end;
-    gap: 1rem;
-    margin: 0 0 1rem;
-    font-family: 'Mulish', sans-serif;
-    font-size: 1rem;
+    min-width: 20.5rem;
+  }
 
+ .inputsLogin {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: end;
+  gap: 1rem;
+  margin: 0 0 1rem;
+  font-family: 'Mulish', sans-serif;
+  font-size: 1rem;
  }
 
  .loginCenter {
     display: flex;
     justify-content: center;
+    width: 100%;
  }
 
- button {
+ .buttonLogin {
   margin: 2rem 0 4rem;
+  width: 12rem;
  }
  
  .newUser {
@@ -88,4 +94,49 @@
   .close img {
     max-width: 1.5rem;
     max-height: 1.5rem;
+  }
+
+ 
+
+
+  @media only screen and (max-width: 425px) {
+
+    .popup {
+      padding: 2rem 1rem;
+    }
+
+    .loginHeader {
+      margin: 3rem 0 3rem;
+      font-size: 28px;
+    }
+    .inputsLogin {
+      flex-direction: column;
+    }
+
+    .inputsLogin >* {
+      font-size: 14px;
+    }
+
+    .inputFieldLogin {
+      min-width: 17rem;
+  }
+
+    .newUser {
+      flex-direction: column;
+      text-align: center;
+    }
+
+    .buttonLogin {
+      margin: 1rem 0 2rem;
+    }
+
+    .button {
+      font-size: 16px;
+      width: 12rem;
+    }
+
+    .newUser {
+      font-size: 14px;
+    }
+
   }

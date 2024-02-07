@@ -28,6 +28,7 @@
   max-width: 2rem;
 }
 
+
 .dropbtn {
   background-color: #4CAF50;
   color: white;
@@ -43,6 +44,16 @@
 
 }
 
+.wards >*, .dropdown >* {
+  font-family: 'Red Rose', serif;
+  font-weight: 300;
+  font-size: 1.3rem;
+  text-decoration-line: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+  cursor: pointer;
+}
+
 .dropdown {
   position: relative;
   display: inline-flex;
@@ -53,17 +64,22 @@
 .dropdown-content {
   display: none;
   position: absolute;
-  background-color: #f9f9f9;
-  min-width: 160px;
+  background-color: #fcfaf8;
+  min-width: 50px;
+  max-height: 300px;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
   z-index: 1;
+  padding: 2rem;
+  border-radius: 0.5rem;
 }
 
 .dropdown-content button {
-  color: black;
-  padding: 12px 16px;
+  /* color: black; */
+  /* padding: 12px 16px; */
+  max-width: 4rem;
   text-decoration: none;
   display: block;
+  margin: 1rem 0;
 }
 
 .dropdown-content a:hover {background-color: #f1f1f1}
@@ -103,8 +119,7 @@
   font-family: 'Red Hat Display', sans-serif;
   text-transform: uppercase;
   font-weight: 700;
-  line-height: 1.3;
-
+  line-height: 26px;
   flex-grow: 2;
   width: 75%;
 }
@@ -200,7 +215,141 @@
   
 }
 
+.pagination >* {
+  font-family: 'Red Rose', serif;
+  font-weight: 300;
+  font-size: 1.3rem;
+  text-decoration-line: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+  cursor: pointer;
+}
 
 
+@media only screen and (max-width: 768px) {
 
+  .listHeader {
+    font-size: 33px;
+  }
 
+  .dropdown >*, .wards >* {
+    font-size: 1rem;
+  }
+
+  .cardContainer ul {
+    gap: 1.5rem;
+  }
+  .card {
+    width: 235px;
+    height: 400px;
+  }
+
+  .h2 {
+    padding-block-end: 1rem;
+    min-height: 78px;
+    font-size: 1.2rem;
+  }
+
+  .info {
+    padding-block-end: 1rem;
+    min-height: 96px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+
+  .info > * {
+    padding-bottom: 0;
+  }
+  .p {
+    font-size: 16px;
+    line-height: 24px;
+  }
+  
+  .picture_url {
+    height: auto;
+  }
+  .picture_url img {
+    width: 100%;
+    object-fit: fill;
+    min-height: 160px;
+    max-height: 160px;
+  }
+  
+  .zoom {
+    font-size: 1rem;
+  }
+}
+
+@media only screen and (max-width: 425px) {
+
+  .listHeader {
+    margin: 3rem 2rem 3rem 2rem;
+    font-size: 28px;
+    line-height: 34px;
+  }
+  .sortContainer {
+    margin: 1rem 2rem 1rem 2rem;
+  }
+
+  .sortContainer img {
+    max-height: 28px;
+  }
+  .cardContainer {
+    margin: 1rem;
+    padding: 1rem 0;
+  }
+
+  .cardContainer ul {
+    margin: 1.5rem;
+    gap: 1rem;
+  }
+
+  .card {
+    height: max-content;
+    padding: 1.5rem;
+    width: 300px;
+  }
+
+  .h2 {
+    /* padding-block-end: 1rem;
+    min-height: 78px; */
+    font-size: 18px;
+  }
+  .info {
+    /* padding-block-end: 1rem; */
+    min-height: 88px;
+    /* display: flex;
+    flex-direction: column;
+    justify-content: flex-end; */
+  }
+  /* .info > * {
+    padding-bottom: 0;
+  } */
+  .p {
+    font-size: 14px;
+    line-height: 22px;
+  }
+
+  .picture_url {
+    height: auto;
+  }
+  .picture_url img {
+    width: 100%;
+    object-fit: fill;
+    min-height: 125px;
+    max-height: 180px;
+  }
+
+  .zoom {
+    font-size: 16px;
+  }
+
+  .navigation-arrows {
+    margin: 2rem;
+  }
+  
+  .navigation-arrows * {
+    max-height: 48px;
+  }  
+}
