@@ -223,21 +223,5 @@
     padding-top: 4rem;
   }
 
-  .top {
-    margin: 4rem;
-  }
 
-  .silhoutte {
-    width: 50rem;
-    margin: 0;
-  }
-  .silhoutte img {
-    width: 100%;
-    margin-top: -10.5rem;
-  }
-
-  .copyright {
-    font-size: 24px;
-    margin: 2rem 0 4rem;
-  }
 }

@@ -74,8 +74,6 @@
 }
 
 .dropdown-content button {
-  /* color: black; */
-  /* padding: 12px 16px; */
   max-width: 4rem;
   text-decoration: none;
   display: block;
@@ -86,14 +84,11 @@
 
 .dropdown:hover .dropdown-content {
   display: block;
-  
 }
 
 .dropdown:hover .dropbtn {
   background-color: #3e8e41;
 }
-
-
 
 .cardContainer {
     background-color: var(--pink);
@@ -108,30 +103,47 @@
     flex-wrap: wrap;
     justify-content: center;
     margin: 2rem;
-    gap: 2rem;
-    
+    gap: 2rem;    
 }
 
-
+.card {
+  padding: 2rem;
+  border: solid #1B1B1A 0.18rem;
+  border-radius: 0.5rem;
+  background-color: var(--white);
+  width: 300px;
+  /* flex-basis: 300px;
+  flex-grow: 1; */
+  /* height: unset; */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
 
 .h2 {
   font-size: 1.4rem;
   font-family: 'Red Hat Display', sans-serif;
   text-transform: uppercase;
   font-weight: 700;
-  line-height: 26px;
+  line-height: 30px;
   flex-grow: 2;
   width: 75%;
+  height: 6rem;
 }
 
 .info {
   padding-block-end: 0.5rem;
+  height: 7rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding-block-end: 1rem;
 }
 
 .p {
     font-family: 'Mulish', sans-serif;
     font-size: 1.1rem;
-    
+    line-height: 34px;
 }
 
 .zoom {
@@ -145,59 +157,28 @@
     padding-top: 1rem;
 }
 
-
-.card {
-  padding: 2rem;
-  border: solid #1B1B1A 0.18rem;
-  border-radius: 0.5rem;
-  background-color: var(--white);
-  
-  width: 300px;
-  height: 450px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
- 
-  
-}
-
 .picture_url {
   
   width: 100%;
   height: 200px;
   text-align: center;
-  
-  
-  
 }
 
 .picture_url img {
-  
   width: 100%;
   height: 100%;
-  
   border-radius: 0.5rem;
-  
-  
-  
-  
-
 }
 
-
-
-.info > * {
+/* .info > * {
     padding-bottom: 1rem;
-}
-
-
+} */
 
 .navigation-arrows {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 4rem;
-  
+  margin: 4rem; 
 }
 
 .navigation-arrows * {
@@ -205,14 +186,11 @@
 }
 
 .pagination {
-  
     display: flex;
     justify-content: center;
     gap: 0.8rem;
     text-decoration-line: underline;
-    
     align-items: center;
-  
 }
 
 .pagination >* {
@@ -352,4 +330,93 @@
   .navigation-arrows * {
     max-height: 48px;
   }  
+}
+
+@media only screen and (min-width: 1441px) {
+
+  .listHeader {
+    font-size: 4.33rem;
+    padding: 2rem;
+}
+
+  .wards >*, .dropdown >*, .pagination >* {
+    font-size: 2.3rem;
+    margin: 2rem;
+  }
+
+  .sortContainer img {
+    max-height: none;
+    max-width: none;
+  }
+
+  .dropdown img {
+    height: 3.5rem;
+  }
+
+  .wards img {
+    height: 1.8rem;
+  }
+
+  .dropdown-content {
+    padding: 3rem;
+    max-height: 380px;
+  }
+  
+  .dropdown-content button {
+    max-width: 8rem;
+    font-size: 2.3rem;
+    margin: 2rem 0;
+  }
+
+  .cardContainer {
+    margin: 3rem;
+  }
+
+  .cardContainer ul {
+    margin: 4rem;
+  }
+
+  .card {
+    width: 620px;
+    padding: 3rem;
+  }
+
+  .h2 {
+    min-height: 200px;
+    font-size: 2.8rem;
+    line-height: 60px;
+  }
+
+  .info {
+    height: 18rem;
+    padding-block-end: 2rem;
+  }
+  .info >* {
+    padding-bottom: 0;
+  }
+
+  .p {
+    font-size: 34px;
+    line-height: 56px;
+  }
+  
+  .picture_url {
+    height: auto;
+    padding-block-end: 2rem;
+  }
+  .picture_url img {
+    height: 390px;
+    min-height: unset;
+    max-height: unset;
+  }
+  
+  .zoom {
+    font-size: 2.3rem;
+  }
+
+
+  .navigation-arrows img {
+    height: 6rem;
+  }
+
 }
