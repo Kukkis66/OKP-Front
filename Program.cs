@@ -9,6 +9,7 @@ using OKPBackend.Data;
 using OKPBackend.Mappings;
 using OKPBackend.Models.Domain;
 using OKPBackend.Repositories.Users;
+using OKPBackend.Services;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -63,7 +64,13 @@ builder.Services.AddDbContext<OKPDbContext>(options => options.UseSqlServer(buil
 
 builder.Services.AddAutoMapper(typeof(AutoMapperProfiles));
 
+
+//Repositories
 builder.Services.AddScoped<IUsersRepository, SQLUsersRepository>();
+
+//Services
+builder.Services.AddScoped<EmailService>();
+
 
 
 //AUTHENTICATION
