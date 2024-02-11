@@ -147,42 +147,26 @@
 }
 
 .picture_url {
-  
   width: 100%;
   height: 200px;
-  text-align: center;
-  
-  
-  
+  text-align: center;  
 }
 
 .picture_url img {
-  
   width: 100%;
   height: 100%;
-  
   border-radius: 0.5rem;
-  
-  
-  
-  
-
 }
-
-
 
 .info > * {
     padding-bottom: 1rem;
 }
 
-
-
 .navigation-arrows {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 4rem;
-  
+  margin: 4rem;  
 }
 
 .navigation-arrows * {
@@ -199,6 +183,7 @@
     align-items: center;
   
 }
+
 
 
 

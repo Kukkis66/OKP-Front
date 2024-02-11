@@ -2,6 +2,8 @@ import { useState } from 'react';
 import sort from '../assets/sort.png'
 import arrowDown from '../assets/arrow-down.png'
 import { Popup } from './CardPopUp.jsx'
+import { Maps } from './Maps.jsx'
+import { Input } from './Input.jsx'
 import '../styles/List.css'
 import arrowLeft from '../assets/arrowLeft.png'
 import arrowRight from '../assets/arrowRight.png'
@@ -19,7 +21,6 @@ export const List = ({hubData}) => {
     
     const handleClosePopup = () => {
         setSelectedBuilding(null);
-
       };
 
     const handleCardCount = (count) => {
@@ -53,69 +54,70 @@ export const List = ({hubData}) => {
     
     return (
     <div>
-        <h1 className="listHeader">SELAA RAKENNUKSIA</h1>
-        <div className='sortContainer'>
-       
-        <div className='dropdown'>
-            <img src={sort} alt="sortLogo" />
-            <a>NÄYTÄ {itemsPerPage}</a>
-            <div className="dropdown-content">
-                <button onClick={() => handleCardCount(6)}>6</button>
-                <button onClick={() => handleCardCount(12)}>12</button>
-                <button onClick={() => handleCardCount(24)}>24</button>
-            </div>
-        </div>
-        
-        {isBackwards ? (
-        <div className='wards'>
-            <span>A - Ö</span>
-            <img onClick={() => handleWards()} src={arrowDown} alt="arrow-down" />
-        </div>
-        ) : (
-        <div className='wards'>
-            <span>Ö - A</span>
-            <img onClick={() => handleWards()} src={arrowDown} alt="arrow-up" style={{ transform: 'rotate(180deg)' }} />
-        </div>
-        )}
-        </div>
+      <h1 className="listHeader">SELAA RAKENNUKSIA</h1>
+      
+      <div className='sortContainer'>
+      
+      <div className='dropdown'>
+          <img src={sort} alt="sortLogo" />
+          <a>NÄYTÄ {itemsPerPage}</a>
+          <div className="dropdown-content">
+              <button onClick={() => handleCardCount(6)}>6</button>
+              <button onClick={() => handleCardCount(12)}>12</button>
+              <button onClick={() => handleCardCount(24)}>24</button>
+          </div>
+      </div>
+      
+      {isBackwards ? (
+      <div className='wards'>
+          <span>A - Ö</span>
+          <img onClick={() => handleWards()} src={arrowDown} alt="arrow-down" />
+      </div>
+      ) : (
+      <div className='wards'>
+          <span>Ö - A</span>
+          <img onClick={() => handleWards()} src={arrowDown} alt="arrow-up" style={{ transform: 'rotate(180deg)' }} />
+      </div>
+      )}
+      </div>
 
-        <div className='cardContainer'>
-        <ul >
-            {displayedItems?.map((building) => (
-                <li className="card" key={building.id}>
-                    <h2 className='h2'>{building.productInformations[0]?.name}</h2>
-                    <div className='info'>
-                        <p className='p'>Osoite: {building.postalAddresses[0]?.streetName}</p>
-                        <p className='p'>Kaupunki: {building.postalAddresses[0]?.city}</p>
-                        <p className='p'>Postinumero: {building.postalAddresses[0]?.postalCode}</p>
-                    </div>
-                    <figure className='picture_url'>
-                        <img src={building.productImages[0]?.thumbnailUrl} alt={building.productImages[0]?.altText} />
-                    </figure>
-                    <a className='zoom' onClick={() => handleReadMore(building)}>
-                    LUE LISÄÄ
-                    </a>
-                </li>
-            ))}
-        </ul>
-        {selectedBuilding && <Popup building={selectedBuilding} onClose={() => handleClosePopup()} />}
-        </div>
-        
-        <div className="navigation-arrows">
-        <a onClick={() => handlePageChange(currentPage - 1)}><img src={arrowLeft} alt="arrowLeft" /></a>
-        <div className="pagination">
-            {pageNumbers.map((pageNumber) => (
-                <span
-                key={pageNumber}
-                className={pageNumber === currentPage ? 'active' : ''}
-                onClick={() => handlePageChange(pageNumber)}
-                >
-                {pageNumber}
-                </span>
-            ))}
-        </div>
-            <a onClick={() => handlePageChange(currentPage + 1)}><img src={arrowRight} alt="arrowRight" /></a>
-        </div>
+      <div className='cardContainer'>
+      <ul >
+          {displayedItems?.map((building) => (
+              <li className="card" key={building.id}>
+                  <h2 className='h2'>{building.productInformations[0]?.name}</h2>
+                  <div className='info'>
+                      <p className='p'>Osoite: {building.postalAddresses[0]?.streetName}</p>
+                      <p className='p'>Kaupunki: {building.postalAddresses[0]?.city}</p>
+                      <p className='p'>Postinumero: {building.postalAddresses[0]?.postalCode}</p>
+                  </div>
+                  <figure className='picture_url'>
+                      <img src={building.productImages[0]?.thumbnailUrl} alt={building.productImages[0]?.altText} />
+                  </figure>
+                  <a className='zoom' onClick={() => handleReadMore(building)}>
+                  LUE LISÄÄ
+                  </a>
+              </li>
+          ))}
+      </ul>
+      {selectedBuilding && <Popup building={selectedBuilding} onClose={() => handleClosePopup()} />}
+      </div>
+      
+      <div className="navigation-arrows">
+      <a onClick={() => handlePageChange(currentPage - 1)}><img src={arrowLeft} alt="arrowLeft" /></a>
+      <div className="pagination">
+          {pageNumbers.map((pageNumber) => (
+              <span
+              key={pageNumber}
+              className={pageNumber === currentPage ? 'active' : ''}
+              onClick={() => handlePageChange(pageNumber)}
+              >
+              {pageNumber}
+              </span>
+          ))}
+      </div>
+          <a onClick={() => handlePageChange(currentPage + 1)}><img src={arrowRight} alt="arrowRight" /></a>
+      </div>
     </div>
     );
 }

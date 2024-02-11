@@ -22,9 +22,10 @@ button {
     background-color: var(--brown);
     color: var(--white);
     font-family: 'Red rose', sans-serif;
-    font-size: 20px;
+    font-size: 1rem;
     border-radius: 0.5rem;
-    padding: 0.5em 1em;
+    padding: 0.5rem;
+    margin-left: 1rem;
     border: none;
-    box-shadow: rgba(0, 0, 0, 0.5) 0 4px 2.6px
+    box-shadow: rgba(0, 0, 0, 0.5) 0 4px 2.6px;
 }
