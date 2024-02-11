@@ -4,11 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using OKPBackend.Models.Domain;
 using OKPBackend.Models.DTO.Users;
 using OKPBackend.Repositories.Users;
@@ -18,30 +16,66 @@ namespace OKPBackend.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class RegisterController : ControllerBase
+    public class AccountController : ControllerBase
     {
         private readonly IConfiguration config;
-        // private readonly IUsersRepository usersRepository;
-
         private readonly IMapper mapper;
         private readonly UserManager<User> userManager;
         private readonly EmailService emailService;
+        private readonly IUsersRepository usersRepository;
 
-        public RegisterController(IConfiguration config, IMapper mapper, UserManager<User> userManager, EmailService emailService)
+        public AccountController(IConfiguration config, IMapper mapper, UserManager<User> userManager, EmailService emailService, IUsersRepository usersRepository)
         {
-            this.mapper = mapper;
             this.userManager = userManager;
             this.emailService = emailService;
-            // this.usersRepository = usersRepository;
+            this.usersRepository = usersRepository;
+            this.mapper = mapper;
             this.config = config;
 
         }
 
         [HttpPost]
+        [Route("login")]
+        public async Task<IActionResult> Login([FromBody] UserLoginDto userLoginDto)
+        {
+            var user = await userManager.FindByEmailAsync(userLoginDto.Email);
+
+            if (user.EmailConfirmed == false)
+            {
+                return BadRequest("Please confirm your email address");
+            }
+
+            if (user != null)
+            {
+                var checkPasswordResult = await userManager.CheckPasswordAsync(user, userLoginDto.Password);
+
+                if (checkPasswordResult)
+                {
+                    var roles = await userManager.GetRolesAsync(user);
+
+                    if (roles != null)
+                    {
+                        var jwtToken = usersRepository.CreateJWTToken(user, roles.ToList());
+
+                        var response = new LoginResponseDto
+                        {
+                            JwtToken = jwtToken
+                        };
+
+                        return Ok(response);
+                    }
+
+                }
+            }
+
+            return BadRequest("Something went wrong.");
+        }
+
+        [HttpPost("Register")]
         public async Task<IActionResult> Register([FromBody] UserRegisterDto userRegisterDto)
         {
 
-
+            //Checks if passwords match
             if (userRegisterDto.Password != userRegisterDto.ConfirmPassword)
             {
                 return BadRequest("Passwords do not match");
@@ -54,23 +88,23 @@ namespace OKPBackend.Controllers
                 PasswordHash = userRegisterDto.Password
             };
 
+            //Creates a new user
             var identityResult = await userManager.CreateAsync(newUser, userRegisterDto.Password);
 
-            // if (identityResult.Succeeded)
-            // {
-            //     // Add roles
-            //     if (userRegisterDto.Roles != null && userRegisterDto.Roles.Any())
-            //     {
-
-            //         var rolesResponse = await userManager.AddToRolesAsync(newUser, userRegisterDto.Roles);
-
-            //         if (rolesResponse.Succeeded)
-            //         {
-            //             return Ok("User was registered");
-            //         }
-            //     }
-            // }
-            var rolesResponse = await userManager.AddToRolesAsync(newUser, userRegisterDto.Roles);
+            //Checks if the user was created successfully
+            if (identityResult.Succeeded)
+            {
+                //Checks if the client provided roles to the user.
+                if (userRegisterDto.Roles != null && userRegisterDto.Roles.Any())
+                {
+                    //Adds new roles to the user
+                    var rolesResponse = await userManager.AddToRolesAsync(newUser, userRegisterDto.Roles);
+                }
+                else
+                {
+                    return BadRequest("You have to assign at least one role to the user!");
+                }
+            }
 
             try
             {
@@ -88,71 +122,54 @@ namespace OKPBackend.Controllers
             return BadRequest("Failed to register user: " + string.Join(", ", identityResult.Errors.Select(e => e.Description)));
         }
 
-        private async Task<bool> SendConfirmEmailAsync(User user)
-        {
-            DotNetEnv.Env.Load();
-            string confirm_email_path = Environment.GetEnvironmentVariable("confirm_email_path");
-            string reset_password_path = Environment.GetEnvironmentVariable("reset_password_path");
-            string application_name = Environment.GetEnvironmentVariable("application_name");
-
-            var token = await userManager.GenerateEmailConfirmationTokenAsync(user);
-            Console.WriteLine(user.Email);
-            token = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(token));
-            var url = $"{config["Jwt:Issuer"]}{confirm_email_path}?token={token}&email={user.Email}";
-
-            var body = $"<p>Hello: {user.UserName}</p> + <p>Please confirm your email address by clicking on the following link.</p>" +
-                        $"<p><a href=\"{url}\">Click Here</a></p>" +
-                        "<p>Thank you</p>" +
-                        $"<br>{application_name}";
-
-            var emailSend = new EmailSendDto(user.Email, "Confirm your email", body);
-
-            return await emailService.SendEmailAsync(emailSend);
-
-
-        }
-
         [HttpPut("confirm-email")]
         public async Task<IActionResult> ConfirmEmail(ConfirmEmailDto confirmEmailDto)
         {
+            // Finds the user based on the email provided.
             var user = await userManager.FindByEmailAsync(confirmEmailDto.Email);
+
+            // If no user was found, it returns an error stating that the email has not been registered.
             if (user == null)
             {
                 return Unauthorized("This email address has not been registered yet.");
             }
 
+            // Checks if email was already confirmed.
             if (user.EmailConfirmed == true)
             {
                 return BadRequest("Your email was confirmed before. Please login to your account");
             }
 
+            // Decodes the token that was passed in from the client.
             try
             {
                 var decodedTokenBytes = WebEncoders.Base64UrlDecode(confirmEmailDto.Token);
                 var decodedToken = Encoding.UTF8.GetString(decodedTokenBytes);
-
                 var result = await userManager.ConfirmEmailAsync(user, decodedToken);
+
                 if (result.Succeeded)
                 {
                     return Ok(new JsonResult(new { title = "Email Confirmed", message = "Your email address is confirmed. You can login now" }));
                 }
 
             }
-            catch (System.Exception)
+            catch (System.Exception e)
             {
-
-                Console.WriteLine("There was an error");
+                return BadRequest(e.Message);
             }
 
-            return BadRequest("Something went wrong!");
+            return BadRequest("Something went wrong. Please check if you provided a valid token and an email address");
+
 
         }
 
         [HttpPost("resend-email-confirmation-link/{email}")]
         public async Task<IActionResult> ResendEmailConformationLink(string email)
         {
-            if (string.IsNullOrEmpty(email)) return BadRequest("Invalid email");
+            // Checks if the query parameter was empty
+            if (string.IsNullOrEmpty(email)) return BadRequest("Please provide an email address");
 
+            // Finds the user based on the email address provided.
             var user = await userManager.FindByEmailAsync(email);
 
             if (user == null) return Unauthorized("This email address has not been registered yet");
@@ -175,7 +192,7 @@ namespace OKPBackend.Controllers
 
         }
 
-        [HttpPost("forgot-username-or-password/{email}")]
+        [HttpPost("forgot-password/{email}")]
 
         public async Task<IActionResult> ForgotUsernameOrPassword(string email)
         {
@@ -217,7 +234,7 @@ namespace OKPBackend.Controllers
                 var result = await userManager.ResetPasswordAsync(user, decodedToken, resetPasswordDto.NewPassword);
                 if (result.Succeeded)
                 {
-                    return Ok(new JsonResult(new { title = "Password rest successful", message = "Your email address is confirmed. You can login now" }));
+                    return Ok(new JsonResult(new { title = "Password reset successful", message = "Your password has been reset" }));
                 }
 
                 return BadRequest("Invalid token. Please try again");
@@ -227,6 +244,33 @@ namespace OKPBackend.Controllers
 
                 return BadRequest("Invalid token. Please try again");
             }
+        }
+
+
+
+        //HELPER METHODS
+        private async Task<bool> SendConfirmEmailAsync(User user)
+        {
+            DotNetEnv.Env.Load();
+            string confirm_email_path = Environment.GetEnvironmentVariable("confirm_email_path");
+            string reset_password_path = Environment.GetEnvironmentVariable("reset_password_path");
+            string application_name = Environment.GetEnvironmentVariable("application_name");
+
+            var token = await userManager.GenerateEmailConfirmationTokenAsync(user);
+            Console.WriteLine(user.Email);
+            token = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(token));
+            var url = $"{config["Jwt:Issuer"]}{confirm_email_path}?token={token}&email={user.Email}";
+
+            var body = $"<p>Hello: {user.UserName}</p> + <p>Please confirm your email address by clicking on the following link.</p>" +
+                        $"<p><a href=\"{url}\">Click Here</a></p>" +
+                        "<p>Thank you</p>" +
+                        $"<br>{application_name}";
+
+            var emailSend = new EmailSendDto(user.Email, "Confirm your email", body);
+
+            return await emailService.SendEmailAsync(emailSend);
+
+
         }
 
         private async Task<bool> SendForgotUsernameOrPasswordEmail(User user)

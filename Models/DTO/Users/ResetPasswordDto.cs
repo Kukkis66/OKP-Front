@@ -17,5 +17,8 @@ namespace OKPBackend.Models.DTO.Users
 
         [Required]
         public string NewPassword { get; set; }
+
+        [Required]
+        public string ConfirmNewPassword { get; set; }
     }
 }

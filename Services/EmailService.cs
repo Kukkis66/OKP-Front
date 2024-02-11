@@ -22,16 +22,18 @@ namespace OKPBackend.Services
             string mail_secret = Environment.GetEnvironmentVariable("mail_secret");
             string from = Environment.GetEnvironmentVariable("from");
             string application_name = Environment.GetEnvironmentVariable("application_name");
-            string confirm_email_path = Environment.GetEnvironmentVariable("confirm_email_path");
-            string reset_password_path = Environment.GetEnvironmentVariable("reset_password_path");
 
+            //Creates a new mailjet client
             MailjetClient client = new MailjetClient(mail_api_key, mail_secret);
 
+            // Builds the specific email to the user.
             var email = new TransactionalEmailBuilder()
             .WithFrom(new SendContact(from, application_name))
             .WithSubject(emailSendDto.Subject).WithHtmlPart(emailSendDto.Body).WithTo(new SendContact(emailSendDto.To)).Build();
 
+            // Sends the email to the user and returns a response.
             var response = await client.SendTransactionalEmailAsync(email);
+
             if (response.Messages != null)
             {
                 if (response.Messages[0].Status == "success")
@@ -43,5 +45,7 @@ namespace OKPBackend.Services
             return false;
 
         }
+
+
     }
 }
