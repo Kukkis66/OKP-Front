@@ -85,11 +85,21 @@ export const List = ({hubData}) => {
       <ul >
           {displayedItems?.map((building) => (
               <li className="card" key={building.id}>
-                  <h2 className='h2'>{building.productInformations[0]?.name}</h2>
-                  <div className='info'>
+              <h2 className='h2'>
+                    {
+                        building.productInformations[0]?.name ||
+                        (building.productImages[0]?.copyright === "Kuvio" ? "Oodi" :
+                        building.productImages[0]?.copyright.includes("Copyright: Visit Finland") ?
+                        building.productImages[0]?.copyright.split(":")[1].trim() :
+                        building.productImages[0]?.copyright
+                        )
+                    }
+                    </h2>
+                <div className='info'>
                       <p className='p'>Osoite: {building.postalAddresses[0]?.streetName}</p>
                       <p className='p'>Kaupunki: {building.postalAddresses[0]?.city}</p>
                       <p className='p'>Postinumero: {building.postalAddresses[0]?.postalCode}</p>
+
                   </div>
                   <figure className='picture_url'>
                       <img src={building.productImages[0]?.thumbnailUrl} alt={building.productImages[0]?.altText} />
@@ -118,6 +128,7 @@ export const List = ({hubData}) => {
       </div>
           <a onClick={() => handlePageChange(currentPage + 1)}><img src={arrowRight} alt="arrowRight" /></a>
       </div>
+      
     </div>
     );
 }
