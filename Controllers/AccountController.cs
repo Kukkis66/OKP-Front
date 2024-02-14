@@ -105,6 +105,10 @@ namespace OKPBackend.Controllers
                     return BadRequest("You have to assign at least one role to the user!");
                 }
             }
+            else
+            {
+                return BadRequest("Failed to register user: " + string.Join(", ", identityResult.Errors.Select(e => e.Description)));
+            }
 
             try
             {
@@ -119,7 +123,7 @@ namespace OKPBackend.Controllers
             };
 
 
-            return BadRequest("Failed to register user: " + string.Join(", ", identityResult.Errors.Select(e => e.Description)));
+            return BadRequest("Something went wrong");
         }
 
         [HttpPut("confirm-email")]
