@@ -10,7 +10,7 @@ import './styles/App.css';
 
 function App() {
   const [data, setData] = useState([]);
-  const [hubData, setHubData] = useState({ data: { groupedProducts: [] } }); // Initialize with an empty object
+  const [hubData, setHubData] = useState({ data: { groupedProducts: [] } });
   const [searchField, setSearchField] = useState('');
   const [loginForm, setLoginForm] = useState(false);
 
@@ -46,13 +46,15 @@ function App() {
     }
   };
 
-  useEffect(() => {
-  }, [hubData]); // Run this effect whenever hubData changes
+  const updateMapMarker = selectedBuilding => {
+  
+  };
+  
 
   return (
     <>
       <Header handleLoginForm={handleLoginForm} />
-      <Input handleSearch={handleSearch} searchField={searchField} markers={hubData.data?.groupedProducts || []} />
+      <Input handleSearch={handleSearch} searchField={searchField} markers={hubData.data?.groupedProducts || []} updateMapMarker={updateMapMarker} />
       <Login loginForm={loginForm} handleLoginForm={handleLoginForm} />
       <Maps searchField={searchField} handleSearch={handleSearch} buildings={hubData.data?.groupedProducts || []} hubData={hubData} />
       <List hubData={hubData} searchField={searchField} />
@@ -61,4 +63,4 @@ function App() {
   );
 }
 
-export default App; // Export App as default
+export default App;

@@ -11,8 +11,13 @@ export const Popup = ({ building, onClose }) => {
             <div className="cardPopup">
                 <span className="popupClose" onClick={() => {onClose();}}><img src={close} alt="close"/></span>
                 <div className='popupCard'>
-                    <h2 className='h2-zoom'>{building.productInformations[0]?.name}</h2>
-            
+                    <h2 className='h2-zoom'>{
+                        building.productInformations[0]?.name ||
+                        (building.productImages[0]?.copyright === "Kuvio" ? "Oodi"
+                        : building.productImages[0]?.copyright === "Didrichsen archives" ? "Didrichsenin taidemuseo" 
+                        : building.productImages[0]?.copyright.includes("Copyright: Visit Finland")
+                        ? building.productImages[0]?.copyright.split(":")[1].trim()
+                        : building.productImages[0]?.copyright)}</h2>
                     <div className='info-and-photo-container'>   
                         <div className='popup-info'>
                             <p className='p-zoom'>Osoite: {building.postalAddresses[0]?.streetName}</p>

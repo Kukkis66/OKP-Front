@@ -40,10 +40,30 @@ export const List = ({hubData}) => {
     };
 
     const [startIndex, endIndex] = getPageRange();
+
+    const getBuildingName = (building) => {
+        return (
+            building.productInformations[0]?.name ||
+            (building.productImages[0]?.copyright === "Kuvio" ? "Oodi" :
+            building.productImages[0]?.copyright === "Didrichsen archives" ? "Didrichsenin taidemuseo" :
+            building.productImages[0]?.copyright.includes("Copyright: Visit Finland")
+                ? building.productImages[0]?.copyright.split(":")[1].trim()
+                : building.productImages[0]?.copyright)
+        );
+    };
+    
     const sortedItems = isBackwards 
-    ? hubData.data?.groupedProducts?.sort((a, b) => a.productInformations[0]?.name.localeCompare(b.productInformations[0]?.name))
-    : hubData.data?.groupedProducts?.sort((a, b) => b.productInformations[0]?.name.localeCompare(a.productInformations[0]?.name))
-            
+        ? hubData.data?.groupedProducts?.sort((a, b) => {
+            const nameA = getBuildingName(a);
+            const nameB = getBuildingName(b);
+            return nameA.localeCompare(nameB);
+        })
+        : hubData.data?.groupedProducts?.sort((a, b) => {
+            const nameA = getBuildingName(a);
+            const nameB = getBuildingName(b);
+            return nameB.localeCompare(nameA);
+        });
+                
     const displayedItems = sortedItems?.slice(startIndex, endIndex);
             
     const handlePageChange = (newPage) => {
@@ -85,16 +105,7 @@ export const List = ({hubData}) => {
       <ul >
           {displayedItems?.map((building) => (
               <li className="card" key={building.id}>
-              <h2 className='h2'>
-                    {
-                        building.productInformations[0]?.name ||
-                        (building.productImages[0]?.copyright === "Kuvio" ? "Oodi" :
-                        building.productImages[0]?.copyright.includes("Copyright: Visit Finland") ?
-                        building.productImages[0]?.copyright.split(":")[1].trim() :
-                        building.productImages[0]?.copyright
-                        )
-                    }
-                    </h2>
+              <h2 className='h2'>{getBuildingName(building)}</h2>
                 <div className='info'>
                       <p className='p'>Osoite: {building.postalAddresses[0]?.streetName}</p>
                       <p className='p'>Kaupunki: {building.postalAddresses[0]?.city}</p>
@@ -132,3 +143,4 @@ export const List = ({hubData}) => {
     </div>
     );
 }
+

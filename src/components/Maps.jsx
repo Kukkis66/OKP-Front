@@ -23,16 +23,17 @@ export const markers = hubData => {
     const name =
       building.productInformations[0]?.name ||
       (building.productImages[0]?.copyright === "Kuvio" ? "Oodi"
-      : building.productImages[0]?.copyright.includes("Copyright: Visit Finland")
-      ? building.productImages[0]?.copyright.split(":")[1].trim()
+      : building.productImages[0]?.copyright === "Didrichsen archives" ? "Didrichsenin taidemuseo" 
+      : building.productImages[0]?.copyright.includes("Copyright: Visit Finland") ? building.productImages[0]?.copyright.split(":")[1].trim()
       : building.productImages[0]?.copyright);
+      
+
    
     // Check if location is defined and has valid latitude and longitude
     if (location && location.includes(',')) {
       const [lat, lng] = location.substring(1, location.length - 1).split(',');
       const latitude = parseFloat(lat.trim());
-      const longitude = parseFloat(lng.trim());
-      
+      const longitude = parseFloat(lng.trim());   
       
       // Check if latitude and longitude are valid numbers
       if (!isNaN(latitude) && !isNaN(longitude)) {
@@ -42,8 +43,7 @@ export const markers = hubData => {
             lng: longitude
           },
           title: name
-        };
-        
+        };  
         return marker;
       }
     }
@@ -56,8 +56,18 @@ export const markers = hubData => {
 };
 
 export const Maps = ({ buildings = [], searchField = '', hubData }) => {
+  const [selectedBuildingName, setSelectedBuildingName] = useState(null); 
   
   const markersData = markers(hubData);
+
+  console.log("Markers data:", markersData);
+  
+  // Filter markers to show only the selected building marker
+  const filteredMarkers = markersData.filter(marker => {
+    return selectedBuildingName === null || marker.title === selectedBuildingName;
+  });
+
+  console.log("Filtered markers:", filteredMarkers);
 
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAPS_APIKEY,
@@ -125,197 +135,35 @@ export const Maps = ({ buildings = [], searchField = '', hubData }) => {
   }
 
   const mapOptions = {
-    disableDefaultUI: true, // Removes default UI (like zoom controls and street view)
     styles: [
-        {
-            "featureType": "all",
-            "elementType": "labels",
-            "stylers": [
-                {
-                    "visibility": "off"
-                }
-            ]
-        },
-        {
-            "featureType": "administrative",
-            "elementType": "labels",
-            "stylers": [
-                {
-                    "visibility": "off"
-                }
-            ]
-        },
-        {
-            "featureType": "administrative",
-            "elementType": "labels.text.fill",
-            "stylers": [
-                {
-                    "color": "#444444"
-                },
-                {
-                    "visibility": "off"
-                }
-            ]
-        },
-        {
-            "featureType": "administrative.neighborhood",
-            "elementType": "labels",
-            "stylers": [
-                {
-                    "visibility": "off"
-                }
-            ]
-        },
-        {
-            "featureType": "landscape",
-            "elementType": "all",
-            "stylers": [
-                {
-                    "visibility": "on"
-                },
-                {
-                    "color": "#e0dfe0"
-                }
-            ]
-        },
-        {
-            "featureType": "landscape",
-            "elementType": "labels",
-            "stylers": [
-                {
-                    "visibility": "off"
-                }
-            ]
-        },
-        {
-            "featureType": "poi",
-            "elementType": "all",
-            "stylers": [
-                {
-                    "visibility": "off"
-                }
-            ]
-        },
-        {
-            "featureType": "poi",
-            "elementType": "labels",
-            "stylers": [
-                {
-                    "visibility": "off"
-                }
-            ]
-        },
-        {
-            "featureType": "poi.park",
-            "elementType": "geometry",
-            "stylers": [
-                {
-                    "color": "#a8a9a8"
-                },
-                {
-                    "visibility": "on"
-                }
-            ]
-        },
-        {
-            "featureType": "road",
-            "elementType": "all",
-            "stylers": [
-                {
-                    "saturation": -100
-                },
-                {
-                    "lightness": 45
-                }
-            ]
-        },
-        {
-            "featureType": "road",
-            "elementType": "geometry.fill",
-            "stylers": [
-                {
-                    "visibility": "on"
-                },
-                {
-                    "color": "#5b5b5a"
-                }
-            ]
-        },
-        {
-            "featureType": "road",
-            "elementType": "labels",
-            "stylers": [
-                {
-                    "visibility": "off"
-                }
-            ]
-        },
-        {
-            "featureType": "road.highway",
-            "elementType": "all",
-            "stylers": [
-                {
-                    "visibility": "simplified"
-                }
-            ]
-        },
-        {
-            "featureType": "road.highway",
-            "elementType": "labels",
-            "stylers": [
-                {
-                    "visibility": "off"
-                }
-            ]
-        },
-        {
-            "featureType": "road.arterial",
-            "elementType": "labels.icon",
-            "stylers": [
-                {
-                    "visibility": "off"
-                }
-            ]
-        },
-        {
-            "featureType": "transit",
-            "elementType": "all",
-            "stylers": [
-                {
-                    "visibility": "off"
-                }
-            ]
-        },
-        {
-            "featureType": "transit",
-            "elementType": "labels",
-            "stylers": [
-                {
-                    "visibility": "off"
-                }
-            ]
-        },
-        {
-            "featureType": "water",
-            "elementType": "all",
-            "stylers": [
-                {
-                    "color": "#ffffff"
-                },
-                {
-                    "visibility": "on"
-                }
-            ]
-        },
-        {
-            "featureType": "water",
-            "elementType": "labels",
-            "stylers": [
-                {
-                    "visibility": "off"
-                }
-            ]
-        }
+      {
+        featureType: "all",
+        elementType: "all",
+        stylers: [
+          { saturation: -100 }, // Set saturation to -100 for black and white
+          { lightness: 0 }, // Set lightness to 0 for black and white
+        ],
+      },
+      {
+        featureType: "administrative",
+        elementType: "labels.text",
+        stylers: [{ visibility: "on" }], // Show city part names
+      },
+      {
+        featureType: "poi",
+        elementType: "labels",
+        stylers: [{ visibility: "off" }], // Hide points of interest labels
+      },
+      {
+        featureType: "transit",
+        elementType: "labels",
+        stylers: [{ visibility: "off" }], // Hide transit labels
+      },
+      {
+        featureType: "road",
+        elementType: "labels",
+        stylers: [{ visibility: "off" }], // Hide road labels
+      },
     ],
   };
   
@@ -326,9 +174,14 @@ export const Maps = ({ buildings = [], searchField = '', hubData }) => {
     return buildings.slice(startIndex, endIndex);
   };
 
+  const handleDropdownChange = event => {
+    const value = event.target.value;
+    setSelectedBuildingName(value);
+  };
+
   return (
     <div className="mapContainer">
-    <div className="map">
+      <div className="map">
         <GoogleMap
           mapContainerStyle={mapContainerStyle}
           zoom={13.6}
@@ -336,18 +189,18 @@ export const Maps = ({ buildings = [], searchField = '', hubData }) => {
           options={mapOptions}
           onLoad={onMapLoad}
         >
-          {markersData && Array.isArray(markersData) && markersData.map((marker, index) => (
-            <Marker
-              key={index}
-              position={marker.position}
-              title={marker.title}
-              onClick={() => handleMarkerClick(marker)}
-              icon={{
-                url: houseIcon,
-                scaledSize: new window.google.maps.Size(15, 25),
-              }}
-            />
-          ))}
+      {filteredMarkers.map((marker, index) => (
+        <Marker
+          key={index}
+          position={marker.position}
+          title={marker.title}
+          onClick={() => handleMarkerClick(marker)}
+          icon={{
+            url: houseIcon,
+            scaledSize: new window.google.maps.Size(15, 25),
+          }}
+        />
+      ))}
           {selectedMarker && (
             <InfoWindow
               position={selectedMarker.position} // Accessing the position directly from the marker object
@@ -357,30 +210,33 @@ export const Maps = ({ buildings = [], searchField = '', hubData }) => {
             </InfoWindow>
           )}
         </GoogleMap>
-    </div>
-            
-    <div className="emptyWindow">
-  {/* Display building information if buildings exist */}
-  {displayBuildings().map(building => (
-    <div key={building.id}>
-      <figure className='picture_map'>
-        <img 
-          src={building.productImages[0]?.originalUrl} 
-          alt={building.productImages[0]?.altText}
-          title={
-            building.productInformations[0]?.name||
-            (building.productImages[0]?.copyright === "Kuvio" ? "Oodi"
-            : building.productImages[0]?.copyright.includes("Copyright: Visit Finland")
-            ? building.productImages[0]?.copyright.split(":")[1].trim()
-            : building.productImages[0]?.copyright)
-          }
-        />
-      </figure>
-    </div>
-  ))}
-</div>
-
-      
+      </div>
+      <div className="emptyWindow">
+        {/* Display building information if buildings exist */}
+        {displayBuildings().map(building => (
+          <div key={building.id}>
+            <figure className='picture_map'>
+              <img 
+                src={building.productImages[0]?.originalUrl} 
+                alt={building.productImages[0]?.altText}
+                title={
+                  building.productInformations[0]?.name ||
+                  (building.productImages[0]?.copyright === "Kuvio" ? "Oodi"
+                  : building.productImages[0]?.copyright === "Didrichsen archives" ? "Didrichsenin taidemuseo" 
+                  : building.productImages[0]?.copyright.includes("Copyright: Visit Finland")
+                  ? building.productImages[0]?.copyright.split(":")[1].trim()
+                  : building.productImages[0]?.copyright)
+                }
+              />
+            </figure>
+          </div>
+        ))}
+      </div>
+  
+      {/* Logging filtered markers */}
+      {console.log("Markers rendered:", filteredMarkers)}
     </div>
   );
+
 };
+

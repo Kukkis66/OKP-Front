@@ -1,0 +1,16 @@
+{
+  "extends": [
+    "development"
+  ],
+  "hints": {
+    "compat-api/css": [
+      "default",
+      {
+        "ignore": [
+          "text-decoration-thickness",
+          "text-underline-offset"
+        ]
+      }
+    ]
+  }
+}
