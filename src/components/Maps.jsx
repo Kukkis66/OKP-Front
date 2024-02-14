@@ -197,7 +197,7 @@ export const Maps = ({ buildings = [], searchField = '', hubData }) => {
           onClick={() => handleMarkerClick(marker)}
           icon={{
             url: houseIcon,
-            scaledSize: new window.google.maps.Size(15, 25),
+            scaledSize: new window.google.maps.Size(20, 32),
           }}
         />
       ))}

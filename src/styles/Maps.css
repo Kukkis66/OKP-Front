@@ -1,28 +1,30 @@
 .mapContainer {
   background-color: var(--pink);
-  padding: 1rem;
+  padding: 3rem;
   display: flex;
   justify-content: space-between;
 }
 
 .map {
   flex: 2; /* 2/3 of the width */
-  height: 40rem;
+  height: 594px;
   margin-right: 1rem; /* Add margin between map and info window */
-  border: solid #1B1B1A 0.18rem;
+  border: solid #1b1b1a9e  0.18rem;
   border-radius: 0.5rem;
 }
 
 .emptyWindow {
-  flex: 1;
-  border: solid #1B1B1A 0.18rem;
+  /* flex: 1; */
+  border: solid #1b1b1a9e  0.18rem;
   border-radius: 0.5rem;
   padding: 2rem;
-  background-color: #efe6da;
+  background-color: #FCFAF8;;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Adjust the width of the columns as needed */
   grid-auto-rows: 185px; /* Adjust the height of the rows as needed */
   gap: 10px; /* Adjust the gap between images as needed */
+  width: 345px;
+  height: 530px;
 }
 
 .picture_map {
@@ -56,9 +58,14 @@
     object-fit: cover;
     border-radius: 0.5rem;
 }
+}
 
 @media only screen and (max-width: 425px) {
-    .map {
+  .mapContainer {
+    flex-direction: column;
+  }  
+  
+  .map {
         margin: 0.5rem;
     }
 }
@@ -71,6 +78,6 @@
 
     .map {
         height: 74rem;
-        border: solid #1B1B1A 0.22rem
+        border: solid #1b1b1a9e  0.22rem;
     }
 }

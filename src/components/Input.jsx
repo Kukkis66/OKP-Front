@@ -64,14 +64,17 @@ const handleDropdownChange = event => {
       <input
         className="inputField"
         type="text"
+        name="example" 
+        list="exampleList"
         placeholder="Kirjoita rakennuksen nimi"
         value={searchTerm}
         onChange={handleInputChange}
       />
-      <select
+      <datalist
         className="dropdownSearch"
         value={searchTerm}
         onChange={handleDropdownChange}
+        id= "exampleList"
       >
         <option key="" value=""></option>
         {buildingNames.map((building, index) => (
@@ -79,7 +82,7 @@ const handleDropdownChange = event => {
             {building.name}
           </option>
         ))}
-      </select>
+      </datalist>
     </div>
   );
 };
