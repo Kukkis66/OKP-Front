@@ -135,14 +135,14 @@
   align-items: center;
 }
 .emptyHeart {
-  height: 2.8rem;
-  width: 3.3rem;
+  height: 2.5rem;
+  width: 3rem;
   padding-block-start: 0.2rem;
 }
 
 .pinCard {
-  height: 2.8rem;
-  width: 2.3rem;
+  height: 2.5rem;
+  width: 2rem;
   padding-block-start: 1rem;
 }
 
@@ -239,9 +239,18 @@
   .h2 {
     padding-block-end: 1rem;
     min-height: 78px;
-    font-size: 1.2rem;
+    font-size: 24px;
   }
 
+  .emptyHeart {
+    height: 2rem;
+    width: 2.5rem;
+  }
+
+  .pinCard {
+    height: 2rem;
+    width: 1.8rem;
+  }
   .info {
     padding-block-end: 1rem;
     min-height: 96px;
@@ -306,8 +315,25 @@
   .h2 {
     /* padding-block-end: 1rem;
     min-height: 78px; */
-    font-size: 18px;
+    font-size: 20px;
+    line-height: 28px;
+    padding-inline-end: 2rem;
   }
+
+  /* .iconsContainer {
+    padding-block-start: 0.3rem;
+  } */
+
+  .emptyHeart {
+    height: 1.5rem;
+    width: 2.2rem;
+  }
+
+  .pinCard {
+    height: 1.8rem;
+    width: 1.5rem;
+  }
+
   .info {
     /* padding-block-end: 1rem; */
     min-height: 88px;
