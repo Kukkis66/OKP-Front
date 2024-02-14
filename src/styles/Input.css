@@ -1,5 +1,4 @@
 .inputContainer {
-
    margin: 5rem 0rem 3rem 3rem;
    display: flex;
    flex-direction: column;
@@ -17,19 +16,17 @@
     padding-bottom: 2rem;
 }
 
-
-.inputField {
+  .inputField {
     padding: 0.6rem;
-    border-radius: 0.5rem;
-    border:  0.12rem solid rgba(27, 27, 26, 0.5);
-    max-width: 31rem;
     font-family: 'Mulish', sans-serif;
     /* font-size: 1rem; */
     font-size: 18px;
+    border: solid black; 
+    border-radius: 0 5px 5px 0;
 }
 
-.button {
-    background-color: AD7851;
+button {
+    background-color: var(--brown);
     color: var(--white);
     font-family: 'Red Rose', sans-serif;
     text-transform: capitalize;
