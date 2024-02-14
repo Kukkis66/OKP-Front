@@ -55,6 +55,22 @@
     height: 100%;
     object-fit: cover;
     border-radius: 0.5rem;
-    box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.8);
-  } 
+}
+
+@media only screen and (max-width: 425px) {
+    .map {
+        margin: 0.5rem;
+    }
+}
+
+@media only screen and (min-width: 1441px) {
+    .mapContainer {
+        padding: 3rem;
+        height: 78rem;
+    }
+
+    .map {
+        height: 74rem;
+        border: solid #1B1B1A 0.22rem
+    }
 }

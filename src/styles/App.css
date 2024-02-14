@@ -12,17 +12,16 @@ html {
 }
 
 body {
-    background-color: #EEE6DA;
+    background-color: var(--beige);
     color: var(--black);
     
      
 }
 
-button {
+.button {
     background-color: var(--brown);
     color: var(--white);
     font-family: 'Red rose', sans-serif;
-    font-size: 1rem;
     border-radius: 0.5rem;
     padding: 0.5rem;
     margin-left: 1rem;

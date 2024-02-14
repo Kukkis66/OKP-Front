@@ -10,28 +10,28 @@ export const Header = ({handleLoginForm}) => {
         
         <header className='header'>
             <div className='top-section'>
-            <div className='language'>
-            <a  href="">ENGLISH</a>
-            <figure className='silhouet'>
-                <img src={silhouet} alt="silhuetti" />
-            </figure>
-            </div>{isLoggedIn ? (
-                <div className='login'>
-                <a >NIMI</a>
-        <a href='#' onClick={logout}>KIRJAUDU ULOS</a>
-        <figure>
-            <img className='arrow' src={arrowOut} alt="logout" />
-        </figure>
-        
-        </div>
-      ) : (
-        <a className='login' href='#' onClick={handleLoginForm}>KIRJAUDU SISÄÄN
-            <figure>
-                <img src={arrow} alt="login" />
-            </figure>
-        </a>
-      )}
-            
+                <div className='language'>
+                    <a className='language-grid-item' href="">ENGLISH</a>
+                   
+                </div>
+                <figure className='silhouet'>
+                        <img src={silhouet} alt="silhuetti" />
+                </figure>
+            {isLoggedIn ? (
+                <div className='login header-grid-item'>
+                    <a >NIMI</a>
+                    <a href='#' onClick={logout}>KIRJAUDU ULOS</a>
+                    <figure>
+                        <img className='arrow' src={arrowOut} alt="logout" />
+                    </figure>
+                </div>
+             ) : (
+                    <a className='login header-grid-item' href='#' onClick={handleLoginForm}>KIRJAUDU SISÄÄN
+                        <figure>
+                            <img className='arrow' src={arrow} alt="login" />
+                        </figure>
+                    </a>
+            )}
             </div>
             <div className='bottom-section'><h1>Löydä tietoa rakennuksista, tallenna suosikkejasi, rakenna reittejä</h1></div>
         </header>
