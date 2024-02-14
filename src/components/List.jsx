@@ -99,16 +99,13 @@ export const List = ({hubData}) => {
         <img onClick={() => handleWards()} src="" alt="arrow-up" />
         </div>
     )}
-    
         </div>
         <div className='cardContainer'>
         <ul >
         {displayedItems?.map((building) => (
         <li className="card" key={building.id}>
-            <h2 className='h2'>{building.productInformations[0]?.name}</h2>
-            
-            <div className='info'>
-            
+            <h2 className='h2'>{getBuildingName(building)}</h2> 
+            <div className='info'>    
             <p className='p'>Osoite: {building.postalAddresses[0]?.streetName}</p>
             <p className='p'>Kaupunki: {building.postalAddresses[0]?.city}</p>
             <p className='p'>Postinumero: {building.postalAddresses[0]?.postalCode}</p>
@@ -116,12 +113,9 @@ export const List = ({hubData}) => {
             <figure className='picture_url'>
                 <img src={building.productImages[0]?.thumbnailUrl} alt={building.productImages[0]?.altText} />
             </figure>
-            
-
             <a className='zoom' onClick={() => handleReadMore(building)}>
               LUE LISÄÄ
-            </a>
-            
+            </a>  
         </li>
         
         ))}
@@ -141,17 +135,11 @@ export const List = ({hubData}) => {
                 {pageNumber}
                 </span>
             ))}
-        </div>
-
-
-        
-            
+        </div>            
             <a onClick={() => handlePageChange(currentPage + 1)}><img src={arrowRight} alt="arrowRight" /></a>
         </div>
-        
 
     </div>
-
 );
 }
 
