@@ -55,12 +55,19 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
+DotNetEnv.Env.Load();
+string? db_password = Environment.GetEnvironmentVariable("db_password");
+
+string? connectionString = builder.Configuration.GetConnectionString("OKPConnectionString");
+connectionString = connectionString.Replace("{DatabasePassword}", db_password ?? "");
+
+
 builder.Services.AddCors(x => x.AddPolicy("corspolicy", build =>
 {
     build.WithOrigins("*").AllowAnyMethod().AllowAnyHeader();
 }));
 
-builder.Services.AddDbContext<OKPDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("OKPConnectionString")));
+builder.Services.AddDbContext<OKPDbContext>(options => options.UseSqlServer(connectionString));
 
 builder.Services.AddAutoMapper(typeof(AutoMapperProfiles));
 

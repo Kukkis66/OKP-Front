@@ -12,7 +12,7 @@ using OKPBackend.Data;
 namespace OKPBackend.Migrations
 {
     [DbContext(typeof(OKPDbContext))]
-    [Migration("20240131220725_InitialCreate")]
+    [Migration("20240212225659_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
