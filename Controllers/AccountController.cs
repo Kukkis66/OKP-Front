@@ -68,7 +68,7 @@ namespace OKPBackend.Controllers
                 }
             }
 
-            return BadRequest("Something went wrong.");
+            return BadRequest("Password or email is incorrect.");
         }
 
         [HttpPost("Register")]
@@ -207,7 +207,7 @@ namespace OKPBackend.Controllers
             {
                 if (await SendForgotUsernameOrPasswordEmail(user))
                 {
-                    return Ok(new JsonResult(new { title = "Forgot username or password email sent", message = "Please check your email" }));
+                    return Ok(new JsonResult(new { title = "Forgot password email sent", message = "Please check your email" }));
                 }
 
                 return BadRequest("Failed to send email.");
@@ -288,7 +288,7 @@ namespace OKPBackend.Controllers
                         "<p>Thank you</p>" +
                         $"<br>{application_name}";
 
-            var emailSend = new EmailSendDto(user.Email, "Reset username or Password", body);
+            var emailSend = new EmailSendDto(user.Email, "Reset Password", body);
 
             return await emailService.SendEmailAsync(emailSend);
         }
