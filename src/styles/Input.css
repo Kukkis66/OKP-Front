@@ -66,3 +66,18 @@
         font-size: 14px;
     }
 }
+
+@media only screen and (min-width: 1441px) {
+
+.searchInfo {
+    font-size: 4.33rem;
+    padding: 2rem;
+}
+
+.inputField {
+    margin: 2rem;
+    font-size: 34px;
+    max-width: 58rem;
+    padding: 1rem;
+}
+}

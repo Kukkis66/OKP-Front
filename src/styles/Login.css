@@ -46,7 +46,7 @@
   .inputFieldLogin {
     max-width: none;
     display: flex;
-    min-width: 20.5rem;
+    min-width: 22rem;
   }
 
  .inputsLogin {
@@ -68,7 +68,7 @@
 
  .buttonLogin {
   margin: 2rem 0 4rem;
-  width: 12rem;
+  width: 15rem;
  }
  
  .newUser {
@@ -99,14 +99,23 @@
  
 
 
+
   @media only screen and (max-width: 425px) {
 
     .popup {
-      padding: 2rem 1rem;
+      padding: 4rem 1rem;
+      flex-basis: 40rem;
+      margin: 2rem;
+    }
+
+    .close {
+      position: fixed;
+      top: 1.5rem;
+      right: 1rem;
     }
 
     .loginHeader {
-      margin: 3rem 0 3rem;
+      margin: 0 0 3rem;
       font-size: 28px;
     }
     .inputsLogin {
@@ -118,25 +127,73 @@
     }
 
     .inputFieldLogin {
-      min-width: 17rem;
+      min-width: 14rem;
   }
 
     .newUser {
       flex-direction: column;
       text-align: center;
-    }
-
-    .buttonLogin {
-      margin: 1rem 0 2rem;
-    }
-
-    .button {
-      font-size: 16px;
-      width: 12rem;
-    }
-
-    .newUser {
       font-size: 14px;
     }
 
+    .newUser span {
+      margin-block-end: 0.5rem;
+    }
+
+    .buttonLogin {
+      margin: 0 0 2rem;
+      font-size: 15px;
+      width: 11rem;
+      margin: 2rem 0 3rem;
+    }
+  }
+
+  @media only screen and (min-width: 1441px) {
+
+    .popup {
+      padding: 13rem;
+    }
+    .close {
+      top: 4rem;
+      right: 4rem;
+    }
+
+    .close img {
+      height: 3rem;
+      max-width: none;
+      max-height: none;
+    }
+
+    .loginHeader {
+      font-size: 4.33rem;
+      margin-bottom: 8rem;
+    }
+
+    .inputsLogin {
+      width: 76rem;
+    }
+
+    .inputsLogin >* {
+      font-size: 38px;
+      line-height: 22px;
+    }
+
+    .inputFieldLogin {
+      min-width: 47.5rem;
+    }
+
+    .buttonLogin {
+      font-size: 2.3rem;
+      width: 27rem;
+      margin: 3rem 0 8rem;
+    }
+
+    .newUser span {
+      font-size: 38px;
+      padding: 1rem;
+    }
+    .newUser a {
+      font-size: 2.3rem;
+      padding: 1rem;
+    }
   }
