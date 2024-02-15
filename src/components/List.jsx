@@ -2,8 +2,6 @@ import { useState } from 'react';
 import sort from '../assets/sort.png'
 import arrowDown from '../assets/arrow-down.png'
 import { Popup } from './CardPopUp.jsx'
-import { Maps } from './Maps.jsx'
-import { Input } from './Input.jsx'
 import '../styles/List.css'
 import arrowLeft from '../assets/arrowLeft.png'
 import arrowRight from '../assets/arrowRight.png'
@@ -96,7 +94,7 @@ export const List = ({hubData}) => {
     ) : (
         <div className='wards'>
         <span>Ö - A</span>
-        <img onClick={() => handleWards()} src="" alt="arrow-up" />
+        <img onClick={() => handleWards()} src={arrowDown} alt="arrow-up" style={{ transform: 'rotate(180deg)' }} />
         </div>
     )}
         </div>
