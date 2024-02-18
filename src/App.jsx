@@ -13,14 +13,16 @@ function App() {
   const [hubData, setHubData] = useState({ data: { groupedProducts: [] } });
   const [searchField, setSearchField] = useState('');
   const [loginForm, setLoginForm] = useState(false);
+  const [selectedMarker, setSelectedMarker] = useState(null);
 
   useEffect(() => {
     getAll();
     fetchData();
   }, []);
 
-  const handleSearch = value => {
-    setSearchField(value);
+  const handleSearch = (searchTerm) => {
+    // Update the search field state
+    setSearchField(searchTerm);
   };
 
   const handleLoginForm = () => {
@@ -47,16 +49,15 @@ function App() {
   };
 
   const updateMapMarker = selectedBuilding => {
-  
+    setSelectedMarker(selectedBuilding);
   };
-  
 
   return (
     <>
       <Header handleLoginForm={handleLoginForm} />
       <Input handleSearch={handleSearch} searchField={searchField} markers={hubData.data?.groupedProducts || []} updateMapMarker={updateMapMarker} />
       <Login loginForm={loginForm} handleLoginForm={handleLoginForm} />
-      <Maps searchField={searchField} handleSearch={handleSearch} buildings={hubData.data?.groupedProducts || []} hubData={hubData} />
+      <Maps searchField={searchField} buildings={hubData.data?.groupedProducts || []} hubData={hubData} selectedMarker={selectedMarker}/>
       <List hubData={hubData} searchField={searchField} />
       <Footer />
     </>
