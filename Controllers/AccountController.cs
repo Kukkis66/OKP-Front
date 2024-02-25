@@ -38,35 +38,45 @@ namespace OKPBackend.Controllers
         [Route("login")]
         public async Task<IActionResult> Login([FromBody] UserLoginDto userLoginDto)
         {
-            var user = await userManager.FindByEmailAsync(userLoginDto.Email);
-
-            if (user.EmailConfirmed == false)
+            if (ModelState.IsValid)
             {
-                return BadRequest("Please confirm your email address");
-            }
 
-            if (user != null)
-            {
-                var checkPasswordResult = await userManager.CheckPasswordAsync(user, userLoginDto.Password);
+                var user = await userManager.FindByEmailAsync(userLoginDto.Email);
 
-                if (checkPasswordResult)
+                if (user == null)
                 {
-                    var roles = await userManager.GetRolesAsync(user);
+                    return BadRequest("User was not found");
+                }
 
-                    if (roles != null)
+                if (user.EmailConfirmed == false)
+                {
+                    return BadRequest("Please confirm your email address");
+                }
+
+                if (user != null)
+                {
+                    var checkPasswordResult = await userManager.CheckPasswordAsync(user, userLoginDto.Password);
+
+                    if (checkPasswordResult)
                     {
-                        var jwtToken = usersRepository.CreateJWTToken(user, roles.ToList());
+                        var roles = await userManager.GetRolesAsync(user);
 
-                        var response = new LoginResponseDto
+                        if (roles != null)
                         {
-                            JwtToken = jwtToken
-                        };
+                            var jwtToken = usersRepository.CreateJWTToken(user, roles.ToList());
 
-                        return Ok(response);
+                            var response = new LoginResponseDto
+                            {
+                                JwtToken = jwtToken
+                            };
+
+                            return Ok(response);
+                        }
+
                     }
-
                 }
             }
+
 
             return BadRequest("Password or email is incorrect.");
         }
@@ -263,7 +273,7 @@ namespace OKPBackend.Controllers
             var token = await userManager.GenerateEmailConfirmationTokenAsync(user);
             Console.WriteLine(user.Email);
             token = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(token));
-            var url = $"{config["Jwt:Issuer"]}{confirm_email_path}?token={token}&email={user.Email}";
+            var url = $"http://localhost:5173/confirm-email?token={token}&email={user.Email}";
 
             var body = $"<p>Hello: {user.UserName}</p> + <p>Please confirm your email address by clicking on the following link.</p>" +
                         $"<p><a href=\"{url}\">Click Here</a></p>" +
@@ -285,7 +295,7 @@ namespace OKPBackend.Controllers
 
             var token = await userManager.GeneratePasswordResetTokenAsync(user);
             token = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(token));
-            var url = $"{config["Jwt:Issuer"]}{reset_password_path}?token={token}&email={user.Email}";
+            var url = $"http://localhost:5173/{reset_password_path}?token={token}&email={user.Email}";
 
             var body = $"<p>Hello: {user.UserName}</p>" + "<p>In order to reset your password, please click on the following link.</p>" +
                         $"<p><a href=\"{url}\">Click Here</a></p>" +

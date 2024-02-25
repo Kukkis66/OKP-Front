@@ -35,6 +35,23 @@ namespace OKPBackend.Controllers
             return Ok(mapper.Map<List<UserDto>>(users));
         }
 
+        [HttpDelete]
+        [Route("id")]
+        public async Task<IActionResult> Delete(string id)
+        {
+            var user = await dbContext.Users.FirstOrDefaultAsync(x => x.Id == id);
+
+            if (user == null)
+            {
+                return BadRequest("Invalid id");
+            }
+
+            dbContext.Users.Remove(user);
+            await dbContext.SaveChangesAsync();
+
+            return Ok("User was deleted");
+        }
+
 
 
     }

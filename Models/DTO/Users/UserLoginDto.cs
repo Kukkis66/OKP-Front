@@ -9,7 +9,7 @@ namespace OKPBackend.Models.DTO.Users
     public class UserLoginDto
     {
         [Required]
-        [DataType(DataType.EmailAddress)]
+        [DataType(DataType.EmailAddress, ErrorMessage = "Please provide a valid email address")]
         public string Email { get; set; }
 
         [Required]
