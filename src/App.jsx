@@ -5,6 +5,8 @@ import { Maps } from './components/Maps.jsx';
 import { List } from './components/List.jsx';
 import { Input } from './components/Input.jsx';
 import { Login } from './components/Login.jsx';
+import {Routes, Route } from "react-router-dom";
+import { ConfirmEmailPage } from './components/ConfirmEmailPage.jsx';
 import axios from 'axios';
 import './styles/App.css';
 
