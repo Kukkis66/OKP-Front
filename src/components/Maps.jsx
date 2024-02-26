@@ -66,13 +66,6 @@ export const markers = hubData => {
 
 export const Maps = ({ buildings = [], searchField, hubData}) => {
 
-  const markersData = markers(hubData);
-
-  // Filter markers to show only the selected building marker
-  const filteredMarkers = markersData.filter(marker => {
-    return searchField === '' || marker.title.toLowerCase().includes(searchField.toLowerCase());
-  });
-  
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAPS_APIKEY,
     libraries,
@@ -82,11 +75,18 @@ export const Maps = ({ buildings = [], searchField, hubData}) => {
   const [mapBounds, setMapBounds] = useState(null);
   const [selectedBuilding, setSelectedBuilding] = useState(null);
   const [selectedMarker, setSelectedMarker] = useState(null);
-
+ 
   const [showPopup, setShowPopup] = useState(false);
   const [mapCenter, setMapCenter] = useState(center); 
+  const markersData = markers(hubData);
+  const [refreshPage, setRefreshPage] = useState(false);
   const [imageIndex, setImageIndex] = useState(0); // Track current index of images
   const [numImages, setNumImages] = useState(3);
+
+    // Filter markers to show only the selected building marker
+    const filteredMarkers = markersData.filter(marker => {
+      return searchField === '' || marker.title.toLowerCase().includes(searchField.toLowerCase());
+    });
   
   const displayBuildings = () => {
     const startIndex = imageIndex * numImages;
@@ -102,13 +102,10 @@ export const Maps = ({ buildings = [], searchField, hubData}) => {
         setNumImages(3);
       }
     };
-  
     // Add event listener for window resize
     window.addEventListener('resize', handleResize);
-  
     // Initial call to set numImages based on window width
     handleResize();
-  
     // Cleanup the event listener on component unmount
     return () => {
       window.removeEventListener('resize', handleResize);
@@ -118,10 +115,18 @@ export const Maps = ({ buildings = [], searchField, hubData}) => {
   useEffect(() => {
     const timer = setInterval(() => {
       setImageIndex((imageIndex + 1) % Math.ceil(buildings.length / numImages));
-    }, 15000);
-    
+    }, 15000);  
     return () => clearInterval(timer); // Cleanup on unmount
   }, [imageIndex, buildings.length, numImages]);
+
+  useEffect(() => {
+    // Check if the selectedBuilding state changes
+    if (selectedBuilding === null && refreshPage) {
+      // Trigger page refresh when the information window is closed and refreshPage flag is set
+      window.location.reload();
+    }
+  }, [selectedBuilding, refreshPage]); // Include selectedBuilding and refreshPage in the dependency array
+  
 
   const onMapLoad = map => {
     setMap(map);
@@ -173,6 +178,7 @@ export const Maps = ({ buildings = [], searchField, hubData}) => {
   
   const selectBuilding = (building) => {
     setSelectedBuilding(building);
+    setRefreshPage(true); 
     // Find the marker corresponding to the selected building
     const marker = markersData.find(marker => getBuildingName(building) === marker.title);
     // If marker is found, update the map center and set the selected marker
@@ -185,7 +191,7 @@ export const Maps = ({ buildings = [], searchField, hubData}) => {
       setSelectedMarker(null); // No marker found, clear the selected marker
     }
 };
-  
+ 
   return (
     <div className="mapContainer">
       <div className="map">
