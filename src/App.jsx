@@ -44,6 +44,7 @@ function App() {
     try {
       const backendRes = await fetch('http://localhost:5143/api/DataHub');
       const backendData = await backendRes.json();
+      console.log(backendData);
       setHubData(backendData);
     } catch (error) {
       console.error('Error fetching data:', error);
