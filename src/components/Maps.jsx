@@ -55,16 +55,16 @@ export const markers = hubData => {
   return extractedMarkers;
 };
 
-export const Maps = ({ buildings = [], searchField = '', hubData }) => {
+export const Maps = ({ buildings = [], searchField, hubData }) => {
   const [selectedBuildingName, setSelectedBuildingName] = useState(null); 
   
   const markersData = markers(hubData);
-
   console.log("Markers data:", markersData);
+  
   
   // Filter markers to show only the selected building marker
   const filteredMarkers = markersData.filter(marker => {
-    return selectedBuildingName === null || marker.title === selectedBuildingName;
+    return searchField === '' || marker.title.toLowerCase().includes(searchField.toLowerCase());
   });
 
   console.log("Filtered markers:", filteredMarkers);
@@ -232,11 +232,6 @@ export const Maps = ({ buildings = [], searchField = '', hubData }) => {
           </div>
         ))}
       </div>
-  
-      {/* Logging filtered markers */}
-      {console.log("Markers rendered:", filteredMarkers)}
     </div>
   );
-
 };
-
