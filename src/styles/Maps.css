@@ -42,6 +42,43 @@
   box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.8);
 }
 
+.mapCardContainer {
+  position: relative; /* This makes it a reference for absolutely positioned children */
+}
+
+.mapCard {
+  padding: 3rem 3rem;
+  border: solid #1B1B1A 0.18rem;
+  border-radius: 0.5rem;
+  background-color: var(--white);
+  width: 300px;
+  height: 450px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; 
+}
+
+.closeIcon {
+  position: absolute; /* Position relative to .mapCardContainer */
+  top: 0; /* Align to the top of .mapCardContainer */
+  right: 0; /* Align to the right of .mapCardContainer */
+  cursor: pointer; /* Optional: Changes the cursor to a pointer to indicate it's clickable */
+  padding: 2rem;
+}
+.map_picture_url {
+  position: relative; /* Ensure positioning context */
+  width: 100%; /* Set width to 100% of the container */
+  height: 100%; /* Set height to 100% of the container */
+  overflow: hidden; /* Hide any overflow */
+}
+
+.map_picture_url img {
+  width: 100%; /* Make the image fill the entire width of the container */
+  height: 100%; /* Make the image fill the entire height of the container */
+  object-fit: cover; /* Ensure the image covers the entire container */
+  border-radius: 0.5rem;
+}
+
 /* Media query for screen width 1320px or more */
 @media screen and (min-width: 1320px) {
   .emptyWindow {
@@ -64,6 +101,7 @@
 }
 
 @media only screen and (min-width: 1441px) {
+
     .mapContainer {
         padding: 3rem;
         height: 78rem;
@@ -73,4 +111,5 @@
         height: 74rem;
         border: solid #1B1B1A 0.22rem
     }
+  }
 }

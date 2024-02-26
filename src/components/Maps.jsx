@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { GoogleMap, useLoadScript, Marker, InfoWindow } from '@react-google-maps/api';
-import { List } from './List';
-import { Input } from './Input'; // Import Input component
+import { GoogleMap, useLoadScript, Marker} from '@react-google-maps/api';
 import '../styles/Maps.css';
 import houseIcon from '../assets/house.png';
+import { Popup } from './CardPopUp.jsx'; // Import Popup component
+import closeIcon from '../assets/close.png'; // Adjust the path as necessary
 
 const mapContainerStyle = {
   width: '100%',
@@ -17,18 +17,27 @@ const center = {
 
 const libraries = ['places'];
 
+export const getBuildingName = (building) => {
+  const name =
+    building.productInformations[0]?.name ||
+    (building.productImages[0]?.copyright === "Kuvio"
+      ? "Oodi"
+      : building.productImages[0]?.copyright === "Didrichsen archives"
+      ? "Didrichsenin taidemuseo"
+      : building.productImages[0]?.copyright.includes(
+          "Copyright: Visit Finland"
+        )
+      ? building.productImages[0]?.copyright.split(":")[1].trim()
+      : building.productImages[0]?.copyright);
+
+  return name;
+};
+
 export const markers = hubData => {
   const extractedMarkers = hubData.data?.groupedProducts?.map((building, index) => {
     const location = building.postalAddresses[0]?.location;
-    const name =
-      building.productInformations[0]?.name ||
-      (building.productImages[0]?.copyright === "Kuvio" ? "Oodi"
-      : building.productImages[0]?.copyright === "Didrichsen archives" ? "Didrichsenin taidemuseo" 
-      : building.productImages[0]?.copyright.includes("Copyright: Visit Finland") ? building.productImages[0]?.copyright.split(":")[1].trim()
-      : building.productImages[0]?.copyright);
-      
-
-   
+    const name =getBuildingName(building);
+       
     // Check if location is defined and has valid latitude and longitude
     if (location && location.includes(',')) {
       const [lat, lng] = location.substring(1, location.length - 1).split(',');
@@ -55,20 +64,15 @@ export const markers = hubData => {
   return extractedMarkers;
 };
 
-export const Maps = ({ buildings = [], searchField, hubData }) => {
-  const [selectedBuildingName, setSelectedBuildingName] = useState(null); 
-  
+export const Maps = ({ buildings = [], searchField, hubData}) => {
+
   const markersData = markers(hubData);
-  console.log("Markers data:", markersData);
-  
-  
+
   // Filter markers to show only the selected building marker
   const filteredMarkers = markersData.filter(marker => {
     return searchField === '' || marker.title.toLowerCase().includes(searchField.toLowerCase());
   });
-
-  console.log("Filtered markers:", filteredMarkers);
-
+  
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAPS_APIKEY,
     libraries,
@@ -76,11 +80,20 @@ export const Maps = ({ buildings = [], searchField, hubData }) => {
 
   const [map, setMap] = useState(null);
   const [mapBounds, setMapBounds] = useState(null);
-  const [googleMarkers, setGoogleMarkers] = useState([]);
+  const [selectedBuilding, setSelectedBuilding] = useState(null);
   const [selectedMarker, setSelectedMarker] = useState(null);
+
+  const [showPopup, setShowPopup] = useState(false);
+  const [mapCenter, setMapCenter] = useState(center); 
   const [imageIndex, setImageIndex] = useState(0); // Track current index of images
   const [numImages, setNumImages] = useState(3);
   
+  const displayBuildings = () => {
+    const startIndex = imageIndex * numImages;
+    const endIndex = startIndex + numImages;
+    return buildings.slice(startIndex, endIndex);
+  }; 
+
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth >= 1320) {
@@ -117,15 +130,6 @@ export const Maps = ({ buildings = [], searchField, hubData }) => {
     });
   };
 
-  const handleMarkerClick = (marker) => {
-    console.log("Marker clicked:", marker);
-    setSelectedMarker(marker);
-  };
-
-  const handleCloseInfoWindow = () => {
-    setSelectedMarker(null);
-  };
-
   if (loadError) {
     return <div>Error loading maps</div>;
   }
@@ -134,7 +138,7 @@ export const Maps = ({ buildings = [], searchField, hubData }) => {
     return <div>Loading maps</div>;
   }
 
-  const mapOptions = {
+  const mapOptions =  {
     styles: [
       {
         featureType: "all",
@@ -167,71 +171,91 @@ export const Maps = ({ buildings = [], searchField, hubData }) => {
     ],
   };
   
-  // Function to slice the buildings array and display images based on numImages
-  const displayBuildings = () => {
-    const startIndex = imageIndex * numImages;
-    const endIndex = startIndex + numImages;
-    return buildings.slice(startIndex, endIndex);
-  };
-
-  const handleDropdownChange = event => {
-    const value = event.target.value;
-    setSelectedBuildingName(value);
-  };
-
+  const selectBuilding = (building) => {
+    setSelectedBuilding(building);
+    // Find the marker corresponding to the selected building
+    const marker = markersData.find(marker => getBuildingName(building) === marker.title);
+    // If marker is found, update the map center and set the selected marker
+    if (marker) {
+      console.log('Marker position:', marker.position); 
+      setMapCenter(marker.position);
+      console.log('Map center updated to:', marker.position); 
+      setSelectedMarker(marker); // Update the selected marker
+    } else {
+      setSelectedMarker(null); // No marker found, clear the selected marker
+    }
+};
+  
   return (
     <div className="mapContainer">
       <div className="map">
         <GoogleMap
           mapContainerStyle={mapContainerStyle}
           zoom={13.6}
-          center={center}
+          center={mapCenter}
           options={mapOptions}
           onLoad={onMapLoad}
         >
-      {filteredMarkers.map((marker, index) => (
-        <Marker
-          key={index}
-          position={marker.position}
-          title={marker.title}
-          onClick={() => handleMarkerClick(marker)}
-          icon={{
-            url: houseIcon,
-            scaledSize: new window.google.maps.Size(20, 32),
-          }}
-        />
-      ))}
-          {selectedMarker && (
-            <InfoWindow
-              position={selectedMarker.position} // Accessing the position directly from the marker object
-              onCloseClick={handleCloseInfoWindow}
-            >
-              <div className="infoWindow">{selectedMarker.title}</div>
-            </InfoWindow>
-          )}
+          {filteredMarkers.map((marker, index) => {
+             // If a selectedMarker exists, only render the selectedMarker.
+            // Otherwise, render all markers as per the existing logic.
+          if (!selectedMarker || marker.title === selectedMarker.title) {
+          return (
+            <Marker
+              key={index}
+              position={marker.position}
+              title={marker.title}
+              icon={{
+                url: houseIcon,
+                scaledSize: new window.google.maps.Size(20, 32),
+              }}
+              onClick={() => {
+                const clickedBuilding = buildings.find(building => getBuildingName(building) === marker.title);
+                setSelectedBuilding(clickedBuilding);
+              }}
+              />
+            );
+            }
+            return null; // Don't render other markers if a specific one is selected
+          })}
         </GoogleMap>
       </div>
       <div className="emptyWindow">
-        {/* Display building information if buildings exist */}
-        {displayBuildings().map(building => (
-          <div key={building.id}>
-            <figure className='picture_map'>
-              <img 
-                src={building.productImages[0]?.originalUrl} 
-                alt={building.productImages[0]?.altText}
-                title={
-                  building.productInformations[0]?.name ||
-                  (building.productImages[0]?.copyright === "Kuvio" ? "Oodi"
-                  : building.productImages[0]?.copyright === "Didrichsen archives" ? "Didrichsenin taidemuseo" 
-                  : building.productImages[0]?.copyright.includes("Copyright: Visit Finland")
-                  ? building.productImages[0]?.copyright.split(":")[1].trim()
-                  : building.productImages[0]?.copyright)
-                }
-              />
-            </figure>
+        {selectedBuilding ? (
+          <div className='mapCardContainer'>
+            <img src={closeIcon} alt="Close" className="closeIcon" onClick={() => setSelectedBuilding(null)} />
+            <ul>
+              <li className="mapCard" key={selectedBuilding.id}>
+                <h2 className='h2'>{getBuildingName(selectedBuilding)}</h2>
+                <figure className='map_picture_url'>
+                  <img src={selectedBuilding.productImages[0]?.thumbnailUrl} alt={selectedBuilding.productImages[0]?.altText} />
+                </figure>
+                <div className='info'>
+                  <p className='p'>Osoite: {selectedBuilding.postalAddresses[0]?.streetName}</p>
+                  <p className='p'>Kaupunki: {selectedBuilding.postalAddresses[0]?.city}</p>
+                  <p className='p'>Postinumero: {selectedBuilding.postalAddresses[0]?.postalCode}</p>
+                </div>
+                <a className='zoom' onClick={() => setShowPopup(true)}> {/* Show popup on click */}
+                  LUE LISÄÄ
+                </a>
+              </li>
+            </ul>
+            {showPopup && <Popup building={selectedBuilding} onClose={() => setShowPopup(false)} />} {/* Conditionally render popup */}
           </div>
-        ))}
+        ) : (
+          displayBuildings().map(building => (
+            <div key={building.id} className="building-image-container">
+              <figure className='picture_map' onClick={() => selectBuilding(building)}>  
+              <img
+              src={building.productImages[0]?.originalUrl}
+              alt={building.productImages[0]?.altText}
+              title={getBuildingName(building)}
+              />
+              </figure>
+            </div>
+          ))
+        )}
       </div>
     </div>
-  );
+  );  
 };
