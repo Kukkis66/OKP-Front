@@ -56,14 +56,17 @@ export const Input = ({ handleSearch, updateMapMarker, updateMapCenter, hubData 
       <input
         className="inputField"
         type="text"
+        name="example" 
+        list="exampleList"
         placeholder="Kirjoita rakennuksen nimi"
         value={searchTerm}
         onChange={handleInputChange}
       />
-      <select
+      <datalist
         className="dropdownSearch"
         value={searchTerm}
         onChange={handleDropdownChange}
+        id= "exampleList"
       >
         <option key="" value=""></option>
         {buildingNames.map((building, index) => (
@@ -71,7 +74,7 @@ export const Input = ({ handleSearch, updateMapMarker, updateMapCenter, hubData 
             {building.name}
           </option>
         ))}
-      </select>
+      </datalist>
     </div>
   );
 };
