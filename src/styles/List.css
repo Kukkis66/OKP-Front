@@ -103,15 +103,47 @@
     gap: 2rem;    
 }
 
+.card {
+  padding: 2rem;
+  border: solid #1b1b1a9e 0.18rem;
+  border-radius: 0.5rem;
+  background-color: var(--white);
+  width: 345px;
+  height: 530px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; 
+}
+
+.headingContainer{
+  display: flex;
+}
+
 .h2 {
-  font-size: 1.4rem;
+  font-size: 1.8rem;
   font-family: 'Red Hat Display', sans-serif;
   text-transform: uppercase;
   font-weight: 700;
-  line-height: 30px;
+  line-height: 37px;
   flex-grow: 2;
   width: 75%;
   height: 6rem;
+}
+.iconsContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.emptyHeart {
+  height: 2.5rem;
+  width: 3rem;
+  padding-block-start: 0.2rem;
+}
+
+.pinCard {
+  height: 2.5rem;
+  width: 2rem;
+  padding-block-start: 1rem;
 }
 
 .info {
@@ -125,7 +157,7 @@
 
 .p {
     font-family: 'Mulish', sans-serif;
-    font-size: 1.1rem;
+    font-size: 1.3rem;
     line-height: 34px;
 }
 
@@ -138,18 +170,6 @@
     text-underline-offset: 2px;
     cursor: pointer;
     padding-top: 1rem;
-}
-
-.card {
-  padding: 2rem;
-  border: solid #1B1B1A 0.18rem;
-  border-radius: 0.5rem;
-  background-color: var(--white);
-  width: 300px;
-  height: 450px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between; 
 }
 
 .picture_url {
@@ -219,9 +239,18 @@
   .h2 {
     padding-block-end: 1rem;
     min-height: 78px;
-    font-size: 1.2rem;
+    font-size: 24px;
   }
 
+  .emptyHeart {
+    height: 2rem;
+    width: 2.5rem;
+  }
+
+  .pinCard {
+    height: 2rem;
+    width: 1.8rem;
+  }
   .info {
     padding-block-end: 1rem;
     min-height: 96px;
@@ -286,8 +315,25 @@
   .h2 {
     /* padding-block-end: 1rem;
     min-height: 78px; */
-    font-size: 18px;
+    font-size: 20px;
+    line-height: 28px;
+    padding-inline-end: 2rem;
   }
+
+  /* .iconsContainer {
+    padding-block-start: 0.3rem;
+  } */
+
+  .emptyHeart {
+    height: 1.5rem;
+    width: 2.2rem;
+  }
+
+  .pinCard {
+    height: 1.8rem;
+    width: 1.5rem;
+  }
+
   .info {
     /* padding-block-end: 1rem; */
     min-height: 88px;
