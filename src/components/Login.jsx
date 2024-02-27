@@ -7,7 +7,7 @@ import { Notification } from './Notification.jsx';
 
 export const Login = ({loginForm, handleLoginForm}) => {
     const [newUser, setNewUser] = useState(false)
-    const { login, loginUser, error } = useAuth();
+    const { login, loginUser, error, registerUser } = useAuth();
     const [ email, setEmail ] = useState("");
 
 
@@ -28,27 +28,41 @@ export const Login = ({loginForm, handleLoginForm}) => {
                 <div className='loginContainer'>
                   <h2 className='loginHeader'>UUSI KÄYTTÄJÄ</h2>
                   <div className='LoginInputFieldsContainer'>
-                    <div className='inputs inputsLogin'>
-                      <p>Käyttäjätunnus:</p>
+                    <form onSubmit={registerUser}>
+                      <div className='inputs inputsLogin'>
+                        <p>Sähköposti</p>
+                        <input
+                        className="inputField inputFieldLogin"
+                        type="text"
+                        placeholder="nimi"
+                        name="email"/>
+                      </div>
+                      <div className='inputs inputsLogin'>
+                        <p>Käyttäjätunnus:</p>
+                        <input
+                        className="inputField inputFieldLogin"
+                        type="text"
+                        placeholder="nimi"
+                        name="username"/>
+                      </div>
+                      <div className='inputs inputsLogin'>
+                        <p>Salasana:</p>
+                        <input
+                        className="inputField inputFieldLogin"
+                        type="text"
+                        placeholder="salasana"
+                        name="password"/>
+                      </div>
+                      <div className='inputs inputsLogin'>
+                      <p>Vahvista salasana:</p>
                       <input
                       className="inputField inputFieldLogin"
                       type="text"
-                      placeholder="nimi"/>
-                    </div>
-                    <div className='inputs inputsLogin'>
-                      <p>Salasana:</p>
-                      <input
-                      className="inputField inputFieldLogin"
-                      type="text"
-                      placeholder="salasana"/>
-                    </div>
-                    <div className='inputs inputsLogin'>
-                    <p>Vahvista salasana:</p>
-                    <input
-                    className="inputField inputFieldLogin"
-                    type="text"
-                    placeholder="vahvista salasana"/>
-                    </div>
+                      placeholder="vahvista salasana"
+                      name="confirmPassword"/>
+                      </div>
+                      <input type="submit" value="submitForm" />
+                    </form>
                   </div>
                     <div className='loginCenter'>
                       <button className='button buttonLogin'>LUO KÄYTTÄJÄTILI</button>

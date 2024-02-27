@@ -45,6 +45,26 @@ export const AuthProvider = ({ children }) => {
     
   };
 
+  const registerUser = async (e) => {
+    e.preventDefault();
+    let response = await fetch('http://localhost:5143/api/Account/register', {
+      method:'POST',
+      headers: {
+        'Content-Type':'application/json'
+      },
+      body:JSON.stringify({'email':e.target.email.value, 'username':e.target.username.value, 'password':e.target.password.value, 'confirmPassword': e.target.confirmPassword.value, 'roles': ["Reader"]})
+    });
+    
+    if (response.status == 200) {
+      let data = await response.json()
+      console.log(data);
+      console.log(data.value);
+    } else {
+      let error = await response.text();
+      console.log(error);
+    }
+  };
+
   // const loginUser = (e) => {
   //   let loginObject = {"email": e.target.email.value, "password": e.target.password.value};
 
@@ -57,7 +77,7 @@ export const AuthProvider = ({ children }) => {
   // };
 
   return (
-    <AuthContext.Provider value={{ isLoggedIn, login, logout, loginUser, error}}>
+    <AuthContext.Provider value={{ isLoggedIn, login, logout, loginUser, error, registerUser}}>
       {children}
     </AuthContext.Provider>
   );
