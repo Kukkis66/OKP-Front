@@ -2,11 +2,13 @@ import { useState } from 'react';
 import close from '../assets/close.png'
 import { useAuth } from '../context/AuthContext.jsx';
 import '../styles/Login.css'
+import { Notification } from './Notification.jsx';
 
 
 export const Login = ({loginForm, handleLoginForm}) => {
     const [newUser, setNewUser] = useState(false)
-    const { login, loginUser } = useAuth();
+    const { login, loginUser, error } = useAuth();
+    const [ email, setEmail ] = useState("");
 
 
 
@@ -71,6 +73,8 @@ export const Login = ({loginForm, handleLoginForm}) => {
                       type="text"
                       placeholder="nimi"
                       name="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
                       />
                     </div>
                     <div className='inputs inputsLogin'>
@@ -82,6 +86,7 @@ export const Login = ({loginForm, handleLoginForm}) => {
                       name="password"
                       />
                     </div>
+                    <Notification message={error} />
                   </div>
                   <div className='loginCenter'>
                     <button className='button buttonLogin' onClick={() => { login(); handleLoginForm(); }}>KIRJAUDU SISÄÄN</button>
@@ -90,7 +95,7 @@ export const Login = ({loginForm, handleLoginForm}) => {
                     <span>Oletko uusi käyttäjä?</span>
                     <a href='#' onClick={handleNewUser}>LUO KÄYTTÄJÄTILI</a>
                   </div>
-                  <input type="submit"/>
+                  <input disabled={!email} type="submit"/>
                 </form>
                 </div>)}
               </div>

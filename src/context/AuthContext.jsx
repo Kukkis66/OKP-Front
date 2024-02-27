@@ -7,6 +7,7 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [isLoggedIn, setLoggedIn] = useState(false);
   const [authToken, setAuthToken] = useState(null);
+  const [error, setError] = useState(null);
 
   const login = () => {
     // Implement your login logic here
@@ -35,7 +36,11 @@ export const AuthProvider = ({ children }) => {
       console.log(data.jwtToken);
     } else {
       let errormessage = await response.text();
+      setError(errormessage);
       console.log(errormessage);
+      setTimeout(() => {
+        setError(null)
+      }, 3000);
     }
     
   };
@@ -52,7 +57,7 @@ export const AuthProvider = ({ children }) => {
   // };
 
   return (
-    <AuthContext.Provider value={{ isLoggedIn, login, logout, loginUser}}>
+    <AuthContext.Provider value={{ isLoggedIn, login, logout, loginUser, error}}>
       {children}
     </AuthContext.Provider>
   );

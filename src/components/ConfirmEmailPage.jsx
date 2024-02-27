@@ -1,14 +1,24 @@
 import '../styles/ConfirmEmailPage.css';
-import { ErrorMessage } from './ErrorMessage';
-import { useState } from 'react';
+import { ConfirmEmailError } from './ConfirmEmailError';
+import { useState, useEffect } from 'react';
 
 export const ConfirmEmailPage = () => {
 
     const [errorMessage, setErrorMessage] = useState(null);
+    const [showPopup, setShowPopUp] = useState(true);
 
     const navigateToNewPage = () => {
         window.location.href = '/';
       };
+
+    //   useEffect(() => {
+    //     if (showPopup) {
+    //         const timer = setTimeout(() => {
+    //             setShowPopUp(false);
+    //         }, 3000); // Adjust the duration as needed
+    //         return () => clearTimeout(timer);
+    //     }
+    // }, [showPopup]);
 
 
     const confirmEmail = async (e) => {
@@ -25,27 +35,40 @@ export const ConfirmEmailPage = () => {
           },
           body:JSON.stringify({ token, email })
         });
+
         if (response.status === 200)
         {
           let data = await response.json()
           console.log(data);
-          navigateToNewPage();
+          setShowPopUp(true); // Show the pop-up first
+          setTimeout(() => {
+            navigateToNewPage(); // Then navigate to new page after 3 seconds
+          }, 3000);
         } else {
-          let x = await response.json();
-          console.log(x);
-          setErrorMessage(x);
+          let errorMessageText = await response.text();
+          setErrorMessage(errorMessageText); 
           
         }
     }    
     
     return (
-        <div className='upper-container'>
-            <div className="container-55">
-                <button className='hello' onClick={confirmEmail}>click here to confirm your email</button>
-                <ErrorMessage message={errorMessage} />
+      <div className='cofirm-email-upper-container'>
+
+        <div className='cofirm-email-middle-container'>
+            {showPopup && <div className="popup1">
+              <h2>Success!</h2>
+              <div className='popup1-message'>
+                <h1>You have confirmed your email successfully!</h1>
+                <p>You will be redirected to the homepage.</p>
+              </div>
+            </div>}
+            <div className="cofirm-email-lower-container">
+                <button className='confirm-email-btn' onClick={confirmEmail}>click here to confirm your email</button>
+                <ConfirmEmailError message={errorMessage} />
             </div>
         </div>
             
+      </div>
 
     );
 }
