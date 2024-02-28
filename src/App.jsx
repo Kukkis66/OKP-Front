@@ -14,7 +14,7 @@ function App() {
   const [searchField, setSearchField] = useState('');
   const [loginForm, setLoginForm] = useState(false);
   const [selectedMarker, setSelectedMarker] = useState(null);
-  const [mapCenter, setMapCenter] = useState({ lat: 60.1699, lng: 24.9384 });
+  const [mapCenter, setMapCenter] = useState(null);
 
   useEffect(() => {
     getAll();
@@ -54,6 +54,7 @@ function App() {
   };
 
   const updateMapCenter = (coordinates) => {
+    console.log('Updating map center to:', coordinates);
     setMapCenter(coordinates);
   };
 

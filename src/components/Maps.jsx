@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { GoogleMap, useLoadScript, Marker} from '@react-google-maps/api';
 import '../styles/Maps.css';
 import houseIcon from '../assets/house.png';
+import emptyHeart from '../assets/emptyHeart.png';
 import { Popup } from './CardPopUp.jsx'; // Import Popup component
 import closeIcon from '../assets/close.png'; // Adjust the path as necessary
 
@@ -11,8 +12,8 @@ const mapContainerStyle = {
 };
 
 const center = {
-  lat: 60.1699,
-  lng: 24.9384,
+  lat: 60.23222,
+  lng: 24.86209,
 };
 
 const libraries = ['places'];
@@ -75,7 +76,6 @@ export const Maps = ({ buildings = [], searchField, hubData}) => {
   const [mapBounds, setMapBounds] = useState(null);
   const [selectedBuilding, setSelectedBuilding] = useState(null);
   const [selectedMarker, setSelectedMarker] = useState(null);
- 
   const [showPopup, setShowPopup] = useState(false);
   const [mapCenter, setMapCenter] = useState(center); 
   const markersData = markers(hubData);
@@ -126,22 +126,23 @@ export const Maps = ({ buildings = [], searchField, hubData}) => {
       window.location.reload();
     }
   }, [selectedBuilding, refreshPage]); // Include selectedBuilding and refreshPage in the dependency array
-  
 
+  useEffect(() => {
+    if (selectedMarker) {
+      setMapCenter(selectedMarker.position);
+    }
+  }, [selectedMarker]);
+  
   const onMapLoad = map => {
     setMap(map);
     window.google.maps.event.addListener(map, 'bounds_changed', () => {
       setMapBounds(map.getBounds());
     });
+    
   };
 
-  if (loadError) {
-    return <div>Error loading maps</div>;
-  }
-
-  if (!isLoaded) {
-    return <div>Loading maps</div>;
-  }
+  if (loadError) return <div>Error loading maps</div>;
+  if (!isLoaded) return <div>Loading maps</div>;
 
   const mapOptions =  {
     styles: [
@@ -184,8 +185,8 @@ export const Maps = ({ buildings = [], searchField, hubData}) => {
     // If marker is found, update the map center and set the selected marker
     if (marker) {
       console.log('Marker position:', marker.position); 
+      console.log('Map center updated to:', marker.position);
       setMapCenter(marker.position);
-      console.log('Map center updated to:', marker.position); 
       setSelectedMarker(marker); // Update the selected marker
     } else {
       setSelectedMarker(null); // No marker found, clear the selected marker
@@ -197,7 +198,7 @@ export const Maps = ({ buildings = [], searchField, hubData}) => {
       <div className="map">
         <GoogleMap
           mapContainerStyle={mapContainerStyle}
-          zoom={13.6}
+          zoom={10.8}
           center={mapCenter}
           options={mapOptions}
           onLoad={onMapLoad}
@@ -228,11 +229,14 @@ export const Maps = ({ buildings = [], searchField, hubData}) => {
       </div>
       <div className="emptyWindow">
         {selectedBuilding ? (
-          <div className='mapCardContainer'>
-            <img src={closeIcon} alt="Close" className="closeIcon" onClick={() => setSelectedBuilding(null)} />
+          <div className='mapCardContainer'>  
             <ul>
               <li className="mapCard" key={selectedBuilding.id}>
-                <h2 className='h2'>{getBuildingName(selectedBuilding)}</h2>
+                <h2 className='h2_map'>{getBuildingName(selectedBuilding)}</h2>
+                <div className="mapIconsContainer">
+                  <img src={closeIcon} alt="Close" className="closeIcon" onClick={() => setSelectedBuilding(null)} />
+                  <img className="emptyHeart_map" src={emptyHeart} alt="empty-heart" />
+                </div>
                 <figure className='map_picture_url'>
                   <img src={selectedBuilding.productImages[0]?.thumbnailUrl} alt={selectedBuilding.productImages[0]?.altText} />
                 </figure>

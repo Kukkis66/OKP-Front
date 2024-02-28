@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import '../styles/Input.css';
-import { getBuildingName, markers } from './Maps.jsx'; // Import the markers function
+import { getBuildingName, markers } from './Maps.jsx'; // Импорт функции markers
 
 export const Input = ({ handleSearch, updateMapMarker, updateMapCenter, hubData }) => {
   const [buildingNames, setBuildingNames] = useState([]);
@@ -39,11 +39,11 @@ export const Input = ({ handleSearch, updateMapMarker, updateMapCenter, hubData 
     setSelectedBuilding(selected);
     handleSearch(value);
 
-    // Call updateMapCenter with the coordinates of the selected building
+    // Вызываем updateMapCenter с координатами выбранного здания
     if (selected) {
       const marker = markers(hubData).find(marker => getBuildingName(selected.building) === marker.title);
       if (marker) {
-        console.log('Marker position:', marker.position); 
+        console.log('Позиция маркера:', marker.position); 
         updateMapCenter(marker.position);
       }
     }

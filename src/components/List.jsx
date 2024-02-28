@@ -7,6 +7,7 @@ import arrowLeft from '../assets/arrowLeft.png';
 import arrowRight from '../assets/arrowRight.png';
 import emptyHeart from '../assets/emptyHeart.png';
 import pin from '../assets/pin.png';
+import { getBuildingName } from './Maps.jsx'; // Import getBuildingName function
 
 export const List = ({ hubData }) => {
     const [currentPage, setCurrentPage] = useState(1);
@@ -41,17 +42,6 @@ export const List = ({ hubData }) => {
     };
 
     const [startIndex, endIndex] = getPageRange();
-
-    const getBuildingName = (building) => {
-        return (
-            building.productInformations[0]?.name ||
-            (building.productImages[0]?.copyright === "Kuvio" ? "Oodi" :
-            building.productImages[0]?.copyright === "Didrichsen archives" ? "Didrichsenin taidemuseo" :
-            building.productImages[0]?.copyright.includes("Copyright: Visit Finland")
-                ? building.productImages[0]?.copyright.split(":")[1].trim()
-                : building.productImages[0]?.copyright)
-        );
-    };
 
     const sortedItems = isBackwards
         ? hubData.data?.groupedProducts?.sort((a, b) => {
@@ -119,7 +109,7 @@ export const List = ({ hubData }) => {
                     {displayedItems?.map((building) => (
                         <li className="card" key={building.id}>
                             <div className="headingContainer">
-                            <h2 className='h2'>{getBuildingName(building)}</h2> 
+                                <h2 className='h2'>{getBuildingName(building)}</h2> {/* Use getBuildingName from Maps.jsx */}
                                 <div className="iconsContainer">
                                     <img className="emptyHeart" src={emptyHeart} alt="empty-heart" />
                                     <img className="pinCard" src={pin} alt="pin" />
