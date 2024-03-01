@@ -14,6 +14,7 @@ function App() {
   const [searchField, setSearchField] = useState('');
   const [loginForm, setLoginForm] = useState(false);
   const [selectedMarker, setSelectedMarker] = useState(null);
+  const [mapCenter, setMapCenter] = useState(null);
 
   useEffect(() => {
     getAll();
@@ -48,16 +49,22 @@ function App() {
     }
   };
 
-  const updateMapMarker = selectedBuilding => {
+  const updateMapMarker = (selectedBuilding) => {
     setSelectedMarker(selectedBuilding);
   };
+
+  const updateMapCenter = (coordinates) => {
+    console.log('Updating map center to:', coordinates);
+    setMapCenter(coordinates);
+  };
+
 
   return (
     <>
       <Header handleLoginForm={handleLoginForm} />
-      <Input handleSearch={handleSearch} searchField={searchField} markers={hubData.data?.groupedProducts || []} updateMapMarker={updateMapMarker} />
+      <Input handleSearch={handleSearch} searchField={searchField} markers={hubData.data?.groupedProducts || []} hubData={hubData} updateMapMarker={updateMapMarker} updateMapCenter={updateMapCenter} />
       <Login loginForm={loginForm} handleLoginForm={handleLoginForm} />
-      <Maps searchField={searchField} buildings={hubData.data?.groupedProducts || []} hubData={hubData} selectedMarker={selectedMarker}/>
+      <Maps searchField={searchField} buildings={hubData.data?.groupedProducts || []} hubData={hubData} selectedMarker={selectedMarker} updateMapMarker={updateMapMarker} updateMapCenter={updateMapCenter} mapCenter={mapCenter}/>
       <List hubData={hubData} searchField={searchField} />
       <Footer />
     </>
