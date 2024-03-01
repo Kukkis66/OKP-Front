@@ -64,7 +64,7 @@ function App() {
       <Header handleLoginForm={handleLoginForm} />
       <Input handleSearch={handleSearch} searchField={searchField} markers={hubData.data?.groupedProducts || []} hubData={hubData} updateMapMarker={updateMapMarker} updateMapCenter={updateMapCenter} />
       <Login loginForm={loginForm} handleLoginForm={handleLoginForm} />
-      <Maps searchField={searchField} buildings={hubData.data?.groupedProducts || []} hubData={hubData} selectedMarker={selectedMarker} updateMapMarker={updateMapMarker} updateMapCenter={updateMapCenter} mapCenter={mapCenter} />
+      <Maps searchField={searchField} buildings={hubData.data?.groupedProducts || []} hubData={hubData} selectedMarker={selectedMarker} updateMapMarker={updateMapMarker} updateMapCenter={updateMapCenter} mapCenter={mapCenter}/>
       <List hubData={hubData} searchField={searchField} />
       <Footer />
     </>
