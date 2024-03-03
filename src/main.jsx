@@ -8,6 +8,7 @@ import {Routes, Route } from "react-router-dom";
 
 import { AuthProvider } from './context/AuthContext.jsx';
 import { BrowserRouter } from 'react-router-dom';
+import { ForgotPasswordPage } from './components/ForgotPasswordPage.jsx'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
@@ -17,6 +18,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
           <Route path="/" element={<App /> }/>
           <Route path="/confirm-email" element={<ConfirmEmailPage />} />
           <Route path="/reset-password" element={<ResetPasswordPage />} />
+          <Route path='/forgot-password' element={<ForgotPasswordPage />} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>

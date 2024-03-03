@@ -4,18 +4,12 @@ import { Notification } from './Notification';
 
 export const ResetPasswordPage = () => {
 
+    const [errorMessageText, setErrorMessageText] = useState(null);
+
     const navigateToNewPage = () => {
         window.location.href = '/';
       };
 
-    //   useEffect(() => {
-    //     if (showPopup) {
-    //         const timer = setTimeout(() => {
-    //             setShowPopUp(false);
-    //         }, 3000); // Adjust the duration as needed
-    //         return () => clearTimeout(timer);
-    //     }
-    // }, [showPopup]);
 
 
     const resetPassword = async (e) => {
@@ -34,18 +28,27 @@ export const ResetPasswordPage = () => {
         });
 
         if (response.status === 200)
-        {
+        { 
           let data = await response.text();
           console.log(data);
+          setErrorMessageText(data);
+          setTimeout(() => {
+            setErrorMessageText(null);
+          }, 7000);
         } else {
           let errorMessageText = await response.text();
           console.log(errorMessageText);
+          setErrorMessageText(errorMessageText);
+          setTimeout(() => {
+            setErrorMessageText(null);
+          }, 7000);
           
         }
     }
 
     return (
         <div className='reset-password-wrapper'>
+            <a className='back-to-home' href='http://localhost:5173/'>Takaisin</a>
             <div className='reset-password-container'>
                 <form onSubmit={resetPassword} className='reset-password-form'>
                     <label htmlFor="newPassword">Uusi Salasana</label>
@@ -53,6 +56,7 @@ export const ResetPasswordPage = () => {
                     <label htmlFor="confirmPassword">Vahvista Salasana</label>
                     <input type="password" name='confirmPassword'/>
                     <button type='submit' className='reset-password-button'>Vahvista</button>
+                    <Notification message={errorMessageText} />
                 </form>
             </div>
         </div>
