@@ -64,7 +64,7 @@ export const Login = ({loginForm, handleLoginForm}) => {
                       name="confirmPassword"/>
                       </div>
                       <RegisterErrorMessage message={error} />
-                      {userRegistered && <p className='user-registered-success'>User was registered. Please confirm your email address. </p>}
+                      {userRegistered && <p className='user-registered-success'>Käyttäjä on luotu! Vahvista sähköposti osoitteesi</p>}
                       <div className='loginCenter'>
                         <button type='submit' className='button buttonLogin'>LUO KÄYTTÄJÄTILI</button>
                       </div>

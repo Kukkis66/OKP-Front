@@ -76,6 +76,43 @@
     text-align: center;
 }
 
+.resend-email-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-block: 4rem;
+}
+
+.resend-email-form {
+    width: 100%;
+    
+}
+
+.resend-email-form label {
+    font-size: 1.4rem;
+}
+
+.resend-email-form input {
+    width: 100%;
+    height: 40px;
+    margin-block: 1rem;
+}
+
+.resend-email-form button {
+    width: 100%;
+    border: none;
+    box-shadow: none;
+    border-radius: 1rem;
+    
+}
+
+.error {
+    font-size: 1.6rem;
+    color: red;
+    padding-block-end: 1rem;
+}
+
 
 
 @media only screen and (min-width: 1000px) {
