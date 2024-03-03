@@ -2,12 +2,13 @@ import { useState } from 'react';
 import close from '../assets/close.png'
 import { useAuth } from '../context/AuthContext.jsx';
 import '../styles/Login.css'
-import { Notification } from './Notification.jsx';
+import { LoginErrorMessage } from './LoginErrorMessage.jsx';
+import { RegisterErrorMessage } from './RegisterErrorMessage.jsx';
 
 
 export const Login = ({loginForm, handleLoginForm}) => {
     const [newUser, setNewUser] = useState(false)
-    const { login, loginUser, error, registerUser } = useAuth();
+    const { login, loginUser, error, registerUser, userRegistered } = useAuth();
     const [email, setEmail] = useState();
     
 
@@ -62,12 +63,13 @@ export const Login = ({loginForm, handleLoginForm}) => {
                       placeholder="vahvista salasana"
                       name="confirmPassword"/>
                       </div>
-                      <input type="submit" value="submitForm" />
+                      <RegisterErrorMessage message={error} />
+                      {userRegistered && <p className='user-registered-success'>User was registered. Please confirm your email address. </p>}
+                      <div className='loginCenter'>
+                        <button type='submit' className='button buttonLogin'>LUO KÄYTTÄJÄTILI</button>
+                      </div>
                     </form>
                   </div>
-                    <div className='loginCenter'>
-                      <button className='button buttonLogin'>LUO KÄYTTÄJÄTILI</button>
-                    </div>
                   <div className='newUser'>
                     <span>Onko sinulla jo käyttäjätili?</span>
                     <a href='#' onClick={handleNewUser}>KIRJAUDU SISÄÄN</a>
@@ -96,16 +98,16 @@ export const Login = ({loginForm, handleLoginForm}) => {
                       <p>Salasana:</p>
                       <input
                       className="inputField inputFieldLogin"
-                      type="text"
+                      type="password"
                       placeholder="salasana"
                       name="password"
                       />
                     </div>
-                    <Notification message={error} />
+                    <LoginErrorMessage message={error} />
                   </div>
                   <div className='loginCenter'>
-                    {/* <button className='button buttonLogin' onClick={() => { login(); handleLoginForm();  }}>KIRJAUDU SISÄÄN</button> */}
-                    <input className='login-input-submit' disabled={!email} type="submit" />
+                    <button type='submit' className='button buttonLogin' disabled={!email}>KIRJAUDU SISÄÄN</button>
+                    {/* <input className='login-input-submit' disabled={!email} type="submit" value="KIRJAUDU SISÄÄN" /> */}
                   </div>
                   <div className='newUser'>
                     <span>Oletko uusi käyttäjä?</span>

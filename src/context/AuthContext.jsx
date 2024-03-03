@@ -1,5 +1,5 @@
 // AuthContext.js
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
 import axios from 'axios';
 import { jwtDecode } from "jwt-decode";
 
@@ -18,6 +18,30 @@ export const AuthProvider = ({ children }) => {
   const [authToken, setAuthToken] = useState(() => localStorage.getItem("authToken") ? JSON.parse(localStorage.getItem("authToken")) : null);
   const [error, setError] = useState(null);
   const [currentUser, setCurrentUser] = useState(() => localStorage.getItem("authToken") ? jwtDecode(localStorage.getItem("authToken")) : null);
+  const [userRegistered, setUserRegistered] = useState(false);
+
+
+  const logoutOnTokenExpiration = () => {
+    if (authToken) {
+      const decodeToken = jwtDecode(authToken);
+      const expirationTime = decodeToken.exp * 1000
+      const currentTime = new Date().getTime();
+
+      if (currentTime > expirationTime) {
+        logout();
+      }
+    }
+  }
+
+  useEffect(() => {
+    logoutOnTokenExpiration();
+  }, []);
+
+  useEffect(() => {
+    const interval = setInterval(logoutOnTokenExpiration, 60000); // Check token expiration every minute
+    return () => clearInterval(interval); // Clean up interval
+  }, [authToken]); // Re-run effect when authToken changes
+
 
   const login = () => {
     // Implement your login logic here
@@ -54,6 +78,7 @@ export const AuthProvider = ({ children }) => {
       localStorage.setItem("authToken", JSON.stringify(data.jwtToken));
       setLoggedIn(true);
       navigateToNewPage();
+      
 
     } else {
       let errormessage = await response.text();
@@ -61,7 +86,7 @@ export const AuthProvider = ({ children }) => {
       console.log(errormessage);
       setTimeout(() => {
         setError(null)
-      }, 3000);
+      }, 5000);
     }
     
   };
@@ -80,18 +105,19 @@ export const AuthProvider = ({ children }) => {
       let data = await response.json()
       console.log(data);
       console.log(data.value);
+      setUserRegistered(true);
+      setTimeout(() => {
+        setUserRegistered(false);
+      }, 30000);
     } else {
       let error = await response.text();
       console.log(error);
+      setError(error);
+      setTimeout(() => {
+        setError(null)
+      }, 7000);
     }
   };
-
-  // const loginUser = (e) => {
-  //   let loginObject = {"email": e.target.email.value, "password": e.target.password.value};
-
-  //   let data = axios.post('http://localhost:5143/api/Account/login', loginObject).then(response => response.data);
-  //   console.log(data);
-  // };
 
   let contextData = {
     isLoggedIn:isLoggedIn,
@@ -101,7 +127,8 @@ export const AuthProvider = ({ children }) => {
     error:error,
     registerUser:registerUser,
     currentUser:currentUser,
-    authToken:authToken
+    authToken:authToken,
+    userRegistered:userRegistered
   };
 
   return (

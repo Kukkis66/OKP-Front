@@ -113,6 +113,22 @@
     background-color: red;
   }
 
+  .login-error-message {
+    color: red;
+    text-align: center;
+    font-size: 1.2rem;
+    max-width: 265px;
+    margin: auto;
+  }
+
+  .user-registered-success {
+    color: #0d8820;
+    text-align: center;
+    font-size: 1.4rem;
+    max-width: 265px;
+    margin: auto;
+  }
+
  
 
 
