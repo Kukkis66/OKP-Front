@@ -1,13 +1,23 @@
 // AuthContext.js
 import { createContext, useContext, useState } from 'react';
 import axios from 'axios';
+import { jwtDecode } from "jwt-decode";
+
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [isLoggedIn, setLoggedIn] = useState(false);
-  const [authToken, setAuthToken] = useState(null);
+
+  const navigateToNewPage = () => {
+    window.location.href = '/';
+  };
+
+  localStorage.getItem("authToken") ? JSON.parse(localStorage.getItem("authToken")) : null
+
+  const [isLoggedIn, setLoggedIn] = useState(localStorage.getItem("authToken") ? true : false);
+  const [authToken, setAuthToken] = useState(() => localStorage.getItem("authToken") ? JSON.parse(localStorage.getItem("authToken")) : null);
   const [error, setError] = useState(null);
+  const [currentUser, setCurrentUser] = useState(() => localStorage.getItem("authToken") ? jwtDecode(localStorage.getItem("authToken")) : null);
 
   const login = () => {
     // Implement your login logic here
@@ -17,6 +27,9 @@ export const AuthProvider = ({ children }) => {
   const logout = () => {
     // Implement your logout logic here
     setLoggedIn(false);
+    setAuthToken(null);
+    setCurrentUser(null);
+    localStorage.removeItem("authToken");
   };
 
   const loginUser = async (e) => {
@@ -34,6 +47,14 @@ export const AuthProvider = ({ children }) => {
       let data = await response.json()
       console.log(data);
       console.log(data.jwtToken);
+      setAuthToken(data.jwtToken);
+      setCurrentUser(jwtDecode(data.jwtToken));
+      console.log(jwtDecode(data.jwtToken));
+      console.log(authToken);
+      localStorage.setItem("authToken", JSON.stringify(data.jwtToken));
+      setLoggedIn(true);
+      navigateToNewPage();
+
     } else {
       let errormessage = await response.text();
       setError(errormessage);
@@ -72,12 +93,19 @@ export const AuthProvider = ({ children }) => {
   //   console.log(data);
   // };
 
-  // let contextData = {
-  //   loginUser:loginUser
-  // };
+  let contextData = {
+    isLoggedIn:isLoggedIn,
+    login:login,
+    logout:logout,
+    loginUser:loginUser,
+    error:error,
+    registerUser:registerUser,
+    currentUser:currentUser,
+    authToken:authToken
+  };
 
   return (
-    <AuthContext.Provider value={{ isLoggedIn, login, logout, loginUser, error, registerUser}}>
+    <AuthContext.Provider value={contextData}>
       {children}
     </AuthContext.Provider>
   );

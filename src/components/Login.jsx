@@ -8,7 +8,8 @@ import { Notification } from './Notification.jsx';
 export const Login = ({loginForm, handleLoginForm}) => {
     const [newUser, setNewUser] = useState(false)
     const { login, loginUser, error, registerUser } = useAuth();
-    const [ email, setEmail ] = useState("");
+    const [email, setEmail] = useState();
+    
 
 
 
@@ -103,13 +104,13 @@ export const Login = ({loginForm, handleLoginForm}) => {
                     <Notification message={error} />
                   </div>
                   <div className='loginCenter'>
-                    <button className='button buttonLogin' onClick={() => { login(); handleLoginForm(); }}>KIRJAUDU SISÄÄN</button>
+                    {/* <button className='button buttonLogin' onClick={() => { login(); handleLoginForm();  }}>KIRJAUDU SISÄÄN</button> */}
+                    <input className='login-input-submit' disabled={!email} type="submit" />
                   </div>
                   <div className='newUser'>
                     <span>Oletko uusi käyttäjä?</span>
                     <a href='#' onClick={handleNewUser}>LUO KÄYTTÄJÄTILI</a>
                   </div>
-                  <input disabled={!email} type="submit"/>
                 </form>
                 </div>)}
               </div>
