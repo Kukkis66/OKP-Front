@@ -165,7 +165,8 @@ export const AuthProvider = ({ children }) => {
     showFavorites:showFavorites,
     toggleFavorite:toggleFavorite,
     fetchFavorites:fetchFavorites,
-    favorites:favorites
+    favorites:favorites,
+    setFavorites:setFavorites
   };
 
   return (

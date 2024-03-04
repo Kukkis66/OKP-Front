@@ -19,7 +19,7 @@ export const List = ({ hubData }) => {
     const [isBackwards, setIsBackwards] = useState(true);
     const [selectedBuilding, setSelectedBuilding] = useState(null);
 
-    const { isLoggedIn, login, logout, currentUser, showFavorites, toggleFavorite, favorites } = useAuth();
+    const { isLoggedIn, login, logout, currentUser, showFavorites, toggleFavorite, favorites, setFavorites } = useAuth();
 
     const handleReadMore = (building) => {
         setSelectedBuilding(building);
@@ -159,7 +159,7 @@ export const List = ({ hubData }) => {
                 )}
             </div>
             <div className="cardContainer">
-            {showFavorites ? <Favorites displayedItems={displayedItems2}/> : renderCardContainer(displayedItems)}
+            {showFavorites ? <Favorites displayedItems={displayedItems2} handleReadMore={handleReadMore} handleClosePopup={handleClosePopup} selectedBuilding={selectedBuilding} setFavorites={setFavorites} favorites={favorites}/> : renderCardContainer(displayedItems)}
             </div>
             <div className="navigation-arrows">
                 <a onClick={() => handlePageChange(currentPage - 1)}>

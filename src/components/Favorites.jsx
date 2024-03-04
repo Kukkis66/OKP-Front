@@ -9,10 +9,31 @@ import arrowRight from '../assets/arrowRight.png';
 import emptyHeart from '../assets/emptyHeart.png';
 import close from '../assets/close.png';
 import React from 'react';
+import axios from 'axios';
 
 
 
-export const Favorites = ({displayedItems}) => {
+export const Favorites = ({displayedItems, handleReadMore, selectedBuilding, handleClosePopup, setFavorites, favorites}) => {
+
+
+
+    const deleteFavorite = async (key) => {
+        try {
+            // Make POST request to backend API to save favorite status
+            await axios.delete(`http://localhost:5143/api/Favorites/${key}`);
+            console.log("Succeeded deletion");
+            const updatedData = {
+                data: {
+                    product: favorites.data.product.filter(product => product.id !== key)
+                }
+            };
+    
+            // Update the state with the updated data
+            setFavorites(updatedData);
+          } catch (error) {
+            console.error('Error deleting favorite:', error);
+          }
+      };
     
     return (
         <div className="cardContainer">
@@ -21,7 +42,7 @@ export const Favorites = ({displayedItems}) => {
                     <li className="card" key={building.id}>
                         <div className="headingContainer">
                             <h2 className='h2'>{getBuildingName(building)}</h2> 
-                            <div className="iconsContainer">
+                            <div className="iconsContainer" onClick={() => deleteFavorite(building.id)}>
                                 <img className="emptyHeart" src={emptyHeart} alt="empty-heart" />
                             </div>
                         </div>
@@ -42,7 +63,7 @@ export const Favorites = ({displayedItems}) => {
                     </li>
                 ))}
             </ul>
-            {/* {selectedBuilding && <Popup building={selectedBuilding} onClose={() => handleClosePopup()} />} */}
+            {selectedBuilding && <Popup building={selectedBuilding} onClose={() => handleClosePopup()} />}
         </div>
     );
 }
