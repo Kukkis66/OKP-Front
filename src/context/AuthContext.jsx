@@ -19,7 +19,21 @@ export const AuthProvider = ({ children }) => {
   const [error, setError] = useState(null);
   const [currentUser, setCurrentUser] = useState(() => localStorage.getItem("authToken") ? jwtDecode(localStorage.getItem("authToken")) : null);
   const [userRegistered, setUserRegistered] = useState(false);
+  const [showFavorites, setShowFavorites] = useState(false);
+  const [favorites, setFavorites] = useState({ data: { product: [] } });
 
+
+
+  const fetchFavorites = async () => {
+    try {
+      const backendRes = await fetch(`http://localhost:5143/api/DataHub/GetUserFavorites/${currentUser.Id}`);
+      const backendData = await backendRes.json();
+      console.log(backendData);
+      setFavorites(backendData);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
 
   const logoutOnTokenExpiration = () => {
     if (authToken) {
@@ -119,6 +133,24 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const toggleFavorite = async (buildingId, userId) => {
+    // Toggle favorite status locally
+    if (!currentUser) {
+      console.log("user is not logged in!");
+      return;
+    }
+    
+
+    try {
+      // Make POST request to backend API to save favorite status
+      await axios.post('http://localhost:5143/api/Favorites', { "key":buildingId, "userId": userId });
+      console.log("Succeeded favorite");
+    } catch (error) {
+      console.error('Error saving favorite:', error);
+    }
+  };
+
+
   let contextData = {
     isLoggedIn:isLoggedIn,
     login:login,
@@ -128,7 +160,12 @@ export const AuthProvider = ({ children }) => {
     registerUser:registerUser,
     currentUser:currentUser,
     authToken:authToken,
-    userRegistered:userRegistered
+    userRegistered:userRegistered,
+    setShowFavorites:setShowFavorites,
+    showFavorites:showFavorites,
+    toggleFavorite:toggleFavorite,
+    fetchFavorites:fetchFavorites,
+    favorites:favorites
   };
 
   return (

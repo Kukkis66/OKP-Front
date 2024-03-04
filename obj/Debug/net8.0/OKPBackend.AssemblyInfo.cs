@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("OKPBackend")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ba60f6a4e574e1fbafa1f59b5b8aa1bb4547ca46")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2015048e9bd3567e69a5c381dc4a7212db0a7480")]
 [assembly: System.Reflection.AssemblyProductAttribute("OKPBackend")]
 [assembly: System.Reflection.AssemblyTitleAttribute("OKPBackend")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

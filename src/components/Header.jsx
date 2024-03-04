@@ -5,7 +5,7 @@ import '../styles/Header.css';
 import { useAuth } from '../context/AuthContext.jsx';
 
 export const Header = ({handleLoginForm}) => {
-    const { isLoggedIn, login, logout, currentUser } = useAuth();
+    const { isLoggedIn, login, logout, currentUser, setShowFavorites, fetchFavorites } = useAuth();
     return (
         
         <header className='header'>
@@ -34,6 +34,8 @@ export const Header = ({handleLoginForm}) => {
             )}
             </div>
             <div className='bottom-section'><h1>Löydä tietoa rakennuksista, tallenna suosikkejasi, rakenna reittejä</h1></div>
+            <button onClick={() => {setShowFavorites(true); fetchFavorites()} }>click me</button>
+            <button onClick={() => setShowFavorites(false)}>unset</button>
         </header>
             
 

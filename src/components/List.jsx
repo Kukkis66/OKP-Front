@@ -9,12 +9,17 @@ import arrowRight from '../assets/arrowRight.png';
 import emptyHeart from '../assets/emptyHeart.png';
 import close from '../assets/close.png';
 import React from 'react';
+import { useAuth } from '../context/AuthContext.jsx';
+import { Favorites } from './Favorites.jsx';
+
 
 export const List = ({ hubData }) => {
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage, setItemsPerPage] = useState(6);
     const [isBackwards, setIsBackwards] = useState(true);
     const [selectedBuilding, setSelectedBuilding] = useState(null);
+
+    const { isLoggedIn, login, logout, currentUser, showFavorites, toggleFavorite, favorites } = useAuth();
 
     const handleReadMore = (building) => {
         setSelectedBuilding(building);
@@ -40,7 +45,7 @@ export const List = ({ hubData }) => {
                         <li className="card" key={building.id}>
                             <div className="headingContainer">
                                 <h2 className='h2'>{getBuildingName(building)}</h2> 
-                                <div className="iconsContainer">
+                                <div className="iconsContainer" onClick={() => toggleFavorite(building.id, currentUser.Id)}>
                                     <img className="emptyHeart" src={emptyHeart} alt="empty-heart" />
                                 </div>
                             </div>
@@ -92,6 +97,20 @@ export const List = ({ hubData }) => {
 
     const displayedItems = sortedItems?.slice(startIndex, endIndex);
 
+    const sortedItems2 = isBackwards
+        ? favorites.data?.product?.sort((a, b) => {
+              const nameA = getBuildingName(a);
+              const nameB = getBuildingName(b);
+              return nameA.localeCompare(nameB);
+          })
+        : favorites.data?.product?.sort((a, b) => {
+              const nameA = getBuildingName(a);
+              const nameB = getBuildingName(b);
+              return nameB.localeCompare(nameA);
+          });
+    
+    const displayedItems2 = sortedItems2?.slice(startIndex, endIndex);
+    
     const handlePageChange = (newPage) => {
         setCurrentPage(newPage);
     };
@@ -140,7 +159,7 @@ export const List = ({ hubData }) => {
                 )}
             </div>
             <div className="cardContainer">
-            {renderCardContainer(displayedItems)}
+            {showFavorites ? <Favorites displayedItems={displayedItems2}/> : renderCardContainer(displayedItems)}
             </div>
             <div className="navigation-arrows">
                 <a onClick={() => handlePageChange(currentPage - 1)}>
