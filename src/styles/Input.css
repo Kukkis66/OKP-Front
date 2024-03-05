@@ -28,6 +28,16 @@
 
 /* .dropdownSearch {
     padding: 0.6rem;
+    width: 1rem;
+    font-family: 'Mulish', sans-serif;
+    font-size: 18px;
+    border: solid black; 
+    border-radius: 5px;
+    max-width: 31rem;
+} */
+
+/* .dropdownSearch {
+    padding: 0.6rem;
     font-family: 'Mulish', sans-serif;
     font-size: 18px;
     border: solid black; 
@@ -74,7 +84,7 @@
     }
 }
 
-@media only screen and (min-width: 1441px) {
+/* @media only screen and (min-width: 1441px) {
 
 .searchInfo {
     font-size: 4.33rem;
@@ -87,4 +97,4 @@
     max-width: 58rem;
     padding: 1rem;
 }
-}
+} */

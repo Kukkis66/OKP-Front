@@ -14,35 +14,16 @@
   border-radius: 0.5rem;
 }
 
-.emptyWindow {
-  /* flex: 1; */
-  border: solid #1b1b1a9e  0.18rem;
-  border-radius: 0.5rem;
-  padding: 2rem;
-  background-color: #FCFAF8;;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-  grid-auto-rows: 170px; /* Adjust the height of the rows as needed */
-  gap: 10px; /* Adjust the gap between images as needed */
-  width: 345px;
-  height: 530px;
+.InfoWindows {
+  flex: 1; /* 1/3 of the width */
+  display: flex;
+  flex-direction: row;
 }
 
-.picture_map {
-  width: 100%;
-  height: 100%;
-  text-align: center;
-  border-radius: 0.5rem;
-  overflow: hidden;
-  /* box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.8); */
-}
-
-.picture_map img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 0.5rem;
-  box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.8);
+.closeX {
+  padding: 1rem 0 0 2rem;
+  height: 1.7rem;
+  width: 1.8rem;
 }
 
 /* Media query for screen width 1320px or more */
@@ -54,12 +35,10 @@
   .map {
     height: 464px;
   }
-  .emptyWindow {
+  .closeX {
     gap: 10px; /* Gap between images */
-      grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); 
-      grid-auto-rows: 90px; 
-      width: 235px;
-      height: 400px;
+      height: 1.6rem;
+      width: 1.5rem;
     }
   
 
@@ -75,23 +54,31 @@
   .mapContainer {
     flex-direction: column;
     align-items: center;
-    height: 980px;
+    /* height: 980px; */
+    /* height: 630px; */
+    padding: 3rem 1rem;
   }  
   
   .map {
       margin: 0.5rem;
-      width: 299px;
+      width: 100%;
       height: 400px;
     }
 
-    .emptyWindow {
-      width: 235px;
-      height: 400px;
-      grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); 
-      grid-auto-rows: 90px; 
+  .InfoWindows {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+  }
+    .closeX{
+      height: 1.8rem;
+      width: 1.5rem;
+      padding-block-start: 2rem;
+      padding-inline-start: 0;
     }
 }
-
+/* 
 @media only screen and (min-width: 1441px) {
     .mapContainer {
         padding: 3rem;
@@ -102,4 +89,4 @@
         height: 74rem;
         border: solid #1b1b1a9e  0.22rem;
     }
-}
+} */

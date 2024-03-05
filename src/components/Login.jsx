@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import close from '../assets/close.png'
 import { useAuth } from '../context/AuthContext.jsx';
-import '../styles/Login.css'
+import '../styles/Login.css';
 
 
 export const Login = ({loginForm, handleLoginForm}) => {

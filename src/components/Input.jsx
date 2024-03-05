@@ -65,13 +65,12 @@ const handleDropdownChange = event => {
       <input
         className="inputField"
         type="text"
-        name="example" 
         list="exampleList"
         placeholder="Kirjoita rakennuksen nimi"
         value={searchTerm}
         onChange={handleInputChange}
       />
-      <datalist
+       <datalist
         className="dropdownSearch"
         value={searchTerm}
         onChange={handleDropdownChange}

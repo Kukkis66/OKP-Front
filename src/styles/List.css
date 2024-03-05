@@ -104,15 +104,15 @@
 }
 
 .card {
-  padding: 2rem;
-  border: solid #1b1b1a9e 0.18rem;
-  border-radius: 0.5rem;
-  background-color: var(--white);
-  width: 345px;
-  height: 530px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between; 
+padding: 2rem;
+border: solid #1b1b1a9e 0.18rem;
+border-radius: 0.5rem;
+background-color: var(--white);
+width: 310px;
+height: 530px;
+display: flex;
+flex-direction: column;
+justify-content: space-between; 
 }
 
 .headingContainer{
@@ -217,6 +217,7 @@
   cursor: pointer;
 }
 
+/* tablet */
 
 @media only screen and (max-width: 768px) {
 
@@ -236,11 +237,12 @@
     height: 400px;
   }
 
-  .h2 {
-    padding-block-end: 1rem;
-    min-height: 78px;
-    font-size: 24px;
-  }
+.h2 {
+  padding-block-end: 1rem;
+  min-height: 78px;
+  font-size: 20px;
+  line-height: 30px;
+}
 
   .emptyHeart {
     height: 2rem;
@@ -282,6 +284,8 @@
   }
 }
 
+/* mobiili */
+
 @media only screen and (max-width: 425px) {
 
   .listHeader {
@@ -293,23 +297,37 @@
     margin: 1rem 2rem 1rem 2rem;
   }
 
-  .sortContainer img {
-    max-height: 28px;
-  }
-  .cardContainer {
-    margin: 1rem;
-    padding: 1rem 0;
-  }
+.sortContainer img {
+  max-height: 28px;
+}
+.cardContainer {
+  margin: 0rem;
+  padding: 0.5rem 0;
+  border-radius: 0;
+  width: 100%;
+}
 
   .cardContainer ul {
     margin: 1.5rem;
     gap: 1rem;
   }
 
+.card {
+  height: max-content;
+  padding: 1.5rem;
+  /* min-width: 160px; */
+  max-width: 300px;
+  /* flex-basis: 200px; */
+  flex-shrink: 0;
+}
+
+.headingContainer {
+  flex-direction: row;
+}
   .card {
     height: max-content;
     padding: 1.5rem;
-    width: 300px;
+    width: 235px;
   }
 
   .h2 {
@@ -373,7 +391,7 @@
 
 }
 
-@media only screen and (min-width: 1441px) {
+/* @media only screen and (min-width: 1441px) {
 
   .listHeader {
     font-size: 4.33rem;
