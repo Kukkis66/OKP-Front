@@ -27,6 +27,37 @@ export const List = ({hubData}) => {
 
     const handleCardCount = (count) => {
         setItemsPerPage(count)
+
+        const newTotalPages = Math.ceil(hubData.data?.groupedProducts?.length / count);
+        const newCurrentPage = Math.min(currentPage, newTotalPages);
+        setCurrentPage(newCurrentPage);
+
+        console.log("current page: " + newCurrentPage)
+        console.log("page numbers length" + newTotalPages)
+           
+        if (newCurrentPage === 1 && newTotalPages === 2) {
+            setPaginationArrowRight(true)
+            setPaginationArrowLeft(false)
+        }
+        else if (newCurrentPage === 2 && newTotalPages === 2) {
+            console.log("tulee tänne!!")
+            setPaginationArrowRight(false)
+            setPaginationArrowLeft(true)
+        }
+
+        else if (newCurrentPage === 1) {
+            setPaginationArrowLeft(false);
+        }
+       
+        else if (newCurrentPage === newTotalPages) {
+            
+            setPaginationArrowRight(false);
+        }
+
+        else {
+            setPaginationArrowRight(true);
+            setPaginationArrowLeft(true);
+        }
     }
 
     const handleWards = () => {
@@ -71,31 +102,47 @@ export const List = ({hubData}) => {
     const handlePageChange = (newPage) => {
     
         setCurrentPage(newPage);
-        
-        if (newPage === 1) {
-            setPaginationArrowLeft(false);
+        console.log("sivujen lukumäärä " + pageNumbers.length)
+
+        if (newPage === 1 && pageNumbers.length === 2) {
+            setPaginationArrowRight(true)
+            setPaginationArrowLeft(false)
+        }
+        else if (newPage === 2 && pageNumbers.length === 2) {
+            setPaginationArrowRight(false)
+            setPaginationArrowLeft(true)
         }
 
+        else if (newPage === 1) {
+            setPaginationArrowLeft(false);
+            setPaginationArrowRight(true);
+        }
+       
         else if (newPage === pageNumbers.length) {
             setPaginationArrowRight(false);
+            setPaginationArrowLeft(true);
         }
 
         else {
             setPaginationArrowRight(true);
             setPaginationArrowLeft(true);
-        }
-        
-            
-
+        }  
       };
+
     const handlePageChangeLeft = (newPage) => {
 
         const pageToShow = currentPage - 1;
     
-        if (pageToShow === 1 ) {
+        if (pageToShow === 1 && pageNumbers.length === 2) {
+            setPaginationArrowRight(true)
+            setPaginationArrowLeft(false)
+            setCurrentPage(newPage);
+        }
+        else if (pageToShow === 1 ) {
             setPaginationArrowLeft(false);
             setCurrentPage(newPage);
         }
+       
         else {
             setPaginationArrowLeft(true);
             setPaginationArrowRight(true);
@@ -105,13 +152,21 @@ export const List = ({hubData}) => {
 
     const handlePageChangeRight = (newPage) => {
 
+        console.log("pagenumbers lenght: " + pageNumbers.length)
         const pageToShow = currentPage + 1;
+        console.log("page to show " + pageToShow )
     
-        if (pageToShow === pageNumbers.length) {
-            
+        if (pageToShow === 2 && pageNumbers.length === 2) {
+            console.log("TÄÄLLÄ!")
+            setPaginationArrowRight(false)
+            setPaginationArrowLeft(true)
+            setCurrentPage(newPage);
+        }
+        else if (pageToShow === pageNumbers.length) {
             setPaginationArrowRight(false);
             setCurrentPage(newPage);
         }
+       
         else {
             setPaginationArrowRight(true);
             setPaginationArrowLeft(true);
