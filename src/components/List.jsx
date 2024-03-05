@@ -2,8 +2,6 @@ import { useState } from 'react';
 import sort from '../assets/sort.png'
 import arrowDown from '../assets/arrow-down.png'
 import { Popup } from './CardPopUp.jsx'
-import { Maps } from './Maps.jsx'
-import { Input } from './Input.jsx'
 import '../styles/List.css'
 import arrowLeft from '../assets/arrowLeft.png'
 import arrowRight from '../assets/arrowRight.png'
@@ -101,7 +99,6 @@ export const List = ({hubData}) => {
         <img onClick={() => handleWards()} src={arrowDown} alt="arrow-up" style={{ transform: 'rotate(180deg)' }} />
         </div>
     )}
-    
         </div>
         <div className='cardContainer'>
         <ul >
@@ -114,8 +111,8 @@ export const List = ({hubData}) => {
                     <img className='pinCard' src={pin} alt="pin" />
                 </div>
             </div>
-            <div className='info'>
-            
+            <div className='info'>  
+
             <p className='p'>Osoite: {building.postalAddresses[0]?.streetName}</p>
             <p className='p'>Kaupunki: {building.postalAddresses[0]?.city}</p>
             <p className='p'>Postinumero: {building.postalAddresses[0]?.postalCode}</p>
@@ -123,12 +120,9 @@ export const List = ({hubData}) => {
             <figure className='picture_url'>
                 <img src={building.productImages[0]?.thumbnailUrl} alt={building.productImages[0]?.altText} />
             </figure>
-            
-
             <a className='zoom' onClick={() => handleReadMore(building)}>
               LUE LISÄÄ
-            </a>
-            
+            </a>  
         </li>
         
         ))}
@@ -148,19 +142,12 @@ export const List = ({hubData}) => {
                 {pageNumber}
                 </span>
             ))}
-        </div>
-
-
-        
-            
+        </div>            
             <a onClick={() => handlePageChange(currentPage + 1)}><img src={arrowRight} alt="arrowRight" /></a>
         </div>
-        
-
     </div>
-      
-    );
+);
+}
 
-            }
 
 

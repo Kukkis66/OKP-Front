@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import '../styles/Input.css';
 
-export const Input = ({ handleSearch, updateMapMarker }) => {
+export const Input = ({ handleSearch,searchField, updateMapMarker }) => {
+
   const [buildingNames, setBuildingNames] = useState([]);
   const [selectedBuilding, setSelectedBuilding] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
@@ -86,3 +87,4 @@ const handleDropdownChange = event => {
     </div>
   );
 };
+
