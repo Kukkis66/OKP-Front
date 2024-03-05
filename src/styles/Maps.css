@@ -39,6 +39,7 @@
     gap: 10px; /* Gap between images */
       height: 1.6rem;
       width: 1.5rem;
+      padding-inline-start: 1.5rem;
     }
   
 

@@ -107,8 +107,8 @@ export const Maps = ({searchField, hubData, buildings = [],}) => {
   const markersData = markers(hubData);
   // const [weatherData, setWeatherData] = useState(null);
   const [showPopup, setShowPopup] = useState(false); 
-
-  const [mapContainerHeight, setMapContainerHeight] = useState(630);
+  // set map container height for mobile
+  const [mapContainerHeight, setMapContainerHeight] = useState(window.innerWidth <= 425 ? 630 : 'auto');
 
 
   const filteredMarkers = markersData.filter(marker => {
@@ -177,7 +177,9 @@ export const Maps = ({searchField, hubData, buildings = [],}) => {
 
     // set the map container height for mobile when the card is not shown
     
-    setMapContainerHeight(630);
+    if (window.innerWidth <= 425) {
+      setMapContainerHeight(window.innerWidth <= 425 ? 630 : 'auto');
+    }
   };
 
   return (

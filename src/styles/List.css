@@ -234,7 +234,7 @@ justify-content: space-between;
   }
   .card {
     width: 235px;
-    height: 400px;
+    height: 410px;
   }
 
 .h2 {
@@ -281,6 +281,7 @@ justify-content: space-between;
   
   .zoom {
     font-size: 1rem;
+    /* padding-block-end: 1rem; */
   }
 }
 
