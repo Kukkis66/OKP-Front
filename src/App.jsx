@@ -13,8 +13,7 @@ function App() {
   const [hubData, setHubData] = useState({ data: { groupedProducts: [] } });
   const [searchField, setSearchField] = useState('');
   const [loginForm, setLoginForm] = useState(false);
-  const [selectedMarker, setSelectedMarker] = useState(null);
-  const [mapCenter, setMapCenter] = useState(null);
+ 
 
   useEffect(() => {
     getAll();
@@ -22,7 +21,7 @@ function App() {
   }, []);
 
   const handleSearch = (searchTerm) => {
-    // Update the search field state
+    // Update the search field state in Input.jsx
     setSearchField(searchTerm);
   };
 
@@ -33,6 +32,7 @@ function App() {
   const getAll = async () => {
     try {
       const response = await axios.get('https://www.hel.fi/palvelukarttaws/rest/v4/unit/?ontologyword=473');
+      
       setData(response.data);
     } catch (error) {
       console.error('Something went wrong:', error.message);
@@ -49,22 +49,12 @@ function App() {
     }
   };
 
-  const updateMapMarker = (selectedBuilding) => {
-    setSelectedMarker(selectedBuilding);
-  };
-
-  const updateMapCenter = (coordinates) => {
-    console.log('Updating map center to:', coordinates);
-    setMapCenter(coordinates);
-  };
-
-
   return (
     <>
       <Header handleLoginForm={handleLoginForm} />
-      <Input handleSearch={handleSearch} searchField={searchField} markers={hubData.data?.groupedProducts || []} hubData={hubData} updateMapMarker={updateMapMarker} updateMapCenter={updateMapCenter} />
+      <Input handleSearch={handleSearch} hubData={hubData}/>
       <Login loginForm={loginForm} handleLoginForm={handleLoginForm} />
-      <Maps searchField={searchField} buildings={hubData.data?.groupedProducts || []} hubData={hubData} selectedMarker={selectedMarker} updateMapMarker={updateMapMarker} updateMapCenter={updateMapCenter} mapCenter={mapCenter}/>
+      <Maps searchField={searchField} hubData={hubData}/>
       <List hubData={hubData} searchField={searchField} />
       <Footer />
     </>

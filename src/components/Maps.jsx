@@ -12,6 +12,7 @@ const mapContainerStyle = {
   height: '100%',
 };
 
+
 const center = {
   lat: 60.1699,
   lng: 24.9384,
@@ -19,25 +20,47 @@ const center = {
 
 const libraries = ['places'];
 
+const API_BASE_URL = 'http://api.openweathermap.org/data/2.5/weather';
+const API_KEY = import.meta.env.VITE_REACT_APP_API_KEY;
+
 export const getBuildingName = (building) => {
   if (!building || !building.productInformations || !building.productImages) {
     return "Unknown Building"; // Or any default value
   }
 
   const name =
-    building.productInformations[0]?.name ||
-    (building.productImages[0]?.copyright === "Kuvio"
-      ? "Oodi"
-      : building.productImages[0]?.copyright === "Didrichsen archives"
-      ? "Didrichsenin taidemuseo"
-      : building.productImages[0]?.copyright.includes(
-          "Copyright: Visit Finland"
-        )
-      ? building.productImages[0]?.copyright.split(":")[1]?.trim() // added null check here
-      : building.productImages[0]?.copyright);
-
+    building.productInformations[0]?.name === "Hanasaari – ruotsalais-suomalainen kulttuurikeskus"
+      ? "Hanasaari"
+      : building.productInformations[0]?.name === "Helsingin matkailuneuvonta paviljongilla"
+      ? "Biennaali -paviljonki"     
+      : building.productInformations[0]?.name === "EMMA – Espoon modernin taiteen museo"
+      ? "EMMA"  
+      : building.productInformations[0]?.name === "Futuro-talo (nro 001)"
+      ? "Futuro-talo"  
+      : building.productInformations[0]?.name === "Suomenlinnamuseo"
+      ? "Suomenlinna - museo" 
+      : building.productInformations[0]?.name === "Fazer Experience Vierailukeskus"
+      ? "Fazer vierailukeskus"
+      : building.productInformations[0]?.name === "Suomen kello- ja korumuseo Kruunu"
+      ? "Kruunu"
+      : building.productInformations[0]?.name === "Sotamuseon Maneesi ja Tykistömaneesi"
+      ? "Sotamuseon Maneesit"
+      : building.productInformations[0]?.name === "Musta tuntuu, tois­tai­sek­si 27.3.–8.9.2024."
+      ? "Amox Rex näyttelyt"
+      : building.productInformations[0]?.name ||
+        (building.productImages[0]?.copyright === "Kuvio"
+          ? "Oodi"
+          : building.productImages[0]?.copyright === "Didrichsen archives"
+          ? "Didrichsenin taidemuseo"
+          : building.productImages[0]?.copyright.includes(
+              "Copyright: Visit Finland"
+            )
+            ? building.productImages[0]?.copyright.split(":")[1]?.trim() // added null check here
+            : building.productImages[0]?.copyright);
+        
   return name || "Unknown Building"; // Or any default value
 };
+
 
 export const markers = hubData => {
   const extractedMarkers = hubData.data?.groupedProducts?.map((building, index) => {
@@ -70,7 +93,7 @@ export const markers = hubData => {
   return extractedMarkers;
 };
 
-export const Maps = ({searchField, hubData, buildings = [],}) => {
+export const Maps = ({searchField, hubData}) => {
 
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAPS_APIKEY,
@@ -81,13 +104,11 @@ export const Maps = ({searchField, hubData, buildings = [],}) => {
   const [mapBounds, setMapBounds] = useState(null);
   const [selectedMarker, setSelectedMarker] = useState(null);
   const [selectedBuilding, setSelectedBuilding] = useState(null);
-
-  const [showInfoWindow, setShowInfoWindow] = useState(false); // Define showInfoWindow state
-  const [mapCenter, setMapCenter] = useState(center); 
+  const [showInfoWindow, setShowInfoWindow] = useState(false);
   const markersData = markers(hubData);
-
+  const [weatherData, setWeatherData] = useState(null);
   const [showPopup, setShowPopup] = useState(false); 
-  const [refreshPage, setRefreshPage] = useState(false);
+
 
   const filteredMarkers = markersData.filter(marker => {
       return searchField === '' || marker.title.toLowerCase().includes(searchField.toLowerCase());
@@ -136,18 +157,47 @@ export const Maps = ({searchField, hubData, buildings = [],}) => {
     ],
   };
 
+  const fetchWeatherData = async (lat, lng) => {
+    try {
+      const response = await fetch(`${API_BASE_URL}?lat=${lat}&lon=${lng}&appid=${API_KEY}`);
+      const data = await response.json();
+      setWeatherData(data);
+    } catch (error) {
+      console.error('Error fetching weather data:', error);
+    }
+  };
 
-const handleMarkerClick = (marker) => {
-  console.log("Marker clicked:", marker);
-  setSelectedMarker(marker);
-  setShowInfoWindow(true); 
-  const clickedBuilding = hubData.data.groupedProducts.find(building => getBuildingName(building) === marker.title);
-  setSelectedBuilding(clickedBuilding);
-};
-const closeInfoWindow = () => {
-  setSelectedMarker(null); 
-  setSelectedBuilding(null);
-};
+  const handleMarkerClick = (marker) => {
+    console.log("Marker clicked:", marker);
+    setSelectedMarker(marker);
+    setShowInfoWindow(true); 
+    const clickedBuilding = hubData.data.groupedProducts.find(building => getBuildingName(building) === marker.title);
+    setSelectedBuilding(clickedBuilding);
+    fetchWeatherData(marker.position.lat, marker.position.lng);
+    
+    // Move the map center to the clicked marker's position and set zoom to 15
+    if (map) {
+      map.panTo(marker.position);
+      map.setZoom(15);
+    }
+  };
+  
+  const closeInfoWindow = () => {
+    setSelectedMarker(null); 
+    setSelectedBuilding(null);
+    setWeatherData(null);
+  
+    // Revert the zoom level back to 13 and center to the default center
+    if (map) {
+      map.setZoom(13);
+      map.panTo(center);
+    }
+  
+    setShowInfoWindow(false);
+  };
+  
+
+  
 
   return (
     <div className="mapContainer">
@@ -155,7 +205,7 @@ const closeInfoWindow = () => {
         <GoogleMap
           mapContainerStyle={mapContainerStyle}
           zoom={13}
-          center={mapCenter}
+          center={center}
           options={mapOptions}
           onLoad={onMapLoad}
         >
@@ -185,8 +235,8 @@ const closeInfoWindow = () => {
             <div className="headingContainer">
               <h2 className="h2">{getBuildingName(selectedBuilding)}</h2>
               <div className="iconsContainer">
-                <img className="emptyHeart" src={emptyHeart} alt="empty-heart" />
                 <img className="pinCard" src={close} alt="close" onClick={closeInfoWindow} />
+                <img className="emptyHeart" src={emptyHeart} alt="empty-heart" />  
               </div>
             </div>
             <div className="info">
@@ -200,8 +250,16 @@ const closeInfoWindow = () => {
                 alt={selectedBuilding.productImages[0]?.altText}
               />
             </figure>
-            <a className="zoom" onClick={() => setShowPopup(true)}>LUE LISÄÄ</a>
-            {showPopup && <Popup building={selectedBuilding} onClose={() => setShowPopup(false)} />}
+            <div className="headingContainer">
+              <a className="zoom" onClick={() => setShowPopup(true)}>LUE LISÄÄ</a>
+              {showPopup && <Popup building={selectedBuilding} onClose={() => setShowPopup(false)} />}  
+              {weatherData && (
+                <div className="weather-info">
+                  <p>{Math.round(weatherData.main.temp - 273.15)} °C</p>
+                  <img src={`http://openweathermap.org/img/w/${weatherData.weather[0].icon}.png`} alt="Weather Icon" />
+                </div>
+              )}
+            </div>
           </li>
         )}
         </div>

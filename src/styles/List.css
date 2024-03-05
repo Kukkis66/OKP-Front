@@ -170,6 +170,7 @@ padding-block-end: 1rem;
   text-underline-offset: 2px;
   cursor: pointer;
   padding-top: 1rem;
+  flex-grow: 2;
 }
 
 .picture_url {
@@ -279,6 +280,7 @@ cursor: pointer;
 
 .zoom {
   font-size: 1rem;
+  flex-grow: 2;
 }
 }
 
@@ -361,6 +363,7 @@ cursor: pointer;
 
 .zoom {
   font-size: 16px;
+  flex-grow: 2;
 }
 
 .navigation-arrows {
@@ -373,7 +376,7 @@ cursor: pointer;
 
 }
 
-@media only screen and (min-width: 1441px) {
+/* @media only screen and (min-width: 1441px) {
 
 .listHeader {
   font-size: 4.33rem;
@@ -454,10 +457,11 @@ cursor: pointer;
 
 .zoom {
   font-size: 2.3rem;
+  flex-grow: 2;
 }
 
 
 .navigation-arrows img {
   height: 6rem;
 }
-}
+} */

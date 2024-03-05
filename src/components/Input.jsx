@@ -1,24 +1,23 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import '../styles/Input.css';
-import { getBuildingName, markers } from './Maps.jsx';
+import { markers } from './Maps.jsx';
 
-export const Input = ({ handleSearch, updateMapMarker, updateMapCenter, hubData }) => {
+
+export const Input = ({ handleSearch, hubData }) => { 
   const [buildingNames, setBuildingNames] = useState([]);
-  const [selectedBuilding, setSelectedBuilding] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
-    fetchBuildingNames();
-  }, []);
+    fetchBuildingNames(hubData); // 
+  }, [hubData]);
 
-  const fetchBuildingNames = async () => {
+  const fetchBuildingNames = (hubData) => { 
     try {
-      const response = await axios.get('http://localhost:5143/api/DataHub');
-      const names = response.data.data.groupedProducts.map(building => {
-        const name = getBuildingName(building);
-        return { name, building };
-      });
+      const extractedMarkers = markers(hubData); 
+      const names = extractedMarkers.map(marker => ({
+        name: marker.title,
+        building: marker // 
+      }));
       names.sort((a, b) => a.name.localeCompare(b.name));
       setBuildingNames(names);
     } catch (error) {
@@ -35,18 +34,9 @@ export const Input = ({ handleSearch, updateMapMarker, updateMapCenter, hubData 
   const handleDropdownChange = async event => {
     const value = event.target.value;
     setSearchTerm(value);
-    const selected = buildingNames.find(building => building.name === value);
-    setSelectedBuilding(selected);
     handleSearch(value);
-
-    if (selected) {
-      const marker = markers(hubData).find(marker => getBuildingName(selected.building) === marker.title);
-      if (marker) {
-        console.log('marker :', marker.position); 
-        updateMapCenter(marker.position);}}
-    updateMapMarker(selected ? selected.building : null);
   };
-
+  
   return (
     <div className="inputContainer">
       <h1 className="searchInfo">HAE RAKENNUKSIA KARTALTA</h1>
@@ -62,7 +52,7 @@ export const Input = ({ handleSearch, updateMapMarker, updateMapCenter, hubData 
         value={searchTerm}
         onChange={handleDropdownChange}
       >
-        <option key="" value=""></option>
+       
         {buildingNames.map((building, index) => (
           <option key={index} value={building.name}>
             {building.name}
@@ -72,3 +62,4 @@ export const Input = ({ handleSearch, updateMapMarker, updateMapCenter, hubData 
     </div>
   );
 };
+

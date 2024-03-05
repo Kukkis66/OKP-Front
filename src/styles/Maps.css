@@ -16,3 +16,21 @@
 .InfoWindows {
   flex: 1; /* 1/3 of the width */
 }
+
+.weather-info {
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+}
+
+.weather-info p {
+  font-family: 'Red Rose', serif;
+  font-weight: 300;
+  font-size: 1.3rem; 
+  padding-right: 0.5rem;
+}
+
+.weather-info img {
+  width: 4rem; /* Adjust the width of the image as desired */
+  height: auto; /* Maintain aspect ratio */
+}
