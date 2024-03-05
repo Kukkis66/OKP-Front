@@ -119,7 +119,7 @@ export const List = ({ hubData }) => {
    
     return (
         <div>
-            <h1 className="listHeader">SELAA RAKENNUKSIA</h1>
+            {showFavorites ? <h1 className="listHeader">TÄSSÄ OVAT SUOSIKKISI</h1> : <h1 className="listHeader">SELAA RAKENNUKSIA</h1>}
             <div className="sortContainer">
                 <div className="dropdown">
                     <img src={sort} alt="sortLogo" />
@@ -159,7 +159,7 @@ export const List = ({ hubData }) => {
                 )}
             </div>
             <div className="cardContainer">
-            {showFavorites ? <Favorites displayedItems={displayedItems2} handleReadMore={handleReadMore} handleClosePopup={handleClosePopup} selectedBuilding={selectedBuilding} setFavorites={setFavorites} favorites={favorites}/> : renderCardContainer(displayedItems)}
+            {showFavorites && currentUser ? <Favorites displayedItems={displayedItems2} handleReadMore={handleReadMore} handleClosePopup={handleClosePopup} selectedBuilding={selectedBuilding} setFavorites={setFavorites} favorites={favorites}/> : renderCardContainer(displayedItems)}
             </div>
             <div className="navigation-arrows">
                 <a onClick={() => handlePageChange(currentPage - 1)}>

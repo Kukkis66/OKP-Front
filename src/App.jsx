@@ -9,6 +9,8 @@ import {Routes, Route } from "react-router-dom";
 import { ConfirmEmailPage } from './components/ConfirmEmailPage.jsx';
 import axios from 'axios';
 import './styles/App.css';
+import { useAuth } from './context/AuthContext.jsx';
+
 
 function App() {
   const [data, setData] = useState([]);
@@ -17,6 +19,8 @@ function App() {
   const [loginForm, setLoginForm] = useState(false);
   const [selectedMarker, setSelectedMarker] = useState(null);
   const [mapCenter, setMapCenter] = useState(null);
+
+  const { isLoggedIn, login, logout, currentUser, showFavorites, toggleFavorite, favorites, setFavorites } = useAuth();
 
   useEffect(() => {
     getAll();
@@ -65,9 +69,21 @@ function App() {
   return (
     <>
       <Header handleLoginForm={handleLoginForm} />
-      <Input handleSearch={handleSearch} searchField={searchField} markers={hubData.data?.groupedProducts || []} hubData={hubData} updateMapMarker={updateMapMarker} updateMapCenter={updateMapCenter} />
+      {showFavorites ? null : (
+        <Input handleSearch={handleSearch} searchField={searchField} markers={hubData.data?.groupedProducts || []} hubData={hubData} updateMapMarker={updateMapMarker} updateMapCenter={updateMapCenter} />
+      )}
       <Login loginForm={loginForm} handleLoginForm={handleLoginForm} />
-      <Maps searchField={searchField} buildings={hubData.data?.groupedProducts || []} hubData={hubData} selectedMarker={selectedMarker} updateMapMarker={updateMapMarker} updateMapCenter={updateMapCenter} mapCenter={mapCenter}/>
+      {showFavorites ? null : (
+        <Maps
+          searchField={searchField}
+          buildings={hubData.data?.groupedProducts || []}
+          hubData={hubData}
+          selectedMarker={selectedMarker}
+          updateMapMarker={updateMapMarker}
+          updateMapCenter={updateMapCenter}
+          mapCenter={mapCenter}
+        />
+      )}
       <List hubData={hubData} searchField={searchField} />
       <Footer />
     </>
