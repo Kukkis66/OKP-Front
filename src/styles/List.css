@@ -203,7 +203,7 @@ justify-content: space-between;
     display: flex;
     justify-content: center;
     gap: 0.8rem;
-    text-decoration-line: underline;
+    /* text-decoration-line: underline; */
     align-items: center;
 }
 
@@ -211,11 +211,20 @@ justify-content: space-between;
   font-family: 'Red Rose', serif;
   font-weight: 300;
   font-size: 1.3rem;
-  text-decoration-line: underline;
+  /* text-decoration-line: underline; */
   text-decoration-thickness: 1px;
   text-underline-offset: 2px;
   cursor: pointer;
 }
+
+.underline {
+  text-decoration: underline;
+}
+
+.active {
+  text-decoration: none !important;
+}
+
 
 /* tablet */
 

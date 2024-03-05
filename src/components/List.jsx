@@ -14,6 +14,8 @@ export const List = ({hubData}) => {
     const [itemsPerPage, setItemsPerPage] = useState(6);
     const [isBackwards, setIsBackwards] = useState(true)
     const [selectedBuilding, setSelectedBuilding] = useState(null);
+    const [paginationArrowLeft, setPaginationArrowLeft] = useState(false);
+    const [paginationArrowRight, setPaginationArrowRight] = useState(true);
     
     const handleReadMore = (building) => {
         setSelectedBuilding(building);
@@ -67,7 +69,54 @@ export const List = ({hubData}) => {
     const displayedItems = sortedItems?.slice(startIndex, endIndex);
             
     const handlePageChange = (newPage) => {
+    
         setCurrentPage(newPage);
+        
+        if (newPage === 1) {
+            setPaginationArrowLeft(false);
+        }
+
+        else if (newPage === pageNumbers.length) {
+            setPaginationArrowRight(false);
+        }
+
+        else {
+            setPaginationArrowRight(true);
+            setPaginationArrowLeft(true);
+        }
+        
+            
+
+      };
+    const handlePageChangeLeft = (newPage) => {
+
+        const pageToShow = currentPage - 1;
+    
+        if (pageToShow === 1 ) {
+            setPaginationArrowLeft(false);
+            setCurrentPage(newPage);
+        }
+        else {
+            setPaginationArrowLeft(true);
+            setPaginationArrowRight(true);
+            setCurrentPage(newPage);
+        }
+      };
+
+    const handlePageChangeRight = (newPage) => {
+
+        const pageToShow = currentPage + 1;
+    
+        if (pageToShow === pageNumbers.length) {
+            
+            setPaginationArrowRight(false);
+            setCurrentPage(newPage);
+        }
+        else {
+            setPaginationArrowRight(true);
+            setPaginationArrowLeft(true);
+            setCurrentPage(newPage);
+        }
       };
       
     const pageNumbers = Array.from({ length: totalPages }, (_, index) => index + 1);  
@@ -131,23 +180,34 @@ export const List = ({hubData}) => {
         </div>
         
         <div className="navigation-arrows">
-        <a onClick={() => handlePageChange(currentPage - 1)}><img src={arrowLeft} alt="arrowLeft" /></a>
+        {paginationArrowLeft ? (
+            <a 
+                onClick={() => handlePageChangeLeft(currentPage - 1)}><img src={arrowLeft} alt="arrowLeft" 
+                style={{ textDecoration: currentPage === pageNumbers.indexOf(currentPage) ? 'none !important' : 'underline'}}/></a>
+            ) : (
+            <p>{null}</p>
+        )}
         <div className="pagination">
             {pageNumbers.map((pageNumber) => (
                 <span
                 key={pageNumber}
-                className={pageNumber === currentPage ? 'active' : ''}
+                 className={pageNumber === currentPage ? 'active' : ''}
+                 style={{ textDecoration: pageNumber === currentPage ? 'none !important' : 'underline'}}
                 onClick={() => handlePageChange(pageNumber)}
                 >
                 {pageNumber}
                 </span>
             ))}
-        </div>            
-            <a onClick={() => handlePageChange(currentPage + 1)}><img src={arrowRight} alt="arrowRight" /></a>
+        </div>    
+        {paginationArrowRight ? (
+            <a 
+                onClick={() => handlePageChangeRight(currentPage + 1)}><img src={arrowRight} alt="arrowRight" 
+                style={{ textDecoration: currentPage === pageNumbers.indexOf(currentPage) ? 'none !important' : 'underline'}}/></a>
+            ) : (
+            <p>{null}</p>
+        )}
         </div>
     </div>
 );
 }
-
-
 
