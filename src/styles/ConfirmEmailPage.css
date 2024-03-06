@@ -33,6 +33,9 @@
     height: 100px;
     cursor: pointer;
     border-radius: 1.5rem;
+    background-color: #ECAF60;
+    font-size: 1.6rem;
+    box-shadow: 10px 5px 5px rgb(197, 194, 194);
 }
 
 .hello:hover {
@@ -97,6 +100,7 @@
     width: 100%;
     height: 40px;
     margin-block: 1rem;
+    font-size: 1.6rem;
 }
 
 .resend-email-form button {
@@ -108,9 +112,9 @@
 }
 
 .error {
-    font-size: 1.6rem;
+    font-size: 1.2rem;
     color: red;
-    padding-block-end: 1rem;
+    padding-block: 0.5rem;
 }
 
 

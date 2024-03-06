@@ -46,7 +46,7 @@ export const ConfirmEmailPage = () => {
           setShowPopUp(true); // Show the pop-up first
           setTimeout(() => {
             navigateToNewPage(); // Then navigate to new page after 3 seconds
-          }, 3000);
+          }, 4000);
         } else {
           let errorMessageText = await response.text();
           setErrorMessage(errorMessageText); 
@@ -67,7 +67,7 @@ export const ConfirmEmailPage = () => {
       });
 
       if (response.ok) {
-        setResendErrorMessage("new link was sent")
+        setResendErrorMessage("Sähköposti viesti lähetetty.")
         setTimeout(() => {
           setResendErrorMessage(null);
         }, 5000);
@@ -87,25 +87,29 @@ export const ConfirmEmailPage = () => {
 
         <div className='cofirm-email-middle-container'>
             {showPopup && <div className="popup1">
-              <h2>Success!</h2>
+              <h2>Onnistui!</h2>
               <div className='popup1-message'>
-                <h1>You have confirmed your email successfully!</h1>
-                <p>You will be redirected to the homepage.</p>
+                <h1>Olet vahvistanut sähköpostiosoitteesi, voit nyt kirjautua sisään!</h1>
+                <p>Sinut uudelleenohjataan automaattisesti kotisivulle.</p>
               </div>
             </div>}
             {showResendEmail && 
             <div className='resend-email-container'>
               <form onSubmit={ResendEmailConformation} className='resend-email-form'>
+                <ConfirmEmailError message={errorMessage} />
                 <label htmlFor="email" typeof='text'>Email:</label>
                 <input type="text" name='email'/>
                 <Notification message={resendErrorMessage} />
-                <button type='submit'>Resend Email Conformation Link</button>
+                <button type='submit' className='resend-email-btn'>Lähetä</button>
               </form>
             </div>}
-            <div className="cofirm-email-lower-container">
-                <button className='confirm-email-btn' onClick={confirmEmail}>click here to confirm your email</button>
-                <ConfirmEmailError message={errorMessage} />
-            </div>
+            {!showResendEmail && 
+
+              <div className="cofirm-email-lower-container">
+                  <button className='confirm-email-btn' onClick={confirmEmail}>Paina tästä vahvistaaksesi sähköpostiosoitteesi</button>
+                  
+              </div>
+            }
         </div>
             
       </div>

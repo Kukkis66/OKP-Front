@@ -4,12 +4,29 @@ import { useAuth } from '../context/AuthContext.jsx';
 import '../styles/Login.css'
 import { LoginErrorMessage } from './LoginErrorMessage.jsx';
 import { RegisterErrorMessage } from './RegisterErrorMessage.jsx';
+import PasswordChecklist from "react-password-checklist"
 
 
 export const Login = ({loginForm, handleLoginForm}) => {
     const [newUser, setNewUser] = useState(false)
     const { login, loginUser, error, registerUser, userRegistered } = useAuth();
     const [email, setEmail] = useState();
+    const [password, setPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
+    const [showPassword, setShowPassword] = useState(false);
+
+    const handlePasswordChange = ({target}) => {
+      setPassword(target.value);
+    }
+
+    const handlePasswordConfirmChange = ({target}) => {
+      setConfirmPassword(target.value);
+    }
+
+    const togglePasswordVisibility = () => {
+      setShowPassword(!showPassword);
+    };
+
     
 
 
@@ -51,19 +68,43 @@ export const Login = ({loginForm, handleLoginForm}) => {
                         <p>Salasana:</p>
                         <input
                         className="inputField inputFieldLogin"
-                        type="text"
+                        type={showPassword ? "text" : "password"}
                         placeholder="salasana"
-                        name="password"/>
+                        name="password" value={password} onChange={handlePasswordChange}/>
                       </div>
                       <div className='inputs inputsLogin'>
                       <p>Vahvista salasana:</p>
                       <input
                       className="inputField inputFieldLogin"
-                      type="text"
+                      type={showPassword ? "text" : "password"}
                       placeholder="vahvista salasana"
-                      name="confirmPassword"/>
+                      name="confirmPassword" value={confirmPassword} onChange={handlePasswordConfirmChange}/>
                       </div>
-                      <RegisterErrorMessage message={error} />
+                      <div className='password-checklist-container'>
+
+                      <div className='show-password-btn'>
+                        <input
+                          type="checkbox"
+                          checked={showPassword}
+                          onChange={() => setShowPassword(!showPassword)}
+                        />
+                        Näytä Salasana
+                      </div>
+                        <RegisterErrorMessage message={error} />
+                        <PasswordChecklist
+                          rules={["minLength","specialChar","number","capital","match"]}
+                          minLength={6}
+                          value={password}
+                          valueAgain={confirmPassword}
+                          messages={{
+                            minLength: "Salasana on vähintään 6 merkkiä pitkä",
+                            specialChar: "Salasanassa on vähintään 1 erikoismerkki",
+                            number: "Salasanassa on vähintään 1 numero",
+                            capital: "Salasanassa on vähintään 1 isokirjain",
+                            match: "Salasanat täsmäävät",
+                          }}
+                        />
+                      </div>
                       {userRegistered && <p className='user-registered-success'>Käyttäjä on luotu! Vahvista sähköposti osoitteesi</p>}
                       <div className='loginCenter'>
                         <button type='submit' className='button buttonLogin'>LUO KÄYTTÄJÄTILI</button>
@@ -98,11 +139,19 @@ export const Login = ({loginForm, handleLoginForm}) => {
                       <p>Salasana:</p>
                       <input
                       className="inputField inputFieldLogin"
-                      type="password"
+                      type={showPassword ? "text" : "password"}
                       placeholder="salasana"
                       name="password"
                       />
                     </div>
+                    <div className='show-password-btn'>
+                        <input
+                          type="checkbox"
+                          checked={showPassword}
+                          onChange={() => setShowPassword(!showPassword)}
+                        />
+                        Näytä Salasana
+                      </div>
                     <LoginErrorMessage message={error} />
                   </div>
                   <div className='loginCenter'>

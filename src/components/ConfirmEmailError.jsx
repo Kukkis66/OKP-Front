@@ -7,8 +7,20 @@ export const ConfirmEmailError = ({ message }) => {
     }
 
     return (
-        <div className="error">
-            <p>{message}</p>
-        </div>
+        <>  
+            <div className='back-to-home-conf-error-div'>
+
+                <a className='back-to-home-conf-error' href='http://localhost:5173/'>Takaisin</a>
+            </div>
+            <div className="popup2">
+                <h2>Epäonnistui!</h2>
+                <p className='confirm-error'>{message}</p>
+                <div className='popup2-message'>
+                    <h1>Sähköpostin varmistaminen epäonnistui.</h1>
+                    <p>Kirjoita sähköpostisi uudestaan allaolevaan kenttään ja lähetä, jotta voit varmistaa sähköpostisi uudestaan.</p>
+                </div>
+            </div>
+        
+        </>
     )
 }

@@ -1,10 +1,26 @@
 import '../styles/ResetPasswordPage.css';
 import { useState, useEffect } from 'react';
 import { Notification } from './Notification';
+import PasswordChecklist from "react-password-checklist"
 
 export const ResetPasswordPage = () => {
 
     const [errorMessageText, setErrorMessageText] = useState(null);
+    const [password, setPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
+    const [showPassword, setShowPassword] = useState(false);
+
+    const handlePasswordChange = ({target}) => {
+      setPassword(target.value);
+    }
+
+    const handlePasswordConfirmChange = ({target}) => {
+      setConfirmPassword(target.value);
+    }
+
+    const togglePasswordVisibility = () => {
+      setShowPassword(!showPassword);
+    };
 
     const navigateToNewPage = () => {
         window.location.href = '/';
@@ -52,11 +68,34 @@ export const ResetPasswordPage = () => {
             <div className='reset-password-container'>
                 <form onSubmit={resetPassword} className='reset-password-form'>
                     <label htmlFor="newPassword">Uusi Salasana</label>
-                    <input type="password" name='newPassword'/>
+                    <input type={showPassword ? "text" : "password"} name='newPassword' value={password} onChange={handlePasswordChange}/>
                     <label htmlFor="confirmPassword">Vahvista Salasana</label>
-                    <input type="password" name='confirmPassword'/>
+                    <input type={showPassword ? "text" : "password"} name='confirmPassword' value={confirmPassword} onChange={handlePasswordConfirmChange}/>
+                    <div className='show-password-btn'>
+                        <input
+                          type="checkbox"
+                          checked={showPassword}
+                          onChange={() => setShowPassword(!showPassword)}
+                        />
+                        Show Password
+                      </div>
+                      
+                    <PasswordChecklist
+                          rules={["minLength","specialChar","number","capital","match"]}
+                          minLength={6}
+                          value={password}
+                          valueAgain={confirmPassword}
+                          messages={{
+                            minLength: "Salasana on vähintään 6 merkkiä pitkä",
+                            specialChar: "Salasanassa on vähintään 1 erikoismerkki",
+                            number: "Salasanassa on vähintään 1 numero",
+                            capital: "Salasanassa on vähintään 1 isokirjain",
+                            match: "Salasanat täsmäävät",
+                          }}
+                        />
+                      <Notification message={errorMessageText} />
                     <button type='submit' className='reset-password-button'>Vahvista</button>
-                    <Notification message={errorMessageText} />
+                    
                 </form>
             </div>
         </div>

@@ -5,6 +5,7 @@ import { Notification } from './Notification';
 export const ForgotPasswordPage = () => {
 
     const [errorMessage, setErrorMessage] = useState(null);
+    const [type, setType] = useState(null);
 
     const navigateToNewPage = () => {
         window.location.href = '/';
@@ -48,9 +49,9 @@ export const ForgotPasswordPage = () => {
             <div className='reset-password-container'>
                 <form onSubmit={sendResetPassword} className='reset-password-form'>
                     <label htmlFor="email">Kirjoita sähköposti osoitteesi</label>
-                    <input type="text" name='email'/>
+                    <input type="text" name='email'onChange={(e) => setType(e.target.value)}/>
                     <Notification message={errorMessage}/>
-                    <button type='submit' className='reset-password-button'>Lähetä</button>
+                    <button disabled={!type} type='submit' className='reset-password-button'>Lähetä</button>
                 </form>
             </div>
         </div>

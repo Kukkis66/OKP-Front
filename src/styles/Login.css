@@ -129,8 +129,18 @@
     margin: auto;
   }
 
- 
 
+  .valid, .invalid {
+    font-size: 1.2rem;
+    padding-block-start: 0.5rem;
+  }
+
+ 
+  .show-password-btn {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+  }
 
 
   @media only screen and (max-width: 425px) {
