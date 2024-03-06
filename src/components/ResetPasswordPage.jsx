@@ -77,7 +77,7 @@ export const ResetPasswordPage = () => {
                           checked={showPassword}
                           onChange={() => setShowPassword(!showPassword)}
                         />
-                        Show Password
+                        Näytä Salasana
                       </div>
                       
                     <PasswordChecklist

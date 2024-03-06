@@ -37,7 +37,6 @@ export const Header = ({handleLoginForm}) => {
             {currentUser && (
                 <div>
                     <button onClick={() => {setShowFavorites(!showFavorites); fetchFavorites()}}>Click me</button>
-                    <button onClick={() => setShowFavorites(false)}>Unset</button>
                 </div>
             )}
         </header>

@@ -21,6 +21,7 @@ export const AuthProvider = ({ children }) => {
   const [userRegistered, setUserRegistered] = useState(false);
   const [showFavorites, setShowFavorites] = useState(false);
   const [favorites, setFavorites] = useState({ data: { product: [] } });
+  const [heartFilled, setHeartFilled] = useState(false);
 
 
 
@@ -166,7 +167,9 @@ export const AuthProvider = ({ children }) => {
     toggleFavorite:toggleFavorite,
     fetchFavorites:fetchFavorites,
     favorites:favorites,
-    setFavorites:setFavorites
+    setFavorites:setFavorites,
+    heartFilled:heartFilled,
+    setHeartFilled:setHeartFilled
   };
 
   return (
