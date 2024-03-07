@@ -7,14 +7,16 @@ import '../styles/List.css';
 import arrowLeft from '../assets/arrowLeft.png';
 import arrowRight from '../assets/arrowRight.png';
 import emptyHeart from '../assets/emptyHeart.png';
-import close from '../assets/close.png';
+import pin from '../assets/pin.png';
+import fillHeart from '../assets/fillHeart.png';
 import React from 'react';
 
 export const List = ({ hubData }) => {
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage, setItemsPerPage] = useState(6);
     const [isBackwards, setIsBackwards] = useState(true);
-    const [selectedBuilding, setSelectedBuilding] = useState(null);
+    const [selectedBuilding, setSelectedBuilding] = useState(null); 
+    const [heartStates, setHeartStates] = useState({});
 
     const handleReadMore = (building) => {
         setSelectedBuilding(building);
@@ -32,6 +34,13 @@ export const List = ({ hubData }) => {
         setIsBackwards(!isBackwards);
     };
 
+    const handleHeartClick = (buildingId) => {
+        setHeartStates(prevState => ({
+            ...prevState,
+            [buildingId]: !prevState[buildingId]
+        }));
+    };
+
     const renderCardContainer = (displayedItems) => {
         return (
             <div className="cardContainer">
@@ -41,7 +50,7 @@ export const List = ({ hubData }) => {
                             <div className="headingContainer">
                                 <h2 className='h2'>{getBuildingName(building)}</h2> 
                                 <div className="iconsContainer">
-                                    <img className="emptyHeart" src={emptyHeart} alt="empty-heart" />
+                                    <img className="emptyHeart" src={heartStates[building.id] ? fillHeart : emptyHeart} alt="heart" onClick={() => handleHeartClick(building.id)} />
                                 </div>
                             </div>
                             <div className="info">

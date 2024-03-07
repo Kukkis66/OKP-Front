@@ -55,7 +55,7 @@ function App() {
       <Input handleSearch={handleSearch} hubData={hubData}/>
       <Login loginForm={loginForm} handleLoginForm={handleLoginForm} />
       <Maps searchField={searchField} hubData={hubData}/>
-      <List hubData={hubData} searchField={searchField} />
+      <List hubData={hubData} searchField={searchField} handleSearch={handleSearch}/> 
       <Footer />
     </>
   );
