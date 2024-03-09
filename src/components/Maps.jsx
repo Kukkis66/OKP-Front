@@ -6,13 +6,12 @@ import houseIcon from '../assets/house.png';
 import { Popup } from './CardPopUp.jsx';
 import close from '../assets/close.png';
 import emptyHeart from '../assets/emptyHeart.png';
-import pin from '../assets/pin.png';
-import fillHeart from '../assets/fillHeart.png';
 
 const mapContainerStyle = {
   width: '100%',
   height: '100%',
 };
+
 
 const center = {
   lat: 60.1699,
@@ -21,8 +20,6 @@ const center = {
 
 const libraries = ['places'];
 
-const API_BASE_URL = 'http://api.openweathermap.org/data/2.5/weather';
-const API_KEY = import.meta.env.VITE_REACT_APP_API_KEY;
 
 export const getBuildingName = (building) => {
   if (!building || !building.productInformations || !building.productImages) {
@@ -93,7 +90,9 @@ export const markers = hubData => {
   return extractedMarkers;
 };
 
-export const Maps = ({searchField, hubData}) => {
+
+export const Maps = ({searchField, hubData, buildings = [],}) => {
+
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAPS_APIKEY,
     libraries,
@@ -105,12 +104,13 @@ export const Maps = ({searchField, hubData}) => {
   const [selectedMarker, setSelectedMarker] = useState(null);
   const [selectedBuilding, setSelectedBuilding] = useState(null);
   const [showInfoWindow, setShowInfoWindow] = useState(false);
-  const [weatherData, setWeatherData] = useState(null);
-  const [showPopup, setShowPopup] = useState(false);
   const markersData = markers(hubData);
-  const [isHeartFilled, setIsHeartFilled] = useState(false); 
-  
-  
+  // const [weatherData, setWeatherData] = useState(null);
+  const [showPopup, setShowPopup] = useState(false); 
+  // set map container height for mobile
+  const [mapContainerHeight, setMapContainerHeight] = useState(window.innerWidth <= 425 ? 630 : 'auto');
+
+
   const filteredMarkers = markersData.filter(marker => {
       return searchField === '' || marker.title.toLowerCase().includes(searchField.toLowerCase());
     }); 
@@ -158,81 +158,58 @@ export const Maps = ({searchField, hubData}) => {
     ],
   };
 
-  const fetchWeatherData = async (lat, lng) => {
-    try {
-      const response = await fetch(`${API_BASE_URL}?lat=${lat}&lon=${lng}&appid=${API_KEY}`);
-      const data = await response.json();
-      setWeatherData(data);
-    } catch (error) {
-      console.error('Error fetching weather data:', error);
-    }
-  };
 
   const handleMarkerClick = (marker) => {
     console.log("Marker clicked:", marker);
     setSelectedMarker(marker);
-    setShowInfoWindow(true);
-    const clickedBuilding = hubData.data.groupedProducts.find(
-        (building) => getBuildingName(building) === marker.title
-    );
+    setShowInfoWindow(true); 
+    const clickedBuilding = hubData.data.groupedProducts.find(building => getBuildingName(building) === marker.title);
     setSelectedBuilding(clickedBuilding);
-    fetchWeatherData(marker.position.lat, marker.position.lng);
 
-    // Move the map center to the clicked marker's position and set zoom to 15
-    if (map) {
-        map.panTo(marker.position);
-        map.setZoom(15);
+     // set the map container height for mobile when the building is clicked
+    if (window.innerWidth <= 425) {
+      setMapContainerHeight(980);
     }
-};
-
+  };
   const closeInfoWindow = () => {
     setSelectedMarker(null); 
     setSelectedBuilding(null);
-    setWeatherData(null);
-  
-    // Revert the zoom level back to 13 and center to the default center
-    if (map) {
-      map.setZoom(13);
-      map.panTo(center);
-    }
-  
-    setShowInfoWindow(false);
-  };
 
-  const handleHeartClick = () => {
-    setIsHeartFilled(!isHeartFilled); // Toggle heart state
+    // set the map container height for mobile when the card is not shown
+    
+    if (window.innerWidth <= 425) {
+      setMapContainerHeight(window.innerWidth <= 425 ? 630 : 'auto');
+    }
   };
   
   return (
-    <div className="mapContainer">
+    <div className="mapContainer" style={{ height: mapContainerHeight }}>
       <div className={selectedBuilding ? "map" : "map full-width"}>
-      
-      <GoogleMap
-        mapContainerStyle={mapContainerStyle}
-        zoom={13}
-        center={center}
-        options={mapOptions}
-        onLoad={onMapLoad}
-      >
-        {filteredMarkers.map((marker, index) => {
-          if (!selectedMarker || marker.title === selectedMarker.title) {
-            return (
-              <Marker
-                key={index}
-                position={marker.position}
-                title={marker.title}
-                icon={{
-                  url: selectedMarker && selectedMarker.title === marker.title ? pin : houseIcon,
-                  scaledSize: new window.google.maps.Size(20, 32),
-                }}
-                onClick={() => handleMarkerClick(marker)}
-              />
-            );
-          }
+        <GoogleMap
+          mapContainerStyle={mapContainerStyle}
+          zoom={13}
+          center={center}
+          options={mapOptions}
+          onLoad={onMapLoad}
+        >
+          {filteredMarkers.map((marker, index) => {
+            if (!selectedMarker || marker.title === selectedMarker.title) {
+              return (
+                <Marker
+                  key={index}
+                  position={marker.position}
+                  title={marker.title}
+                  icon={{
+                    url: houseIcon,
+                    scaledSize: new window.google.maps.Size(20, 32),
+                  }}
+                  onClick={() => handleMarkerClick(marker)}
+                />
+              );
+            }
             return null;
-        })}
-      </GoogleMap>
-
+          })}
+        </GoogleMap>
       </div>
       {showInfoWindow && selectedMarker && (
         <div className="InfoWindows">
@@ -241,9 +218,7 @@ export const Maps = ({searchField, hubData}) => {
             <div className="headingContainer">
               <h2 className="h2">{getBuildingName(selectedBuilding)}</h2>
               <div className="iconsContainer">
-                <img className="pinCard" src={close} alt="close" onClick={closeInfoWindow} />
-                <img className="emptyHeart" src={isHeartFilled ? fillHeart : emptyHeart} alt="heart" onClick={handleHeartClick} />   
-      
+                <img className="emptyHeart" src={emptyHeart} alt="empty-heart" />  
               </div>
             </div>
             <div className="info">
@@ -260,15 +235,10 @@ export const Maps = ({searchField, hubData}) => {
             <div className="headingContainer">
               <a className="zoom" onClick={() => setShowPopup(true)}>LUE LISÄÄ</a>
               {showPopup && <Popup building={selectedBuilding} onClose={() => setShowPopup(false)} />}  
-              {weatherData && (
-                <div className="weather-info">
-                  <p>{Math.round(weatherData.main.temp - 273.15)} °C</p>
-                  <img src={`http://openweathermap.org/img/w/${weatherData.weather[0].icon}.png`} alt="Weather Icon" />
-                </div>
-              )}
             </div>
           </li>
         )}
+            <img className="closeX" src={close} alt="close" onClick={closeInfoWindow} />
         </div>
       )}
     </div>

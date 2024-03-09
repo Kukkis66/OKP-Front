@@ -43,11 +43,12 @@ export const Input = ({ handleSearch, hubData}) => {
       <input
         className="inputField"
         type="text"
+        list="exampleList"
         placeholder="Kirjoita rakennuksen nimi"
         value={searchTerm}
         onChange={handleInputChange}
       />
-      <select
+       <datalist
         className="dropdownSearch"
         value={searchTerm}
         onChange={handleDropdownChange}
@@ -58,7 +59,7 @@ export const Input = ({ handleSearch, hubData}) => {
             {building.name}
           </option>
         ))}
-      </select>
+      </datalist>
     </div>
   );
 };

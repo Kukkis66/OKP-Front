@@ -14,10 +14,11 @@ import React from 'react';
 export const List = ({ hubData }) => {
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage, setItemsPerPage] = useState(6);
-    const [isBackwards, setIsBackwards] = useState(true);
-    const [selectedBuilding, setSelectedBuilding] = useState(null); 
-    const [heartStates, setHeartStates] = useState({});
-
+    const [isBackwards, setIsBackwards] = useState(true)
+    const [selectedBuilding, setSelectedBuilding] = useState(null);
+    const [paginationArrowLeft, setPaginationArrowLeft] = useState(false);
+    const [paginationArrowRight, setPaginationArrowRight] = useState(true);
+    
     const handleReadMore = (building) => {
         setSelectedBuilding(building);
     };
@@ -27,8 +28,39 @@ export const List = ({ hubData }) => {
     };
 
     const handleCardCount = (count) => {
-        setItemsPerPage(count);
-    };
+        setItemsPerPage(count)
+
+        const newTotalPages = Math.ceil(hubData.data?.groupedProducts?.length / count);
+        const newCurrentPage = Math.min(currentPage, newTotalPages);
+        setCurrentPage(newCurrentPage);
+
+        console.log("current page: " + newCurrentPage)
+        console.log("page numbers length" + newTotalPages)
+           
+        if (newCurrentPage === 1 && newTotalPages === 2) {
+            setPaginationArrowRight(true)
+            setPaginationArrowLeft(false)
+        }
+        else if (newCurrentPage === 2 && newTotalPages === 2) {
+            console.log("tulee tänne!!")
+            setPaginationArrowRight(false)
+            setPaginationArrowLeft(true)
+        }
+
+        else if (newCurrentPage === 1) {
+            setPaginationArrowLeft(false);
+        }
+       
+        else if (newCurrentPage === newTotalPages) {
+            
+            setPaginationArrowRight(false);
+        }
+
+        else {
+            setPaginationArrowRight(true);
+            setPaginationArrowLeft(true);
+        }
+    }
 
     const handleWards = () => {
         setIsBackwards(!isBackwards);
@@ -102,74 +134,166 @@ export const List = ({ hubData }) => {
     const displayedItems = sortedItems?.slice(startIndex, endIndex);
 
     const handlePageChange = (newPage) => {
+    
         setCurrentPage(newPage);
-    };
+        console.log("sivujen lukumäärä " + pageNumbers.length)
 
-    const pageNumbers = Array.from({ length: totalPages }, (_, index) => index + 1);
-   
+        if (newPage === 1 && pageNumbers.length === 2) {
+            setPaginationArrowRight(true)
+            setPaginationArrowLeft(false)
+        }
+        else if (newPage === 2 && pageNumbers.length === 2) {
+            setPaginationArrowRight(false)
+            setPaginationArrowLeft(true)
+        }
+
+        else if (newPage === 1) {
+            setPaginationArrowLeft(false);
+            setPaginationArrowRight(true);
+        }
+       
+        else if (newPage === pageNumbers.length) {
+            setPaginationArrowRight(false);
+            setPaginationArrowLeft(true);
+        }
+
+        else {
+            setPaginationArrowRight(true);
+            setPaginationArrowLeft(true);
+        }  
+      };
+
+    const handlePageChangeLeft = (newPage) => {
+
+        const pageToShow = currentPage - 1;
+    
+        if (pageToShow === 1 && pageNumbers.length === 2) {
+            setPaginationArrowRight(true)
+            setPaginationArrowLeft(false)
+            setCurrentPage(newPage);
+        }
+        else if (pageToShow === 1 ) {
+            setPaginationArrowLeft(false);
+            setCurrentPage(newPage);
+        }
+       
+        else {
+            setPaginationArrowLeft(true);
+            setPaginationArrowRight(true);
+            setCurrentPage(newPage);
+        }
+      };
+
+    const handlePageChangeRight = (newPage) => {
+
+        console.log("pagenumbers lenght: " + pageNumbers.length)
+        const pageToShow = currentPage + 1;
+        console.log("page to show " + pageToShow )
+    
+        if (pageToShow === 2 && pageNumbers.length === 2) {
+            console.log("TÄÄLLÄ!")
+            setPaginationArrowRight(false)
+            setPaginationArrowLeft(true)
+            setCurrentPage(newPage);
+        }
+        else if (pageToShow === pageNumbers.length) {
+            setPaginationArrowRight(false);
+            setCurrentPage(newPage);
+        }
+       
+        else {
+            setPaginationArrowRight(true);
+            setPaginationArrowLeft(true);
+            setCurrentPage(newPage);
+        }
+      };
+      
+    const pageNumbers = Array.from({ length: totalPages }, (_, index) => index + 1);  
+    
     return (
         <div>
-            <h1 className="listHeader">SELAA RAKENNUKSIA</h1>
-            <div className="sortContainer">
-                <div className="dropdown">
-                    <img src={sort} alt="sortLogo" />
-                    <a>NÄYTÄ {itemsPerPage}</a>
-                    <div className="dropdown-content">
-                        <button className="button" onClick={() => handleCardCount(6)}>
-                            6
-                        </button>
-                        <button className="button" onClick={() => handleCardCount(12)}>
-                            12
-                        </button>
-                        <button className="button" onClick={() => handleCardCount(24)}>
-                            24
-                        </button>
+            <div>
+                <h1 className="listHeader">SELAA RAKENNUKSIA</h1>
+                <div className="sortContainer">
+                    <div className="dropdown">
+                        <img src={sort} alt="sortLogo" />
+                        <a>NÄYTÄ {itemsPerPage}</a>
+                        <div className="dropdown-content">
+                            <button className="button" onClick={() => handleCardCount(6)}>
+                                6
+                            </button>
+                            <button className="button" onClick={() => handleCardCount(12)}>
+                                12
+                            </button>
+                            <button className="button" onClick={() => handleCardCount(24)}>
+                                24
+                            </button>
+                        </div>
                     </div>
+    
+                    {isBackwards ? (
+                        <div className="wards">
+                            <span>A - Ö</span>
+                            <img
+                                onClick={() => handleWards()}
+                                src={arrowDown}
+                                alt="arrow-down"
+                            />
+                        </div>
+                    ) : (
+                        <div className="wards">
+                            <span>Ö - A</span>
+                            <img
+                                onClick={() => handleWards()}
+                                src={arrowDown}
+                                alt="arrow-up"
+                                style={{ transform: 'rotate(180deg)' }}
+                            />
+                        </div>
+                    )}
                 </div>
-
-                {isBackwards ? (
-                    <div className="wards">
-                        <span>A - Ö</span>
-                        <img
-                            onClick={() => handleWards()}
-                            src={arrowDown}
-                            alt="arrow-down"
-                        />
-                    </div>
-                ) : (
-                    <div className="wards">
-                        <span>Ö - A</span>
-                        <img
-                            onClick={() => handleWards()}
-                            src={arrowDown}
-                            alt="arrow-up"
-                            style={{ transform: 'rotate(180deg)' }}
-                        />
-                    </div>
-                )}
+                <div className='info'>  
+                    <p className='p'>Osoite: {building.postalAddresses[0]?.streetName}</p>
+                    <p className='p'>Kaupunki: {building.postalAddresses[0]?.city}</p>
+                    <p className='p'>Postinumero: {building.postalAddresses[0]?.postalCode}</p>
+                </div>
             </div>
-            <div className="cardContainer">
-            {renderCardContainer(displayedItems)}
-            </div>
+            
             <div className="navigation-arrows">
-                <a onClick={() => handlePageChange(currentPage - 1)}>
-                    <img src={arrowLeft} alt="arrowLeft" />
-                </a>
+                {paginationArrowLeft ? (
+                    <a 
+                        onClick={() => handlePageChangeLeft(currentPage - 1)}>
+                        <img src={arrowLeft} alt="arrowLeft" 
+                        style={{ textDecoration: currentPage === pageNumbers.indexOf(currentPage) ? 'none !important' : 'underline'}}/>
+                    </a>
+                ) : (
+                    <p>{null}</p>
+                )}
                 <div className="pagination">
                     {pageNumbers.map((pageNumber) => (
                         <span
                             key={pageNumber}
                             className={pageNumber === currentPage ? 'active' : ''}
+                            style={{ textDecoration: pageNumber === currentPage ? 'none !important' : 'underline'}}
                             onClick={() => handlePageChange(pageNumber)}
                         >
                             {pageNumber}
                         </span>
                     ))}
-                </div>
-                <a onClick={() => handlePageChange(currentPage + 1)}>
-                    <img src={arrowRight} alt="arrowRight" />
-                </a>
+                </div>    
+                {paginationArrowRight ? (
+                    <a 
+                        onClick={() => handlePageChangeRight(currentPage + 1)}>
+                        <img src={arrowRight} alt="arrowRight" 
+                        style={{ textDecoration: currentPage === pageNumbers.indexOf(currentPage) ? 'none !important' : 'underline'}}/>
+                    </a>
+                ) : (
+                    <p>{null}</p>
+                )}
             </div>
         </div>
     );
-};
+    
+}
+
+
