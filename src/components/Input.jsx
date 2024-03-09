@@ -3,7 +3,7 @@ import '../styles/Input.css';
 import { markers } from './Maps.jsx';
 
 
-export const Input = ({ handleSearch, hubData }) => { 
+export const Input = ({ handleSearch, hubData}) => { 
   const [buildingNames, setBuildingNames] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
 
