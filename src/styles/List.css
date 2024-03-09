@@ -250,7 +250,6 @@ cursor: pointer;
   display: flex;
   justify-content: center;
   gap: 0.8rem;
-  text-decoration-line: underline;
   align-items: center;
 }
 

@@ -13,7 +13,7 @@ function App() {
   const [hubData, setHubData] = useState({ data: { groupedProducts: [] } });
   const [searchField, setSearchField] = useState('');
   const [loginForm, setLoginForm] = useState(false);
- 
+  const [selectedMarker, setSelectedMarker] = useState(null);
 
   useEffect(() => {
     getAll();
@@ -48,11 +48,15 @@ function App() {
       console.error('Error fetching data:', error);
     }
   };
+  
+  const updateMapMarker = selectedBuilding => {
+    setSelectedMarker(selectedBuilding);
+  };
 
   return (
     <>
       <Header handleLoginForm={handleLoginForm} />
-      <Input handleSearch={handleSearch} hubData={hubData}/>
+      <Input handleSearch={handleSearch} searchField={searchField} markers={hubData.data?.groupedProducts || []} updateMapMarker={updateMapMarker} />
       <Login loginForm={loginForm} handleLoginForm={handleLoginForm} />
       <Maps searchField={searchField} hubData={hubData}/>
       <List hubData={hubData} searchField={searchField} handleSearch={handleSearch}/> 

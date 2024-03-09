@@ -1,23 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/Input.css';
-import { markers } from './Maps.jsx';
+import axios from 'axios';
+import { getBuildingName } from './Maps.jsx';
 
-
-export const Input = ({ handleSearch, hubData}) => { 
+export const Input = ({ handleSearch, updateMapMarker }) => {
   const [buildingNames, setBuildingNames] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
-    fetchBuildingNames(hubData); // 
-  }, [hubData]);
+    fetchBuildingNames();
+  }, []);
 
-  const fetchBuildingNames = (hubData) => { 
+  const fetchBuildingNames = async () => {
     try {
-      const extractedMarkers = markers(hubData); 
-      const names = extractedMarkers.map(marker => ({
-        name: marker.title,
-        building: marker // 
-      }));
+      const response = await axios.get('http://localhost:5143/api/DataHub');
+      const names = response.data.data.groupedProducts.map(building => {
+        const name = getBuildingName(building);
+        return { name, building };
+      });
+
+      // Sort buildingNames alphabetically by name
       names.sort((a, b) => a.name.localeCompare(b.name));
       setBuildingNames(names);
     } catch (error) {
@@ -31,12 +33,16 @@ export const Input = ({ handleSearch, hubData}) => {
     handleSearch(value);
   };
 
-  const handleDropdownChange = async event => {
+  const handleDropdownChange = event => {
     const value = event.target.value;
     setSearchTerm(value);
+    const selected = buildingNames.find(building => building.name === value);
+    console.log("Selected building:", selected);
     handleSearch(value);
+    // Update map marker based on selected building
+    updateMapMarker(selected ? selected.building : null);
   };
-  
+
   return (
     <div className="inputContainer">
       <h1 className="searchInfo">HAE RAKENNUKSIA KARTALTA</h1>
@@ -48,19 +54,16 @@ export const Input = ({ handleSearch, hubData}) => {
         value={searchTerm}
         onChange={handleInputChange}
       />
-       <datalist
+      <datalist
         className="dropdownSearch"
-        value={searchTerm}
+        id="exampleList"
         onChange={handleDropdownChange}
       >
-       
+        <option value=""></option>
         {buildingNames.map((building, index) => (
-          <option key={index} value={building.name}>
-            {building.name}
-          </option>
+          <option key={index} value={building.name} />
         ))}
       </datalist>
     </div>
   );
 };
-
