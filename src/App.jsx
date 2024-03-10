@@ -22,6 +22,7 @@ function App() {
   const [loginForm, setLoginForm] = useState(false);
   const [selectedMarker, setSelectedMarker] = useState(null);
   const [mapCenter, setMapCenter] = useState(null);
+  const [userFavorites, setUserFavorites] = useState([]);
 
   const { isLoggedIn, login, logout, currentUser, showFavorites, toggleFavorite, favorites, setFavorites } = useAuth();
 
@@ -42,11 +43,33 @@ function App() {
   const getAll = async () => {
     try {
       const response = await axios.get('https://www.hel.fi/palvelukarttaws/rest/v4/unit/?ontologyword=473');
+      
       setData(response.data);
     } catch (error) {
       console.error('Something went wrong:', error.message);
     }
   };
+
+  useEffect(() => {
+    const getUserFavorites = async () => {
+      try {
+        if (currentUser) {
+          const response = await axios.get(`http://localhost:5143/api/Favorites/user-favorites/${currentUser.Id}`);
+          console.log(userFavorites);
+          setUserFavorites(response.data);
+          
+        }
+      } catch (error) {
+        console.error('Something went wrong:', error.message);
+      }
+    };
+
+    getUserFavorites();
+
+    // Clean up function to clear data when component unmounts or currentUser becomes null
+    return () => setUserFavorites([]);
+
+  }, [currentUser, favorites]);
 
   const fetchData = async () => {
     try {
@@ -86,7 +109,7 @@ function App() {
                 updateMapCenter={updateMapCenter}
                 mapCenter={mapCenter}
               />
-              <List hubData={hubData} searchField={searchField} />
+              <List hubData={hubData} searchField={searchField} userFavorites={userFavorites}/>
               <Footer />
             </>} />
             <Route exact path='/favorites' element={<>

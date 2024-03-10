@@ -11,15 +11,62 @@ import close from '../assets/close.png';
 import React from 'react';
 import { useAuth } from '../context/AuthContext.jsx';
 import { Favorites } from './Favorites.jsx';
+import wholeHeart from '../assets/whole-heart.png';
+import axios from 'axios';
 
 
-export const List = ({ hubData }) => {
+export const List = ({ hubData, userFavorites }) => {
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage, setItemsPerPage] = useState(6);
     const [isBackwards, setIsBackwards] = useState(true);
     const [selectedBuilding, setSelectedBuilding] = useState(null);
+    const [isFavorite, setIsFavorite] = useState(false);
+    const [favoriteStatus, setFavoriteStatus] = useState({});
 
     const { isLoggedIn, login, logout, currentUser, showFavorites, toggleFavorite, favorites, setFavorites } = useAuth();
+
+    const toggleFavorite2 = async (buildingId, userId) => {
+        // Check if currentUser is logged in
+        if (!currentUser) {
+            console.log("User is not logged in!");
+            return;
+        }
+    
+        try {
+            // Check if the building is already favorited
+            const isFavorite = userFavorites.some(favorite => favorite.key === buildingId);
+    
+            if (isFavorite) {
+                // If already favorited, delete the favorite
+                const response = await axios.delete(`http://localhost:5143/api/Favorites/${buildingId}`);
+                console.log("Favorite deleted:", response);
+            } else {
+                // If not favorited, add the favorite
+                const response = await axios.post('http://localhost:5143/api/Favorites', { "key": buildingId, "userId": userId });
+                console.log("Favorite added:", response);
+            }
+        } catch (error) {
+            console.error('Error toggling favorite:', error);
+        }
+    
+        // Update favorite status after toggling
+        handleHeartClick(buildingId);
+    };
+    
+    const handleHeartClick = async (buildingId) => {
+        try {
+            // Check if the building is already favorited
+            const isFavorite = userFavorites.some(favorite => favorite.key === buildingId);
+    
+            // Update favorite status based on the current state after toggling
+            setFavoriteStatus(prevStatus => ({
+                ...prevStatus,
+                [buildingId]: !isFavorite // Toggle the favorite status
+            }));
+        } catch (error) {
+            console.error('Error toggling favorite:', error);
+        }
+    };
 
     const handleReadMore = (building) => {
         setSelectedBuilding(building);
@@ -41,40 +88,54 @@ export const List = ({ hubData }) => {
         return (
             <div className="cardContainer">
                 <ul>
-                    {displayedItems?.map((building) => (
-                        <li className="card" key={building.id}>
-                            <div className="headingContainer">
-                                <h2 className='h2'>{getBuildingName(building)}</h2> 
-                                <div className="iconsContainer" onClick={() => {
-                                    // Check if currentUser is logged in
-                                    if (currentUser && isLoggedIn) {
-                                        // If logged in, toggle favorite
-                                        toggleFavorite(building.id, currentUser.Id);
-                                    } else {
-                                        // If not logged in, display a message or handle the situation accordingly
-                                        console.log("You need to be logged in to use this feature.");
-                                        // You could also redirect the user to the login page, show a modal, etc.
-                                    }
-                                }}>
-                                    <img className="emptyHeart" src={emptyHeart} alt="empty-heart" />
+                {displayedItems?.map((building) => {
+            // Check if the current card's ID exists in the userFavorites list
+            const isFavorite = userFavorites.some(favorite => favorite.key === building.id);
+            
+
+                        return (
+                            <li className="card" key={building.id}>
+                                <div className="headingContainer">
+                                    <h2 className='h2'>{getBuildingName(building)}</h2> 
+                                    <div className="iconsContainer" onClick={() => {
+                                        // Check if currentUser is logged in
+                                        if (currentUser && isLoggedIn) {
+                                            // If logged in, toggle favorite
+                                            toggleFavorite2(building.id, currentUser.Id)
+                                            .then(() => {
+                                                // Update heart icon based on the response
+                                                handleHeartClick(building.id);
+                                            });
+                                        } else {
+                                            // If not logged in, display a message or handle the situation accordingly
+                                            console.log("You need to be logged in to use this feature.");
+                                            // You could also redirect the user to the login page, show a modal, etc.
+                                        }
+                                    }}>
+                                        {favoriteStatus[building.id] ? (
+                                            <img className="fullHeart" src={wholeHeart} alt="full-heart" />
+                                        ) : (
+                                            <img className="emptyHeart" src={emptyHeart} alt="empty-heart" />
+                                        )}
+                                    </div>
                                 </div>
-                            </div>
-                            <div className="info">
-                                <p className="p">Osoite: {building.postalAddresses[0]?.streetName}</p>
-                                <p className="p">Kaupunki: {building.postalAddresses[0]?.city}</p>
-                                <p className="p">Postinumero: {building.postalAddresses[0]?.postalCode}</p>
-                            </div>
-                            <figure className="picture_url">
-                                <img
-                                    src={building.productImages[0]?.thumbnailUrl}
-                                    alt={building.productImages[0]?.altText}
-                                />
-                            </figure>
-                            <a className="zoom" onClick={() => handleReadMore(building)}>
-                                LUE LISÄÄ
-                            </a>
-                        </li>
-                    ))}
+                                <div className="info">
+                                    <p className="p">Osoite: {building.postalAddresses[0]?.streetName}</p>
+                                    <p className="p">Kaupunki: {building.postalAddresses[0]?.city}</p>
+                                    <p className="p">Postinumero: {building.postalAddresses[0]?.postalCode}</p>
+                                </div>
+                                <figure className="picture_url">
+                                    <img
+                                        src={building.productImages[0]?.thumbnailUrl}
+                                        alt={building.productImages[0]?.altText}
+                                    />
+                                </figure>
+                                <a className="zoom" onClick={() => handleReadMore(building)}>
+                                    LUE LISÄÄ
+                                </a>
+                            </li>
+                        );
+                    })}
                 </ul>
                 {selectedBuilding && <Popup building={selectedBuilding} onClose={() => handleClosePopup()} />}
             </div>

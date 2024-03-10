@@ -1,6 +1,7 @@
 import silhouet from '../assets/logo-project.png';
 import arrow from '../assets/login.svg';
 import arrowOut from '../assets/logout.png'
+import wholeHeart from '../assets/whole-heart.png'
 import '../styles/Header.css';
 import { useAuth } from '../context/AuthContext.jsx';
 import { Link } from 'react-router-dom';
@@ -20,6 +21,15 @@ export const Header = ({handleLoginForm}) => {
                 </figure>
             {isLoggedIn ? (
                 <div className='login header-grid-item'>
+                    <a href='/'>Koti</a>
+                    <Link to="/favorites">
+                        <figure>
+                            <img src={wholeHeart} alt="heart" />
+                        </figure>
+                    </Link>
+                    <Link to="/">
+                        yeet
+                    </Link>
                     <a >{currentUser["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"]}</a>
                     <a href='#' onClick={logout}>KIRJAUDU ULOS</a>
                     <figure>
@@ -35,17 +45,6 @@ export const Header = ({handleLoginForm}) => {
             )}
             </div>
             <div className='bottom-section'><h1>Löydä tietoa rakennuksista, tallenna suosikkejasi, rakenna reittejä</h1></div>
-            {currentUser && (
-                <>
-                    <div>
-                        <button onClick={() => {setShowFavorites(!showFavorites); fetchFavorites()}}>Click me</button>
-                    </div>
-                    <Link to="/favorites">Favorites</Link>
-                    <Link to="/">Home</Link>
-                    <a href="/favorites">here</a>
-                
-                </>
-            )}
         </header>
             
 

@@ -6,6 +6,7 @@ import { getBuildingName} from './Maps.jsx';
 import '../styles/List.css';
 import arrowLeft from '../assets/arrowLeft.png';
 import arrowRight from '../assets/arrowRight.png';
+import wholeHeart from '../assets/whole-heart.png';
 import emptyHeart from '../assets/emptyHeart.png';
 import close from '../assets/close.png';
 import React from 'react';
@@ -25,6 +26,8 @@ export const Favorites = ({}) => {
     const { isLoggedIn, login, logout, currentUser, showFavorites, toggleFavorite, favorites, setFavorites } = useAuth();
 
     const navigate = useNavigate();
+
+    
 
   // Example of redirecting programmatically
     if (!isLoggedIn) {
@@ -96,7 +99,7 @@ export const Favorites = ({}) => {
                             <div className="headingContainer">
                                 <h2 className='h2'>{getBuildingName(building)}</h2> 
                                 <div className="iconsContainer" onClick={() => deleteFavorite(building.id)}>
-                                    <img className="emptyHeart" src={emptyHeart} alt="empty-heart" />
+                                    <img className="emptyHeart" src={wholeHeart} alt="empty-heart" />
                                 </div>
                             </div>
                             <div className="info">
