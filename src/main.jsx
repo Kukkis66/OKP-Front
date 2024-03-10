@@ -13,14 +13,15 @@ import { ForgotPasswordPage } from './components/ForgotPasswordPage.jsx'
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <AuthProvider>
-      <BrowserRouter>
+      <App />
+      {/* <BrowserRouter>
         <Routes>
           <Route path="/" element={<App /> }/>
           <Route path="/confirm-email" element={<ConfirmEmailPage />} />
           <Route path="/reset-password" element={<ResetPasswordPage />} />
           <Route path='/forgot-password' element={<ForgotPasswordPage />} />
         </Routes>
-      </BrowserRouter>
+      </BrowserRouter> */}
     </AuthProvider>
   </React.StrictMode>,
 )

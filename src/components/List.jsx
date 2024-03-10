@@ -45,7 +45,17 @@ export const List = ({ hubData }) => {
                         <li className="card" key={building.id}>
                             <div className="headingContainer">
                                 <h2 className='h2'>{getBuildingName(building)}</h2> 
-                                <div className="iconsContainer" onClick={() => toggleFavorite(building.id, currentUser.Id)}>
+                                <div className="iconsContainer" onClick={() => {
+                                    // Check if currentUser is logged in
+                                    if (currentUser && isLoggedIn) {
+                                        // If logged in, toggle favorite
+                                        toggleFavorite(building.id, currentUser.Id);
+                                    } else {
+                                        // If not logged in, display a message or handle the situation accordingly
+                                        console.log("You need to be logged in to use this feature.");
+                                        // You could also redirect the user to the login page, show a modal, etc.
+                                    }
+                                }}>
                                     <img className="emptyHeart" src={emptyHeart} alt="empty-heart" />
                                 </div>
                             </div>
@@ -119,7 +129,7 @@ export const List = ({ hubData }) => {
    
     return (
         <div>
-            {showFavorites ? <h1 className="listHeader">TÄSSÄ OVAT SUOSIKKISI</h1> : <h1 className="listHeader">SELAA RAKENNUKSIA</h1>}
+            <h1 className="listHeader">SELAA RAKENNUKSIA</h1>
             <div className="sortContainer">
                 <div className="dropdown">
                     <img src={sort} alt="sortLogo" />
@@ -159,7 +169,7 @@ export const List = ({ hubData }) => {
                 )}
             </div>
             <div className="cardContainer">
-            {showFavorites && currentUser ? <Favorites displayedItems={displayedItems2} handleReadMore={handleReadMore} handleClosePopup={handleClosePopup} selectedBuilding={selectedBuilding} setFavorites={setFavorites} favorites={favorites}/> : renderCardContainer(displayedItems)}
+                {renderCardContainer(displayedItems)}
             </div>
             <div className="navigation-arrows">
                 <a onClick={() => handlePageChange(currentPage - 1)}>

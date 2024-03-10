@@ -10,7 +10,7 @@ import PasswordChecklist from "react-password-checklist"
 export const Login = ({loginForm, handleLoginForm}) => {
     const [newUser, setNewUser] = useState(false)
     const { login, loginUser, error, registerUser, userRegistered } = useAuth();
-    const [email, setEmail] = useState();
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);

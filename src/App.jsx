@@ -5,11 +5,14 @@ import { Maps } from './components/Maps.jsx';
 import { List } from './components/List.jsx';
 import { Input } from './components/Input.jsx';
 import { Login } from './components/Login.jsx';
-import {Routes, Route } from "react-router-dom";
+import {Routes, Route, BrowserRouter } from "react-router-dom";
 import { ConfirmEmailPage } from './components/ConfirmEmailPage.jsx';
 import axios from 'axios';
 import './styles/App.css';
 import { useAuth } from './context/AuthContext.jsx';
+import { Favorites } from './components/Favorites.jsx';
+import { ResetPasswordPage } from './components/ResetPasswordPage.jsx';
+import { ForgotPasswordPage } from './components/ForgotPasswordPage.jsx';
 
 
 function App() {
@@ -68,24 +71,35 @@ function App() {
 
   return (
     <>
-      <Header handleLoginForm={handleLoginForm} />
-      {showFavorites ? null : (
-        <Input handleSearch={handleSearch} searchField={searchField} markers={hubData.data?.groupedProducts || []} hubData={hubData} updateMapMarker={updateMapMarker} updateMapCenter={updateMapCenter} />
-      )}
-      <Login loginForm={loginForm} handleLoginForm={handleLoginForm} />
-      {showFavorites ? null : (
-        <Maps
-          searchField={searchField}
-          buildings={hubData.data?.groupedProducts || []}
-          hubData={hubData}
-          selectedMarker={selectedMarker}
-          updateMapMarker={updateMapMarker}
-          updateMapCenter={updateMapCenter}
-          mapCenter={mapCenter}
-        />
-      )}
-      <List hubData={hubData} searchField={searchField} />
-      <Footer />
+      <BrowserRouter>
+          <Routes>
+            <Route exact path='/' element={<>
+              <Header handleLoginForm={handleLoginForm} />
+              <Input handleSearch={handleSearch} searchField={searchField} markers={hubData.data?.groupedProducts || []} hubData={hubData} updateMapMarker={updateMapMarker} updateMapCenter={updateMapCenter} />
+              <Login loginForm={loginForm} handleLoginForm={handleLoginForm} />
+              <Maps
+                searchField={searchField}
+                buildings={hubData.data?.groupedProducts || []}
+                hubData={hubData}
+                selectedMarker={selectedMarker}
+                updateMapMarker={updateMapMarker}
+                updateMapCenter={updateMapCenter}
+                mapCenter={mapCenter}
+              />
+              <List hubData={hubData} searchField={searchField} />
+              <Footer />
+            </>} />
+            <Route exact path='/favorites' element={<>
+              <Header handleLoginForm={handleLoginForm} />
+              <Favorites hubData={hubData} searchField={searchField}/>
+              <Footer />
+            </>}/>
+            <Route exact path="/confirm-email" element={<ConfirmEmailPage />} />
+            <Route exact path="/reset-password" element={<ResetPasswordPage />} />
+            <Route exact path='/forgot-password' element={<ForgotPasswordPage />} />
+          </Routes>
+      </BrowserRouter>
+    
     </>
   );
 }

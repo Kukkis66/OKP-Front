@@ -3,6 +3,7 @@ import arrow from '../assets/login.svg';
 import arrowOut from '../assets/logout.png'
 import '../styles/Header.css';
 import { useAuth } from '../context/AuthContext.jsx';
+import { Link } from 'react-router-dom';
 
 export const Header = ({handleLoginForm}) => {
     const { isLoggedIn, login, logout, currentUser, showFavorites, setShowFavorites, fetchFavorites } = useAuth();
@@ -35,9 +36,15 @@ export const Header = ({handleLoginForm}) => {
             </div>
             <div className='bottom-section'><h1>Löydä tietoa rakennuksista, tallenna suosikkejasi, rakenna reittejä</h1></div>
             {currentUser && (
-                <div>
-                    <button onClick={() => {setShowFavorites(!showFavorites); fetchFavorites()}}>Click me</button>
-                </div>
+                <>
+                    <div>
+                        <button onClick={() => {setShowFavorites(!showFavorites); fetchFavorites()}}>Click me</button>
+                    </div>
+                    <Link to="/favorites">Favorites</Link>
+                    <Link to="/">Home</Link>
+                    <a href="/favorites">here</a>
+                
+                </>
             )}
         </header>
             

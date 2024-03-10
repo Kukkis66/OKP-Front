@@ -24,7 +24,6 @@ export const AuthProvider = ({ children }) => {
   const [heartFilled, setHeartFilled] = useState(false);
 
 
-
   const fetchFavorites = async () => {
     try {
       const backendRes = await fetch(`http://localhost:5143/api/DataHub/GetUserFavorites/${currentUser.Id}`);
@@ -144,8 +143,8 @@ export const AuthProvider = ({ children }) => {
 
     try {
       // Make POST request to backend API to save favorite status
-      await axios.post('http://localhost:5143/api/Favorites', { "key":buildingId, "userId": userId });
-      console.log("Succeeded favorite");
+      const response = await axios.post('http://localhost:5143/api/Favorites', { "key":buildingId, "userId": userId });
+      console.log("Succeeded favorite", response);
     } catch (error) {
       console.error('Error saving favorite:', error);
     }
