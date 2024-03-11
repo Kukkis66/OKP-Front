@@ -32,7 +32,7 @@ function App() {
   }, []);
 
   const handleSearch = (searchTerm) => {
-    // Update the search field state
+    // Update the search field state in Input.jsx
     setSearchField(searchTerm);
   };
 
@@ -81,16 +81,10 @@ function App() {
       console.error('Error fetching data:', error);
     }
   };
-
-  const updateMapMarker = (selectedBuilding) => {
+  
+  const updateMapMarker = selectedBuilding => {
     setSelectedMarker(selectedBuilding);
   };
-
-  const updateMapCenter = (coordinates) => {
-    console.log('Updating map center to:', coordinates);
-    setMapCenter(coordinates);
-  };
-
 
   return (
     <>
@@ -122,7 +116,6 @@ function App() {
             <Route exact path='/forgot-password' element={<ForgotPasswordPage />} />
           </Routes>
       </BrowserRouter>
-    
     </>
   );
 }

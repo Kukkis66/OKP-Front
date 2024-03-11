@@ -31,6 +31,16 @@
 
 /* .dropdownSearch {
     padding: 0.6rem;
+    width: 1rem;
+    font-family: 'Mulish', sans-serif;
+    font-size: 18px;
+    border: solid black; 
+    border-radius: 5px;
+    max-width: 31rem;
+} */
+
+/* .dropdownSearch {
+    padding: 0.6rem;
     font-family: 'Mulish', sans-serif;
     font-size: 18px;
     border: solid black; 
@@ -41,10 +51,53 @@
 .button {
     background-color: var(--brown);
     color: var(--white);
-    font-family: 'Red rose', sans-serif;
-    font-size: 1rem;
-    border-radius: 0.5rem;
-    padding: 0.5rem;
-    margin-left: 1rem;
-    border: none;
-    box-shadow: rgba(0, 0, 0, 0.5) 0 4px 2.6px;}
+    font-family: 'Red Rose', sans-serif;
+    text-transform: capitalize;
+    font-size: 20px;
+    box-shadow: 0px 0px 0px 8px rgba(0,0,0,0.3);    
+    padding: 1rem;
+    width: 74.4rem;
+}
+
+@media only screen and (max-width: 768px) {
+
+    .searchInfo {
+        font-size: 33px;
+    }
+
+    .inputField {
+        font-size: 16px;
+    }
+}
+
+@media only screen and (max-width: 425px) {
+
+    .searchInfo {
+        font-size: 28px;
+        line-height: 34px;
+    }
+
+    .inputContainer {
+        margin: 3rem 0rem 3rem 2rem;
+        padding-inline-end: 2rem;
+    }
+
+    .inputField {
+        font-size: 14px;
+    }
+}
+
+/* @media only screen and (min-width: 1441px) {
+
+.searchInfo {
+    font-size: 4.33rem;
+    padding: 2rem;
+}
+
+.inputField {
+    margin: 2rem;
+    font-size: 34px;
+    max-width: 58rem;
+    padding: 1rem;
+}
+} */

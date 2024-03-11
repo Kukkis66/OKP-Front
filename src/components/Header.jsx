@@ -12,10 +12,10 @@ export const Header = ({handleLoginForm}) => {
         
         <header className='header'>
             <div className='top-section'>
-                <div className='language'>
+                {/* <div className='language'>
                     <a className='language-grid-item' href="">ENGLISH</a>
                    
-                </div>
+                </div> */}
                 <figure className='silhouet'>
                         <img src={silhouet} alt="silhuetti" />
                 </figure>

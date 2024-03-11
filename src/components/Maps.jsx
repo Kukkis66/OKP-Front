@@ -6,6 +6,8 @@ import houseIcon from '../assets/house.png';
 import { Popup } from './CardPopUp.jsx';
 import close from '../assets/close.png';
 import emptyHeart from '../assets/emptyHeart.png';
+import pin from '../assets/pin.png';
+import wholeHeart from '../assets/wholeHeart.png';
 
 const mapContainerStyle = {
   width: '100%',
@@ -13,11 +15,14 @@ const mapContainerStyle = {
 };
 
 const center = {
-  lat: 60.1699,
-  lng: 24.9384,
+  lat: 60.18527285,
+  lng: 24.8562462609865, 
 };
 
 const libraries = ['places'];
+
+const API_BASE_URL = 'http://api.openweathermap.org/data/2.5/weather';
+const API_KEY = import.meta.env.VITE_REACT_APP_API_KEY;
 
 export const getBuildingName = (building) => {
   if (!building || !building.productInformations || !building.productImages) {
@@ -25,52 +30,39 @@ export const getBuildingName = (building) => {
   }
 
   const name =
-    building.productInformations[0]?.name ||
-    (building.productImages[0]?.copyright === "Kuvio"
-      ? "Oodi"
-      : building.productImages[0]?.copyright === "Didrichsen archives"
-      ? "Didrichsenin taidemuseo"
-      : building.productImages[0]?.copyright.includes(
-          "Copyright: Visit Finland"
-        )
-      ? building.productImages[0]?.copyright.split(":")[1]?.trim() // added null check here
-      : building.productImages[0]?.copyright);
-
+    building.productInformations[0]?.name === "Hanasaari – ruotsalais-suomalainen kulttuurikeskus"
+      ? "Hanasaari"
+      : building.productInformations[0]?.name === "Helsingin matkailuneuvonta paviljongilla"
+      ? "Biennaali -paviljonki"     
+      : building.productInformations[0]?.name === "EMMA – Espoon modernin taiteen museo"
+      ? "EMMA"  
+      : building.productInformations[0]?.name === "Futuro-talo (nro 001)"
+      ? "Futuro-talo"  
+      : building.productInformations[0]?.name === "Suomenlinnamuseo"
+      ? "Suomenlinna - museo" 
+      : building.productInformations[0]?.name === "Fazer Experience Vierailukeskus"
+      ? "Fazer vierailukeskus"
+      : building.productInformations[0]?.name === "Suomen kello- ja korumuseo Kruunu"
+      ? "Kruunu"
+      : building.productInformations[0]?.name === "Sotamuseon Maneesi ja Tykistömaneesi"
+      ? "Sotamuseon Maneesit"
+      : building.productInformations[0]?.name === "Musta tuntuu, tois­tai­sek­si 27.3.–8.9.2024."
+      ? "Näyttelyt Amox Rex"
+      : building.productInformations[0]?.name ||
+        (building.productImages[0]?.copyright === "Kuvio"
+          ? "Oodi"
+          : building.productImages[0]?.copyright === "Didrichsen archives"
+          ? "Didrichsenin taidemuseo"
+          : building.productImages[0]?.copyright.includes(
+              "Copyright: Visit Finland"
+            )
+            ? building.productImages[0]?.copyright.split(":")[1]?.trim() // added null check here
+            : building.productImages[0]?.copyright);
+        
   return name || "Unknown Building"; // Or any default value
 };
 
-export const markers = hubData => {
-  const extractedMarkers = hubData.data?.groupedProducts?.map((building, index) => {
-    const location = building.postalAddresses[0]?.location;
-    const name = getBuildingName(building);
-       
-    // Check if location is defined and has valid latitude and longitude
-    if (location && location.includes(',')) {
-      const [lat, lng] = location.substring(1, location.length - 1).split(',');
-      const latitude = parseFloat(lat.trim());
-      const longitude = parseFloat(lng.trim());   
-      
-      // Check if latitude and longitude are valid numbers
-      if (!isNaN(latitude) && !isNaN(longitude)) {
-        const marker = {
-          position: {
-            lat: latitude,
-            lng: longitude
-          },
-          title: name
-        };  
-        return marker;
-      }
-    }
-    
-    console.warn(`Invalid location data for marker ${index + 1}. Skipping...`);
-    return null;
-  }).filter(marker => marker !== null);
-
-  return extractedMarkers;
-};
-
-export const Maps = ({searchField, hubData, buildings = [],}) => {
+export const Maps = ({searchField, hubData}) => {
 
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAPS_APIKEY,
@@ -81,17 +73,47 @@ export const Maps = ({searchField, hubData, buildings = [],}) => {
   const [mapBounds, setMapBounds] = useState(null);
   const [selectedMarker, setSelectedMarker] = useState(null);
   const [selectedBuilding, setSelectedBuilding] = useState(null);
+  const [showInfoWindow, setShowInfoWindow] = useState(false);
+  const [weatherData, setWeatherData] = useState(null);
+  const [showPopup, setShowPopup] = useState(false);
+  const [isHeartFilled, setIsHeartFilled] = useState(false); 
+  const [mapContainerHeight, setMapContainerHeight] = useState(window.innerWidth <= 425 ? 630 : 'auto');
+  
+  const markers = hubData => {
+    const extractedMarkers = hubData.data?.groupedProducts?.map((building, index) => {
+      const location = building.postalAddresses[0]?.location;
+      const name = getBuildingName(building);
 
-  const [showInfoWindow, setShowInfoWindow] = useState(false); // Define showInfoWindow state
-  const [mapCenter, setMapCenter] = useState(center); 
-  const markersData = markers(hubData);
+      // Check if location is defined and has valid latitude and longitude
+      if (location && location.includes(',')) {
+        const [lat, lng] = location.substring(1, location.length - 1).split(',');
+        const latitude = parseFloat(lat.trim());
+        const longitude = parseFloat(lng.trim());
 
-  const [showPopup, setShowPopup] = useState(false); 
-  const [refreshPage, setRefreshPage] = useState(false);
+        // Check if latitude and longitude are valid numbers
+        if (!isNaN(latitude) && !isNaN(longitude)) {
+          const marker = {
+            position: {
+              lat: latitude,
+              lng: longitude
+            },
+            title: name
+          };
+          return marker;
+        }
+      }
 
-  const filteredMarkers = markersData.filter(marker => {
+      console.warn(`Invalid location data for marker ${index + 1}. Skipping...`);
+      return null;
+    }).filter(marker => marker !== null);
+
+    // Filter markers based on the search field
+    const filteredMarkers = extractedMarkers.filter(marker => {
       return searchField === '' || marker.title.toLowerCase().includes(searchField.toLowerCase());
-    }); 
+    });
+
+    return filteredMarkers;
+  };
   
   const onMapLoad = map => {
     setMap(map);
@@ -136,46 +158,73 @@ export const Maps = ({searchField, hubData, buildings = [],}) => {
     ],
   };
 
+  const fetchWeatherData = async (lat, lng) => {
+    try {
+      const response = await fetch(`${API_BASE_URL}?lat=${lat}&lon=${lng}&appid=${API_KEY}`);
+      const data = await response.json();
+      setWeatherData(data);
+    } catch (error) {
+      console.error('Error fetching weather data:', error);
+    }
+  };
 
-const handleMarkerClick = (marker) => {
-  console.log("Marker clicked:", marker);
-  setSelectedMarker(marker);
-  setShowInfoWindow(true); 
-  const clickedBuilding = hubData.data.groupedProducts.find(building => getBuildingName(building) === marker.title);
-  setSelectedBuilding(clickedBuilding);
+  const handleMarkerClick = (marker) => {
+    console.log("Marker clicked:", marker);
+    setSelectedMarker(marker);
+    setShowInfoWindow(true);
+    const clickedBuilding = hubData.data.groupedProducts.find(
+        (building) => getBuildingName(building) === marker.title
+    );
+    setSelectedBuilding(clickedBuilding);
+    fetchWeatherData(marker.position.lat, marker.position.lng);
+
+    // Move the map center to the clicked marker's position and set zoom to 15
+    if (map) {
+        map.panTo(marker.position);
+        map.setZoom(13.8);
+    }
 };
-const closeInfoWindow = () => {
-  setSelectedMarker(null); 
-  setSelectedBuilding(null);
-};
+
+  const closeInfoWindow = () => {
+    setSelectedMarker(null); 
+    setSelectedBuilding(null);
+    setWeatherData(null);
+
+    // Revert the zoom level back to 13 and center to the default center
+    if (map) {
+      map.setZoom(12.3);
+      map.panTo(center);
+    }
+
+    setShowInfoWindow(false);
+  };
+
+  const handleHeartClick = () => {
+    setIsHeartFilled(!isHeartFilled); // Toggle heart state
+  };
 
   return (
-    <div className="mapContainer">
+    <div className="mapContainer" style={{ height: mapContainerHeight }}>
       <div className={selectedBuilding ? "map" : "map full-width"}>
         <GoogleMap
           mapContainerStyle={mapContainerStyle}
-          zoom={13}
-          center={mapCenter}
+          zoom={12.3}
+          center={center}
           options={mapOptions}
           onLoad={onMapLoad}
         >
-          {filteredMarkers.map((marker, index) => {
-            if (!selectedMarker || marker.title === selectedMarker.title) {
-              return (
-                <Marker
-                  key={index}
-                  position={marker.position}
-                  title={marker.title}
-                  icon={{
-                    url: houseIcon,
-                    scaledSize: new window.google.maps.Size(20, 32),
-                  }}
-                  onClick={() => handleMarkerClick(marker)}
-                />
-              );
-            }
-            return null;
-          })}
+          {markers(hubData).map((marker, index) => (
+            <Marker
+              key={index}
+              position={marker.position}
+              title={marker.title}
+              icon={{
+                url: selectedMarker && selectedMarker.title === marker.title ? pin : houseIcon,
+                scaledSize: selectedMarker && selectedMarker.title === marker.title ? new window.google.maps.Size(25, 40) : new window.google.maps.Size(20, 32),
+              }}
+              onClick={() => handleMarkerClick(marker)}
+            />
+          ))}
         </GoogleMap>
       </div>
       {showInfoWindow && selectedMarker && (
@@ -185,8 +234,7 @@ const closeInfoWindow = () => {
             <div className="headingContainer">
               <h2 className="h2">{getBuildingName(selectedBuilding)}</h2>
               <div className="iconsContainer">
-                <img className="emptyHeart" src={emptyHeart} alt="empty-heart" />
-                <img className="pinCard" src={close} alt="close" onClick={closeInfoWindow} />
+                <img className="emptyHeart" src={isHeartFilled ? wholeHeart : emptyHeart} alt="heart" onClick={handleHeartClick} />  
               </div>
             </div>
             <div className="info">
@@ -200,12 +248,21 @@ const closeInfoWindow = () => {
                 alt={selectedBuilding.productImages[0]?.altText}
               />
             </figure>
-            <a className="zoom" onClick={() => setShowPopup(true)}>LUE LISÄÄ</a>
-            {showPopup && <Popup building={selectedBuilding} onClose={() => setShowPopup(false)} />}
+            <div className="headingContainer">
+              <a className="zoom" onClick={() => setShowPopup(true)}>LUE LISÄÄ</a>
+              {showPopup && <Popup building={selectedBuilding} onClose={() => setShowPopup(false)} />}
+              {weatherData && (
+                <div className="weather-info">
+                  <p>{Math.round(weatherData.main.temp - 273.15)} °C</p>
+                  <img src={`http://openweathermap.org/img/w/${weatherData.weather[0].icon}.png`} alt="Weather Icon" />
+                </div>
+              )} 
+            </div>
           </li>
         )}
+            <img className="closeX" src={close} alt="close" onClick={closeInfoWindow} />
         </div>
       )}
     </div>
-  );  
-};  
+  );
+};

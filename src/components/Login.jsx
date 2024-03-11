@@ -27,10 +27,6 @@ export const Login = ({loginForm, handleLoginForm}) => {
       setShowPassword(!showPassword);
     };
 
-    
-
-
-
     const handleNewUser = () => {
         setNewUser(!newUser)
     }

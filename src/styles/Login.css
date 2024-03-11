@@ -152,8 +152,7 @@
     }
 
     .close {
-      position: fixed;
-      top: 1.5rem;
+      top: 1rem;
       right: 1rem;
     }
 
@@ -191,10 +190,10 @@
     }
   }
 
-  @media only screen and (min-width: 1441px) {
+  /* @media only screen and (min-width: 1441px) {
 
     .popup {
-      padding: 13rem;
+      padding: 8rem;
     }
     .close {
       top: 4rem;
@@ -239,4 +238,4 @@
       font-size: 2.3rem;
       padding: 1rem;
     }
-  }
+  } */

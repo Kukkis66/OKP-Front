@@ -26,8 +26,6 @@ export const ResetPasswordPage = () => {
         window.location.href = '/';
       };
 
-
-
     const resetPassword = async (e) => {
         e.preventDefault();
         const queryString = window.location.search;
@@ -94,12 +92,9 @@ export const ResetPasswordPage = () => {
                           }}
                         />
                       <Notification message={errorMessageText} />
-                    <button type='submit' className='reset-password-button'>Vahvista</button>
-                    
+                    <button type='submit' className='reset-password-button'>Vahvista</button>    
                 </form>
             </div>
         </div>
-    )
-
-    
+    )    
 }

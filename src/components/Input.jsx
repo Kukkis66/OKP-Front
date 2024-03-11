@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import '../styles/Input.css';
-import { getBuildingName, markers } from './Maps.jsx';
+import axios from 'axios';
+import { getBuildingName } from './Maps.jsx';
 
-export const Input = ({ handleSearch, updateMapMarker, updateMapCenter, hubData }) => {
+export const Input = ({ handleSearch, updateMapMarker }) => {
   const [buildingNames, setBuildingNames] = useState([]);
-  const [selectedBuilding, setSelectedBuilding] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
@@ -19,6 +18,8 @@ export const Input = ({ handleSearch, updateMapMarker, updateMapCenter, hubData 
         const name = getBuildingName(building);
         return { name, building };
       });
+
+      // Sort buildingNames alphabetically by name
       names.sort((a, b) => a.name.localeCompare(b.name));
       setBuildingNames(names);
     } catch (error) {
@@ -32,18 +33,13 @@ export const Input = ({ handleSearch, updateMapMarker, updateMapCenter, hubData 
     handleSearch(value);
   };
 
-  const handleDropdownChange = async event => {
+  const handleDropdownChange = event => {
     const value = event.target.value;
     setSearchTerm(value);
     const selected = buildingNames.find(building => building.name === value);
-    setSelectedBuilding(selected);
+    console.log("Selected building:", selected);
     handleSearch(value);
-
-    if (selected) {
-      const marker = markers(hubData).find(marker => getBuildingName(selected.building) === marker.title);
-      if (marker) {
-        console.log('marker :', marker.position); 
-        updateMapCenter(marker.position);}}
+    // Update map marker based on selected building
     updateMapMarker(selected ? selected.building : null);
   };
 
@@ -53,22 +49,21 @@ export const Input = ({ handleSearch, updateMapMarker, updateMapCenter, hubData 
       <input
         className="inputField"
         type="text"
+        list="exampleList"
         placeholder="Kirjoita rakennuksen nimi"
         value={searchTerm}
         onChange={handleInputChange}
       />
-      <select
+      <datalist
         className="dropdownSearch"
-        value={searchTerm}
+        id="exampleList"
         onChange={handleDropdownChange}
       >
-        <option key="" value=""></option>
+        <option value=""></option>
         {buildingNames.map((building, index) => (
-          <option key={index} value={building.name}>
-            {building.name}
-          </option>
+          <option key={index} value={building.name} />
         ))}
-      </select>
+      </datalist>
     </div>
   );
 };

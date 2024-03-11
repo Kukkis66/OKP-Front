@@ -1,18 +1,18 @@
 import { useState } from 'react';
+import React from 'react';
 import sort from '../assets/sort.png';
 import arrowDown from '../assets/arrow-down.png';
-import { Popup } from './CardPopUp.jsx';
-import { getBuildingName} from './Maps.jsx';
-import '../styles/List.css';
 import arrowLeft from '../assets/arrowLeft.png';
 import arrowRight from '../assets/arrowRight.png';
 import emptyHeart from '../assets/emptyHeart.png';
-import close from '../assets/close.png';
-import React from 'react';
+import wholeHeart from '../assets/wholeHeart.png';
+import { Popup } from './CardPopUp.jsx';
+import { getBuildingName } from './Maps.jsx';
 import { useAuth } from '../context/AuthContext.jsx';
 import { Favorites } from './Favorites.jsx';
 import wholeHeart from '../assets/whole-heart.png';
 import axios from 'axios';
+import '../styles/List.css';
 
 
 export const List = ({ hubData, userFavorites }) => {
@@ -22,6 +22,10 @@ export const List = ({ hubData, userFavorites }) => {
     const [selectedBuilding, setSelectedBuilding] = useState(null);
     const [isFavorite, setIsFavorite] = useState(false);
     const [favoriteStatus, setFavoriteStatus] = useState({});
+
+    const [paginationArrowLeft, setPaginationArrowLeft] = useState(false);
+    const [paginationArrowRight, setPaginationArrowRight] = useState(true);
+    const [heartStates, setHeartStates] = useState({});
 
     const { isLoggedIn, login, logout, currentUser, showFavorites, toggleFavorite, favorites, setFavorites } = useAuth();
 
@@ -55,76 +59,58 @@ export const List = ({ hubData, userFavorites }) => {
     const handleReadMore = (building) => {
         setSelectedBuilding(building);
     };
-
+    
     const handleClosePopup = () => {
         setSelectedBuilding(null);
     };
 
     const handleCardCount = (count) => {
-        setItemsPerPage(count);
-    };
+        setItemsPerPage(count)
+
+        const newTotalPages = Math.ceil(hubData.data?.groupedProducts?.length / count);
+        const newCurrentPage = Math.min(currentPage, newTotalPages);
+        setCurrentPage(newCurrentPage);
+
+        console.log("current page: " + newCurrentPage)
+        console.log("page numbers length" + newTotalPages)
+           
+        if (newCurrentPage === 1 && newTotalPages === 2) {
+            setPaginationArrowRight(true)
+            setPaginationArrowLeft(false)
+        }
+        else if (newCurrentPage === 2 && newTotalPages === 2) {
+            console.log("tulee tänne!!")
+            setPaginationArrowRight(false)
+            setPaginationArrowLeft(true)
+        }
+
+        else if (newCurrentPage === 1) {
+            setPaginationArrowLeft(false);
+        }
+       
+        else if (newCurrentPage === newTotalPages) {
+            
+            setPaginationArrowRight(false);
+        }
+
+        else {
+            setPaginationArrowRight(true);
+            setPaginationArrowLeft(true);
+        }
+    }
 
     const handleWards = () => {
         setIsBackwards(!isBackwards);
     };
 
-    const renderCardContainer = (displayedItems) => {
-        return (
-            <div className="cardContainer">
-                <ul>
-                {displayedItems?.map((building) => {
-            // Check if the current card's ID exists in the userFavorites list
-            const isFavorite = userFavorites.some(favorite => favorite.key === building.id);
-            
-
-                        return (
-                            <li className="card" key={building.id}>
-                                <div className="headingContainer">
-                                    <h2 className='h2'>{getBuildingName(building)}</h2> 
-                                    <div className="iconsContainer" onClick={() => {
-                                        // Check if currentUser is logged in
-                                        if (currentUser && isLoggedIn) {
-                                            // If logged in, toggle favorite
-                                            toggleFavorite2(building.id, currentUser.Id);
-                                        } else {
-                                            // If not logged in, display a message or handle the situation accordingly
-                                            console.log("You need to be logged in to use this feature.");
-                                            // You could also redirect the user to the login page, show a modal, etc.
-                                        }
-                                    }}>
-                                        {isFavorite ? (
-                                            <img className="fullHeart" src={wholeHeart} alt="full-heart" />
-                                        ) : (
-                                            <img className="emptyHeart" src={emptyHeart} alt="empty-heart" />
-                                        )}
-                                    </div>
-                                </div>
-                                <div className="info">
-                                    <p className="p">Osoite: {building.postalAddresses[0]?.streetName}</p>
-                                    <p className="p">Kaupunki: {building.postalAddresses[0]?.city}</p>
-                                    <p className="p">Postinumero: {building.postalAddresses[0]?.postalCode}</p>
-                                </div>
-                                <figure className="picture_url">
-                                    <img
-                                        src={building.productImages[0]?.thumbnailUrl}
-                                        alt={building.productImages[0]?.altText}
-                                    />
-                                </figure>
-                                <a className="zoom" onClick={() => handleReadMore(building)}>
-                                    LUE LISÄÄ
-                                </a>
-                            </li>
-                        );
-                    })}
-                </ul>
-                {selectedBuilding && <Popup building={selectedBuilding} onClose={() => handleClosePopup()} />}
-            </div>
-        );
+    const handleHeartClick = (buildingId) => {
+        setHeartStates(prevState => ({
+            ...prevState,
+            [buildingId]: !prevState[buildingId]
+        }));
     };
 
-    const totalPages = Math.ceil(
-        hubData.data?.groupedProducts?.length / itemsPerPage
-    );
+    const totalPages = Math.ceil(hubData.data?.groupedProducts?.length / itemsPerPage);
 
     const getPageRange = () => {
         const startIndex = (currentPage - 1) * itemsPerPage;
@@ -134,102 +120,180 @@ export const List = ({ hubData, userFavorites }) => {
 
     const [startIndex, endIndex] = getPageRange();
 
-    const sortedItems = isBackwards
-        ? hubData.data?.groupedProducts?.sort((a, b) => {
-              const nameA = getBuildingName(a);
-              const nameB = getBuildingName(b);
-              return nameA.localeCompare(nameB);
-          })
-        : hubData.data?.groupedProducts?.sort((a, b) => {
-              const nameA = getBuildingName(a);
-              const nameB = getBuildingName(b);
-              return nameB.localeCompare(nameA);
-          });
-
+    const sortedItems = isBackwards 
+    ? hubData.data?.groupedProducts?.sort((a, b) => {
+        const nameA = getBuildingName(a);
+        const nameB = getBuildingName(b);
+        return nameA.localeCompare(nameB);
+    })
+    : hubData.data?.groupedProducts?.sort((a, b) => {
+        const nameA = getBuildingName(a);
+        const nameB = getBuildingName(b);
+        return nameB.localeCompare(nameA);
+    });
+                
     const displayedItems = sortedItems?.slice(startIndex, endIndex);
 
-    const sortedItems2 = isBackwards
-        ? favorites.data?.product?.sort((a, b) => {
-              const nameA = getBuildingName(a);
-              const nameB = getBuildingName(b);
-              return nameA.localeCompare(nameB);
-          })
-        : favorites.data?.product?.sort((a, b) => {
-              const nameA = getBuildingName(a);
-              const nameB = getBuildingName(b);
-              return nameB.localeCompare(nameA);
-          });
-    
-    const displayedItems2 = sortedItems2?.slice(startIndex, endIndex);
-    
     const handlePageChange = (newPage) => {
+    
         setCurrentPage(newPage);
+        console.log("sivujen lukumäärä " + pageNumbers.length)
+
+        if (newPage === 1 && pageNumbers.length === 2) {
+            setPaginationArrowRight(true)
+            setPaginationArrowLeft(false)
+        }
+        else if (newPage === 2 && pageNumbers.length === 2) {
+            setPaginationArrowRight(false)
+            setPaginationArrowLeft(true)
+        }
+
+        else if (newPage === 1) {
+            setPaginationArrowLeft(false);
+            setPaginationArrowRight(true);
+        }
+       
+        else if (newPage === pageNumbers.length) {
+            setPaginationArrowRight(false);
+            setPaginationArrowLeft(true);
+        }
+
+        else {
+            setPaginationArrowRight(true);
+            setPaginationArrowLeft(true);
+        }  
     };
 
+    const handlePageChangeLeft = (newPage) => {
+        const pageToShow = currentPage - 1;
+    
+        if (pageToShow === 1 && totalPages === 2) {
+            setPaginationArrowRight(true);
+            setPaginationArrowLeft(false);
+            setCurrentPage(newPage);
+        } else if (pageToShow === 1) {
+            setPaginationArrowLeft(false);
+            setCurrentPage(newPage);
+        } else {
+            setPaginationArrowLeft(true);
+            setPaginationArrowRight(true);
+            setCurrentPage(newPage);
+        }
+    };
+    
+    const handlePageChangeRight = (newPage) => {
+        const pageToShow = currentPage + 1;
+    
+        if (pageToShow === totalPages && totalPages === 2) {
+            setPaginationArrowRight(false);
+            setPaginationArrowLeft(true);
+            setCurrentPage(newPage);
+        } else if (pageToShow === totalPages) {
+            setPaginationArrowRight(false);
+            setCurrentPage(newPage);
+        } else {
+            setPaginationArrowRight(true);
+            setPaginationArrowLeft(true);
+            setCurrentPage(newPage);
+        }
+    };
+    
+
     const pageNumbers = Array.from({ length: totalPages }, (_, index) => index + 1);
-   
+
     return (
         <div>
             <h1 className="listHeader">SELAA RAKENNUKSIA</h1>
-            <div className="sortContainer">
-                <div className="dropdown">
+
+            <div className='sortContainer'>
+                <div className='dropdown'>
                     <img src={sort} alt="sortLogo" />
                     <a>NÄYTÄ {itemsPerPage}</a>
                     <div className="dropdown-content">
-                        <button className="button" onClick={() => handleCardCount(6)}>
-                            6
-                        </button>
-                        <button className="button" onClick={() => handleCardCount(12)}>
-                            12
-                        </button>
-                        <button className="button" onClick={() => handleCardCount(24)}>
-                            24
-                        </button>
+                        <button className='button' onClick={() => handleCardCount(6)}>6</button>
+                        <button className='button' onClick={() => handleCardCount(12)}>12</button>
+                        <button className='button' onClick={() => handleCardCount(24)}>24</button>
                     </div>
                 </div>
 
-                {isBackwards ? (
-                    <div className="wards">
-                        <span>A - Ö</span>
-                        <img
-                            onClick={() => handleWards()}
-                            src={arrowDown}
-                            alt="arrow-down"
-                        />
-                    </div>
-                ) : (
-                    <div className="wards">
-                        <span>Ö - A</span>
-                        <img
-                            onClick={() => handleWards()}
-                            src={arrowDown}
-                            alt="arrow-up"
-                            style={{ transform: 'rotate(180deg)' }}
-                        />
-                    </div>
-                )}
+                <div className='wards'>
+                    <span>{isBackwards ? 'A - Ö' : 'Ö - A'}</span>
+                    <img onClick={handleWards} src={arrowDown} alt={isBackwards ? 'arrow-down' : 'arrow-up'} style={{ transform: isBackwards ? '' : 'rotate(180deg)' }} />
+                </div>
             </div>
+
             <div className="cardContainer">
-                {renderCardContainer(displayedItems)}
+                {showFavorites && currentUser ? (
+                    <Favorites
+                        displayedItems={displayedItems}
+                        handleReadMore={handleReadMore}
+                        handleClosePopup={handleClosePopup}
+                        selectedBuilding={selectedBuilding}
+                        setFavorites={setFavorites}
+                        favorites={favorites}
+                    />
+                ) : (
+                    <ul>
+                        {displayedItems?.map((building) => (
+                            <li className="card" key={building.id}>
+                                <div className='headingContainer'>
+                                    <h2 className='h2'>{getBuildingName(building)}</h2>
+                                    <div className='iconsContainer'>
+                                        <img className="emptyHeart" src={heartStates[building.id] ? wholeHeart : emptyHeart} alt="heart" onClick={() => handleHeartClick(building.id)} />
+                                    </div>
+                                </div>
+
+                                <div className='info'>
+                                    <p className='p'>Osoite: {building.postalAddresses[0]?.streetName}</p>
+                                    <p className='p'>Kaupunki: {building.postalAddresses[0]?.city}</p>
+                                    <p className='p'>Postinumero: {building.postalAddresses[0]?.postalCode}</p>
+                                </div>
+
+                                <figure className='picture_url'>
+                                    <img src={building.productImages[0]?.thumbnailUrl} alt={building.productImages[0]?.altText} />
+                                </figure>
+                                <a className='zoom' onClick={() => handleReadMore(building)}>
+                                    LUE LISÄÄ
+                                </a>
+                            </li>
+                        ))}
+                    </ul>
+                )}
+                {selectedBuilding && <Popup building={selectedBuilding} onClose={handleClosePopup} />}
             </div>
+
             <div className="navigation-arrows">
-                <a onClick={() => handlePageChange(currentPage - 1)}>
-                    <img src={arrowLeft} alt="arrowLeft" />
-                </a>
+                {paginationArrowLeft ? (
+                    <a
+                        onClick={() => handlePageChangeLeft(currentPage - 1)}>
+                        <img src={arrowLeft} alt="arrowLeft"
+                            style={{ textDecoration: currentPage === pageNumbers.indexOf(currentPage) ? 'none !important' : 'underline' }} />
+                    </a>
+                ) : (
+                    <p>{null}</p>
+                )}
+
                 <div className="pagination">
                     {pageNumbers.map((pageNumber) => (
                         <span
                             key={pageNumber}
                             className={pageNumber === currentPage ? 'active' : ''}
-                            onClick={() => handlePageChange(pageNumber)}
-                        >
+                            style={{ textDecoration: pageNumber === currentPage ? 'none !important' : 'underline' }}
+                            onClick={() => handlePageChange(pageNumber)}>
                             {pageNumber}
                         </span>
                     ))}
                 </div>
-                <a onClick={() => handlePageChange(currentPage + 1)}>
-                    <img src={arrowRight} alt="arrowRight" />
-                </a>
+
+                {paginationArrowRight ? (
+                    <a
+                        onClick={() => handlePageChangeRight(currentPage + 1)}>
+                        <img src={arrowRight} alt="arrowRight"
+                            style={{ textDecoration: currentPage === pageNumbers.indexOf(currentPage) ? 'none !important' : 'underline' }} />
+                    </a>
+                ) : (
+                    <p>{null}</p>
+                )}
             </div>
         </div>
     );
