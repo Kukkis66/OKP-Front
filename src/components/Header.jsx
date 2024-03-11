@@ -21,14 +21,11 @@ export const Header = ({handleLoginForm}) => {
                 </figure>
             {isLoggedIn ? (
                 <div className='login header-grid-item'>
-                    <a href='/'>Koti</a>
+                    <a href='/'>KOTI</a>
                     <Link to="/favorites">
                         <figure>
                             <img src={wholeHeart} alt="heart" />
                         </figure>
-                    </Link>
-                    <Link to="/">
-                        koti
                     </Link>
                     <a >{currentUser["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"]}</a>
                     <a href='#' onClick={logout}>KIRJAUDU ULOS</a>

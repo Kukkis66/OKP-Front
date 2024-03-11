@@ -116,20 +116,9 @@ export const List = ({ hubData }) => {
         setIsBackwards(!isBackwards);
     };
 
-    // const handleHeartClick = (buildingId) => {
-    //     setHeartStates(prevState => ({
-    //         ...prevState,
-    //         [buildingId]: !prevState[buildingId]
-    //     }));
-    //     console.log(heartStates);
-    // };
     const handleHeartClick = async (buildingId) => {
         // Toggle the heart state
-        setHeartStates(prevState => ({
-            ...prevState,
-            [buildingId]: !prevState[buildingId]
-        }));
-
+    
         const fetchFavorites = async () => {
               const backendRes = await fetch(`http://localhost:5143/api/Favorites/user-favorites/${currentUser.Id}`);
               const backendData = await backendRes.json();
@@ -138,14 +127,6 @@ export const List = ({ hubData }) => {
           
         }
         console.log("Here userfavorites:", userFavorites);
-        // try {
-        //     const response = await fetchFavorites();
-        //     console.log(response);
-        //     // Now you can access the data in the response object
-        // } catch (error) {
-        //     console.error('Error fetching user favorites:', error.message);
-        //     // Handle errors appropriately
-        // }
 
         try {
             const response = await fetchFavorites();
@@ -165,81 +146,7 @@ export const List = ({ hubData }) => {
         } catch (error) {
             console.error('Error handling heart click:', error);
         }
-        // setHeartFilled(prev => !prev);
-        // const isFavorite = userFavorites.some(favorite => favorite.key === buildingId);
-
-        // if (isFavorite) {
-        //     try {
-        //         // If it's a favorite, remove it from favorites
-        //         console.log(userFavorites);
-        //         await deleteFavorite2(buildingId, currentUser.Id);
-        //         // Update userFavorites state by removing the building
-                
-        //     } catch (error) {
-        //         console.error('Error removing favorite:', error);
-        //     }
-        // } else {
-        //     try {
-        //         // If it's not a favorite, add it to favorites
-        //         await toggleFavorite1(buildingId, currentUser.Id);
-        //         // Update userFavorites state by adding the building
-                
-        //     } catch (error) {
-        //         console.log("error occureddd heeree");
-        //         console.error('Error adding favorite:', error);
-        //     }
-        // }
-        // if(!userFavorites) {
-        //     try {
-        //         setHeartFilled(true);
-        //         console.log(userFavorites);
-        //         await toggleFavorite2(buildingId, currentUser.Id);
-        //     } catch (error) {
-        //         console.error('Error toggling favorite:', error);
-                
-        //         setHeartStates(prevState => ({
-        //             ...prevState,
-        //             [buildingId]: !prevState[buildingId]
-        //         }));
-        //     }
-        //     setHeartStates(prevState => ({
-        //         ...prevState,
-        //         [buildingId]: !prevState[buildingId]
-        //     }));
-        // }
-        // setHeartStates(prevState => ({
-        //     ...prevState,
-        //     [buildingId]: !prevState[buildingId]
-        // }));
-        // console.log("here");
-        // const isFavorite = userFavorites.some(favorite => favorite.key === buildingId);
-        // if (isFavorite) {
-        //     setHeartFilled(false);
-        //     try {
-        //         console.log(userFavorites);
-        //         await deleteFavorite2(buildingId, currentUser.Id);
-        //     } catch (error) {
-        //         console.error('Error toggling favorite:', error);
-                
-        //         setHeartStates(prevState => ({
-        //             ...prevState,
-        //             [buildingId]: !prevState[buildingId]
-        //         }));
-        //     }
-        // }
-      
-        // try {
-        //     setHeartFilled(true);
-        //     console.log(userFavorites);
-        //     await toggleFavorite2(buildingId, currentUser.Id);
-        // } catch (error) {
-        //     console.error('Error toggling favorite:', error);
-       
-        //     setHeartStates(prevState => ({
-        //         ...prevState,
-        //         [buildingId]: !prevState[buildingId]
-        //     }));
-        // }
+        
     };
 
     const totalPages = Math.ceil(hubData.data?.groupedProducts?.length / itemsPerPage);

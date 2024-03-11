@@ -98,7 +98,6 @@ export const Favorites = ({}) => {
                                 <h2 className='h2'>{getBuildingName(building)}</h2> 
                                 <div className="iconsContainer" onClick={() => deleteFavorite(building.id)}>
                                     <img className="emptyHeart" src={wholeHeart} alt="empty-heart" />
-                                    <img className="emptyHeart" src={emptyHeart} alt="empty-heart" />
                                 </div>
                             </div>
                             <div className="info">

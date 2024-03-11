@@ -8,6 +8,8 @@ import close from '../assets/close.png';
 import emptyHeart from '../assets/emptyHeart.png';
 import pin from '../assets/pin.png';
 import wholeHeart from '../assets/wholeHeart.png';
+import { useAuth } from '../context/AuthContext.jsx';
+import axios from 'axios';
 
 const mapContainerStyle = {
   width: '100%',
@@ -78,6 +80,46 @@ export const Maps = ({searchField, hubData}) => {
   const [showPopup, setShowPopup] = useState(false);
   const [isHeartFilled, setIsHeartFilled] = useState(false); 
   const [mapContainerHeight, setMapContainerHeight] = useState(window.innerWidth <= 425 ? 630 : 'auto');
+
+  const { isLoggedIn, login, logout, currentUser, showFavorites, toggleFavorite, favorites, setFavorites, heartFilled, setHeartFilled, userFavorites, setUserFavorites } = useAuth();
+
+  const toggleFavorite1 = async (buildingId, userId) => {
+    // Check if currentUser is logged in
+    if (!currentUser) {
+        console.log("User is not logged in!");
+        return;
+    }
+
+    try {
+            // If not favorited, add the favorite
+            const response = await axios.post('http://localhost:5143/api/Favorites', { "key": buildingId, "userId": userId });
+            console.log("Favorite added:", response);
+            return response.data;
+
+    } catch (error) {
+        console.error('Error toggling favorite:', error);
+        console.log(userId);
+    }
+};
+
+const deleteFavorite2 = async (buildingId, userId) => {
+    // Check if currentUser is logged in
+    if (!currentUser) {
+        console.log("User is not logged in!");
+        return;
+    }
+
+    try {
+            // If already favorited, delete the favorite
+            const response = await axios.delete(`http://localhost:5143/api/Favorites/${buildingId}`);
+            console.log("Favorite deleted:", response);
+      
+        } catch (error) {
+            console.error('Error toggling favorite:', error);
+            console.log(userId);
+        }
+   
+};
   
   const markers = hubData => {
     const extractedMarkers = hubData.data?.groupedProducts?.map((building, index) => {
@@ -203,6 +245,40 @@ export const Maps = ({searchField, hubData}) => {
     setIsHeartFilled(!isHeartFilled); // Toggle heart state
   };
 
+  const handleHeartClick2 = async (buildingId) => {
+    // Toggle the heart state
+
+    const fetchFavorites = async () => {
+          const backendRes = await fetch(`http://localhost:5143/api/Favorites/user-favorites/${currentUser.Id}`);
+          const backendData = await backendRes.json();
+          console.log(backendData);
+          return backendData;
+      
+    }
+    console.log("Here userfavorites:", userFavorites);
+    console.log(buildingId);
+
+    try {
+        const response = await fetchFavorites();
+        const isFavorite = response.some((favorite) => favorite.key === buildingId);
+
+        if (isFavorite) {
+            await deleteFavorite2(buildingId, currentUser.Id);
+            const updatedFavorites = userFavorites.filter(favorite => favorite.key !== buildingId);
+            setUserFavorites(updatedFavorites);
+        } else {
+            const response = await toggleFavorite1(buildingId, currentUser.Id);
+            setUserFavorites([...userFavorites, response]);
+        }
+
+        // Toggle the heart icon
+    
+    } catch (error) {
+        console.error('Error handling heart click:', error);
+    }
+    
+};
+
   return (
     <div className="mapContainer" style={{ height: mapContainerHeight }}>
       <div className={selectedBuilding ? "map" : "map full-width"}>
@@ -234,7 +310,7 @@ export const Maps = ({searchField, hubData}) => {
             <div className="headingContainer">
               <h2 className="h2">{getBuildingName(selectedBuilding)}</h2>
               <div className="iconsContainer">
-                <img className="emptyHeart" src={isHeartFilled ? wholeHeart : emptyHeart} alt="heart" onClick={handleHeartClick} />  
+                <img className="emptyHeart" src={(userFavorites.some(favorite => favorite.key === selectedBuilding.id)) ? wholeHeart : emptyHeart} alt="heart" onClick={() => {handleHeartClick2(selectedBuilding.id);  }} />  
               </div>
             </div>
             <div className="info">
