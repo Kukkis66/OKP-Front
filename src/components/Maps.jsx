@@ -7,7 +7,7 @@ import { Popup } from './CardPopUp.jsx';
 import close from '../assets/close.png';
 import emptyHeart from '../assets/emptyHeart.png';
 import pin from '../assets/pin.png';
-import fillHeart from '../assets/fillHeart.png';
+import wholeHeart from '../assets/wholeHeart.png';
 
 const mapContainerStyle = {
   width: '100%',
@@ -234,7 +234,7 @@ export const Maps = ({searchField, hubData}) => {
             <div className="headingContainer">
               <h2 className="h2">{getBuildingName(selectedBuilding)}</h2>
               <div className="iconsContainer">
-                <img className="emptyHeart" src={isHeartFilled ? fillHeart : emptyHeart} alt="heart" onClick={handleHeartClick} />  
+                <img className="emptyHeart" src={isHeartFilled ? wholeHeart : emptyHeart} alt="heart" onClick={handleHeartClick} />  
               </div>
             </div>
             <div className="info">

@@ -5,7 +5,7 @@ import arrowDown from '../assets/arrow-down.png';
 import arrowLeft from '../assets/arrowLeft.png';
 import arrowRight from '../assets/arrowRight.png';
 import emptyHeart from '../assets/emptyHeart.png';
-import fillHeart from '../assets/fillHeart.png';
+import wholeHeart from '../assets/wholeHeart.png';
 import { Popup } from './CardPopUp.jsx';
 import { getBuildingName } from './Maps.jsx';
 import { useAuth } from '../context/AuthContext.jsx';
@@ -208,7 +208,7 @@ export const List = ({ hubData }) => {
                                 <div className='headingContainer'>
                                     <h2 className='h2'>{getBuildingName(building)}</h2>
                                     <div className='iconsContainer'>
-                                        <img className="emptyHeart" src={heartStates[building.id] ? fillHeart : emptyHeart} alt="heart" onClick={() => handleHeartClick(building.id)} />
+                                        <img className="emptyHeart" src={heartStates[building.id] ? wholeHeart : emptyHeart} alt="heart" onClick={() => handleHeartClick(building.id)} />
                                     </div>
                                 </div>
 
