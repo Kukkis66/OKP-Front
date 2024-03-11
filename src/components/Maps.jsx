@@ -122,6 +122,21 @@ export const Maps = ({searchField, hubData, buildings = [],}) => {
     });   
   };
 
+  // component will update the map container height whenever the window is resized
+  useEffect(() => {
+    const handleResize = () => {
+      setMapContainerHeight(window.innerWidth <= 425 ? 630 : 'auto');
+    };
+  
+    window.addEventListener('resize', handleResize);
+  
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
+
+
   if (loadError) return <div>Error loading maps</div>;
   if (!isLoaded) return <div>Loading maps</div>;
 
@@ -181,6 +196,8 @@ export const Maps = ({searchField, hubData, buildings = [],}) => {
       setMapContainerHeight(window.innerWidth <= 425 ? 630 : 'auto');
     }
   };
+
+
 
   return (
     <div className="mapContainer" style={{ height: mapContainerHeight }}>

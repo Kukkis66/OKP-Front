@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import sort from '../assets/sort.png'
 import arrowDown from '../assets/arrow-down.png'
 import { Popup } from './CardPopUp.jsx'
@@ -7,6 +7,8 @@ import arrowLeft from '../assets/arrowLeft.png'
 import arrowRight from '../assets/arrowRight.png'
 import emptyHeart from '../assets/emptyHeart.png'
 import pin from '../assets/pin.png'
+import fullHeart from '../assets/fullHeart.png'
+<assets />
 
 export const List = ({hubData}) => {
 
@@ -16,6 +18,7 @@ export const List = ({hubData}) => {
     const [selectedBuilding, setSelectedBuilding] = useState(null);
     const [paginationArrowLeft, setPaginationArrowLeft] = useState(false);
     const [paginationArrowRight, setPaginationArrowRight] = useState(true);
+    const [buildingFavourites, setBuildingFavourites] = useState({}); // Object to store favourite status for each building
     
     const handleReadMore = (building) => {
         setSelectedBuilding(building);
@@ -74,6 +77,65 @@ export const List = ({hubData}) => {
 
     const [startIndex, endIndex] = getPageRange();
 
+    // useEffect(() => {
+    //     // Fetch building favorites from the server when the component mounts
+    //     fetchBuildingFavorites();
+    // }, []);
+
+    // const fetchBuildingFavorites = async () => {
+    //     try {
+    //         const response = await fetch('/api/buildings/favorites');
+    //         if (!response.ok) {
+    //             throw new Error('Failed to fetch building favorites');
+    //         }
+    //         const data = await response.json();
+    //         setBuildingFavourites(data);
+    //     } catch (error) {
+    //         console.error('Error fetching building favorites:', error);
+    //     }
+    // };
+
+    // const markAsFavourite = async (buildingId) => {
+    //     try {
+    //         const response = await fetch('/api/buildings/favorite', {
+    //             method: 'PUT',
+    //             headers: {
+    //                 'Content-Type': 'application/json',
+    //             },
+    //             body: JSON.stringify({
+    //                 buildingId: buildingId,
+    //                 isFavorite: !buildingFavourites[buildingId], // Toggle the favorite status
+    //             }),
+    //         });
+
+    //         if (!response.ok) {
+    //             throw new Error('Failed to mark building as favorite');
+    //         }
+
+    //         // Update local state after successful response
+    //         setBuildingFavourites(prevFavorites => ({
+    //             ...prevFavorites,
+    //             [buildingId]: !prevFavorites[buildingId], // Toggle the favorite status locally
+    //         }));
+    //     } catch (error) {
+    //         console.error('Error marking building as favorite:', error);
+    //         // Handle error
+    //     }
+    // };
+
+    const markAsFavourite = (buildingId) => {
+        setBuildingFavourites(prevFavourites => ({
+            ...prevFavourites,
+            [buildingId]: !prevFavourites[buildingId] // Toggle the favorite status for the clicked building
+        }));
+    }
+    
+    // Check if a building is marked as a favorite
+    const isBuildingFavourite = (buildingId) => {
+        return buildingFavourites.hasOwnProperty(buildingId) && buildingFavourites[buildingId];
+    }
+    
+    
     const getBuildingName = (building) => {
         return (
             building.productInformations[0]?.name ||
@@ -211,8 +273,13 @@ export const List = ({hubData}) => {
             <div className='headingContainer'>
                 <h2 className='h2'>{building.productInformations[0]?.name}</h2>
                 <div className='iconsContainer'>
-                    <img className='emptyHeart' src={emptyHeart} alt="empty-heart" />
-                    <img className='pinCard' src={pin} alt="pin" />
+                {isBuildingFavourite(building.id) ? (
+                    <img onClick={() => markAsFavourite(building.id)} className='fullHeart' src={fullHeart} alt="full-heart" />
+                ) : (
+                    <img onClick={() => markAsFavourite(building.id)} className='emptyHeart' src={emptyHeart} alt="empty-heart" />
+                )}
+                    {/* <img className='emptyHeart' src={emptyHeart} alt="empty-heart" /> */}
+                     {/* <img className='pinCard' src={pin} alt="pin" /> */}
                 </div>
             </div>
             <div className='info'>  
