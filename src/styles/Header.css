@@ -15,11 +15,10 @@
 
   }
   
-  .language {
+  /* .language {
     display: flex;
     flex-direction: row;
     margin-left: 1rem;
-    /* gap: 10rem; */
     align-items: center;
     flex-basis: 10rem;
     flex-grow: 0;
@@ -34,7 +33,7 @@
     text-decoration-thickness: 1px;
     text-underline-offset: 2px;
     cursor: pointer;
-  }
+  } */
   
   .silhouet {
     width: 27rem;
@@ -65,6 +64,7 @@
     cursor: pointer;
     flex-basis: 52rem;
     justify-content: flex-end;
+    color: var(--black);
   }
   
   .arrow {
