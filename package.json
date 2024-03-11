@@ -14,8 +14,11 @@
     "@react-google-maps/api": "^2.19.2",
     "axios": "^1.6.7",
     "http-proxy-middleware": "^2.0.6",
+    "jwt-decode": "^4.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-password-checklist": "^1.5.1",
+    "react-router-dom": "^6.22.1",
     "use-places-autocomplete": "^4.0.1"
   },
   "devDependencies": {

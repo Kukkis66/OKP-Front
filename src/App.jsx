@@ -5,8 +5,12 @@ import { Maps } from './components/Maps.jsx';
 import { List } from './components/List.jsx';
 import { Input } from './components/Input.jsx';
 import { Login } from './components/Login.jsx';
+import {Routes, Route } from "react-router-dom";
+import { ConfirmEmailPage } from './components/ConfirmEmailPage.jsx';
 import axios from 'axios';
 import './styles/App.css';
+import { useAuth } from './context/AuthContext.jsx';
+
 
 function App() {
   const [data, setData] = useState([]);
@@ -14,6 +18,8 @@ function App() {
   const [searchField, setSearchField] = useState('');
   const [loginForm, setLoginForm] = useState(false);
   const [selectedMarker, setSelectedMarker] = useState(null);
+
+  const { isLoggedIn, login, logout, currentUser, showFavorites, toggleFavorite, favorites, setFavorites } = useAuth();
 
   useEffect(() => {
     getAll();
@@ -43,6 +49,7 @@ function App() {
     try {
       const backendRes = await fetch('http://localhost:5143/api/DataHub');
       const backendData = await backendRes.json();
+      console.log(backendData);
       setHubData(backendData);
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -56,10 +63,14 @@ function App() {
   return (
     <>
       <Header handleLoginForm={handleLoginForm} />
-      <Input handleSearch={handleSearch} searchField={searchField} markers={hubData.data?.groupedProducts || []} updateMapMarker={updateMapMarker} />
+      {showFavorites ? null : (
+        <Input handleSearch={handleSearch} searchField={searchField} markers={hubData.data?.groupedProducts || []} hubData={hubData} updateMapMarker={updateMapMarker}/>
+      )}
       <Login loginForm={loginForm} handleLoginForm={handleLoginForm} />
-      <Maps searchField={searchField} hubData={hubData}/>
-      <List hubData={hubData} searchField={searchField} handleSearch={handleSearch}/> 
+      {showFavorites ? null : (
+        <Maps searchField={searchField} hubData={hubData}/>
+      )}
+      <List hubData={hubData} searchField={searchField} handleSearch={handleSearch} />
       <Footer />
     </>
   );
