@@ -23,7 +23,7 @@ function App() {
   const [selectedMarker, setSelectedMarker] = useState(null);
   const [userFavorites, setUserFavorites] = useState([]);
 
-  const { isLoggedIn, login, logout, currentUser, showFavorites, toggleFavorite, favorites, setFavorites } = useAuth();
+  const { isLoggedIn, login, logout, currentUser, showFavorites, toggleFavorite, favorites, setFavorites, heartFilled, setHeartFilled } = useAuth();
 
   useEffect(() => {
     getAll();
@@ -49,26 +49,26 @@ function App() {
     }
   };
 
-  useEffect(() => {
-    const getUserFavorites = async () => {
-      try {
-        if (currentUser) {
-          const response = await axios.get(`http://localhost:5143/api/Favorites/user-favorites/${currentUser.Id}`);
-          console.log(userFavorites);
-          setUserFavorites(response.data);
+  // useEffect(() => {
+  //   const getUserFavorites = async () => {
+  //     try {
+  //       if (currentUser) {
+  //         const response = await axios.get(`http://localhost:5143/api/Favorites/user-favorites/${currentUser.Id}`);
+  //         console.log(userFavorites);
+  //         setUserFavorites(response.data);
           
-        }
-      } catch (error) {
-        console.error('Something went wrong:', error.message);
-      }
-    };
+  //       }
+  //     } catch (error) {
+  //       console.error('Something went wrong:', error.message);
+  //     }
+  //   };
 
-    getUserFavorites();
+  //   getUserFavorites();
 
-    // Clean up function to clear data when component unmounts or currentUser becomes null
-    return () => setUserFavorites([]);
+  //   // Clean up function to clear data when component unmounts or currentUser becomes null
+  //   return () => setUserFavorites([]);
 
-  }, [currentUser, favorites]);
+  // }, [currentUser, favorites, heartFilled]);
 
   const fetchData = async () => {
     try {
@@ -100,7 +100,7 @@ function App() {
                 selectedMarker={selectedMarker}
                 updateMapMarker={updateMapMarker}
               />
-              <List hubData={hubData} searchField={searchField} userFavorites={userFavorites}/>
+              <List hubData={hubData} searchField={searchField} />
               <Footer />
             </>} />
             <Route exact path='/favorites' element={<>

@@ -22,6 +22,28 @@ export const AuthProvider = ({ children }) => {
   const [showFavorites, setShowFavorites] = useState(false);
   const [favorites, setFavorites] = useState({ data: { product: [] } });
   const [heartFilled, setHeartFilled] = useState(false);
+  const [userFavorites, setUserFavorites] = useState([]);
+
+  useEffect(() => {
+    const getUserFavorites = async () => {
+      try {
+        if (currentUser) {
+          const response = await axios.get(`http://localhost:5143/api/Favorites/user-favorites/${currentUser.Id}`);
+          console.log(userFavorites);
+          setUserFavorites(response.data);
+          
+        }
+      } catch (error) {
+        console.error('Something went wrong:', error.message);
+      }
+    };
+
+    getUserFavorites();
+
+    // Clean up function to clear data when component unmounts or currentUser becomes null
+    return () => setUserFavorites([]);
+
+  }, [currentUser, heartFilled, favorites]);
 
 
   const fetchFavorites = async () => {
@@ -168,7 +190,9 @@ export const AuthProvider = ({ children }) => {
     favorites:favorites,
     setFavorites:setFavorites,
     heartFilled:heartFilled,
-    setHeartFilled:setHeartFilled
+    setHeartFilled:setHeartFilled,
+    userFavorites:userFavorites,
+    setUserFavorites:setUserFavorites
   };
 
   return (

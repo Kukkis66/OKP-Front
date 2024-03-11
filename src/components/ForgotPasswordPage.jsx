@@ -1,6 +1,7 @@
 import '../styles/ResetPasswordPage.css';
 import { useState, useEffect } from 'react';
 import { Notification } from './Notification';
+import { Link } from 'react-router-dom';
 
 export const ForgotPasswordPage = () => {
 

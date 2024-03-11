@@ -14,7 +14,7 @@ import axios from 'axios';
 import '../styles/List.css';
 
 
-export const List = ({ hubData, userFavorites }) => {
+export const List = ({ hubData }) => {
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage, setItemsPerPage] = useState(6);
     const [isBackwards, setIsBackwards] = useState(true);
@@ -26,9 +26,10 @@ export const List = ({ hubData, userFavorites }) => {
     const [paginationArrowRight, setPaginationArrowRight] = useState(true);
     const [heartStates, setHeartStates] = useState({});
 
-    const { isLoggedIn, login, logout, currentUser, showFavorites, toggleFavorite, favorites, setFavorites } = useAuth();
+    const { isLoggedIn, login, logout, currentUser, showFavorites, toggleFavorite, favorites, setFavorites, heartFilled, setHeartFilled, userFavorites, setUserFavorites } = useAuth();
 
-    const toggleFavorite2 = async (buildingId, userId) => {
+
+    const toggleFavorite1 = async (buildingId, userId) => {
         // Check if currentUser is logged in
         if (!currentUser) {
             console.log("User is not logged in!");
@@ -36,21 +37,34 @@ export const List = ({ hubData, userFavorites }) => {
         }
     
         try {
-            // Check if the building is already favorited
-            const isFavorite = userFavorites.some(favorite => favorite.key === buildingId);
-    
-            if (isFavorite) {
-                // If already favorited, delete the favorite
-                const response = await axios.delete(`http://localhost:5143/api/Favorites/${buildingId}`);
-                console.log("Favorite deleted:", response);
-            } else {
                 // If not favorited, add the favorite
                 const response = await axios.post('http://localhost:5143/api/Favorites', { "key": buildingId, "userId": userId });
                 console.log("Favorite added:", response);
-            }
+                return response.data;
+
         } catch (error) {
             console.error('Error toggling favorite:', error);
+            console.log(userId);
         }
+    };
+
+    const deleteFavorite2 = async (buildingId, userId) => {
+        // Check if currentUser is logged in
+        if (!currentUser) {
+            console.log("User is not logged in!");
+            return;
+        }
+    
+        try {
+                // If already favorited, delete the favorite
+                const response = await axios.delete(`http://localhost:5143/api/Favorites/${buildingId}`);
+                console.log("Favorite deleted:", response);
+          
+            } catch (error) {
+                console.error('Error toggling favorite:', error);
+                console.log(userId);
+            }
+       
     };
     
    
@@ -102,11 +116,130 @@ export const List = ({ hubData, userFavorites }) => {
         setIsBackwards(!isBackwards);
     };
 
-    const handleHeartClick = (buildingId) => {
+    // const handleHeartClick = (buildingId) => {
+    //     setHeartStates(prevState => ({
+    //         ...prevState,
+    //         [buildingId]: !prevState[buildingId]
+    //     }));
+    //     console.log(heartStates);
+    // };
+    const handleHeartClick = async (buildingId) => {
+        // Toggle the heart state
         setHeartStates(prevState => ({
             ...prevState,
             [buildingId]: !prevState[buildingId]
         }));
+
+        const fetchFavorites = async () => {
+              const backendRes = await fetch(`http://localhost:5143/api/Favorites/user-favorites/${currentUser.Id}`);
+              const backendData = await backendRes.json();
+              console.log(backendData);
+              return backendData;
+          
+        }
+        console.log("Here userfavorites:", userFavorites);
+        // try {
+        //     const response = await fetchFavorites();
+        //     console.log(response);
+        //     // Now you can access the data in the response object
+        // } catch (error) {
+        //     console.error('Error fetching user favorites:', error.message);
+        //     // Handle errors appropriately
+        // }
+
+        try {
+            const response = await fetchFavorites();
+            const isFavorite = response.some((favorite) => favorite.key === buildingId);
+    
+            if (isFavorite) {
+                await deleteFavorite2(buildingId, currentUser.Id);
+                const updatedFavorites = userFavorites.filter(favorite => favorite.key !== buildingId);
+                setUserFavorites(updatedFavorites);
+            } else {
+                const response = await toggleFavorite1(buildingId, currentUser.Id);
+                setUserFavorites([...userFavorites, response]);
+            }
+    
+            // Toggle the heart icon
+        
+        } catch (error) {
+            console.error('Error handling heart click:', error);
+        }
+        // setHeartFilled(prev => !prev);
+        // const isFavorite = userFavorites.some(favorite => favorite.key === buildingId);
+
+        // if (isFavorite) {
+        //     try {
+        //         // If it's a favorite, remove it from favorites
+        //         console.log(userFavorites);
+        //         await deleteFavorite2(buildingId, currentUser.Id);
+        //         // Update userFavorites state by removing the building
+                
+        //     } catch (error) {
+        //         console.error('Error removing favorite:', error);
+        //     }
+        // } else {
+        //     try {
+        //         // If it's not a favorite, add it to favorites
+        //         await toggleFavorite1(buildingId, currentUser.Id);
+        //         // Update userFavorites state by adding the building
+                
+        //     } catch (error) {
+        //         console.log("error occureddd heeree");
+        //         console.error('Error adding favorite:', error);
+        //     }
+        // }
+        // if(!userFavorites) {
+        //     try {
+        //         setHeartFilled(true);
+        //         console.log(userFavorites);
+        //         await toggleFavorite2(buildingId, currentUser.Id);
+        //     } catch (error) {
+        //         console.error('Error toggling favorite:', error);
+                
+        //         setHeartStates(prevState => ({
+        //             ...prevState,
+        //             [buildingId]: !prevState[buildingId]
+        //         }));
+        //     }
+        //     setHeartStates(prevState => ({
+        //         ...prevState,
+        //         [buildingId]: !prevState[buildingId]
+        //     }));
+        // }
+        // setHeartStates(prevState => ({
+        //     ...prevState,
+        //     [buildingId]: !prevState[buildingId]
+        // }));
+        // console.log("here");
+        // const isFavorite = userFavorites.some(favorite => favorite.key === buildingId);
+        // if (isFavorite) {
+        //     setHeartFilled(false);
+        //     try {
+        //         console.log(userFavorites);
+        //         await deleteFavorite2(buildingId, currentUser.Id);
+        //     } catch (error) {
+        //         console.error('Error toggling favorite:', error);
+                
+        //         setHeartStates(prevState => ({
+        //             ...prevState,
+        //             [buildingId]: !prevState[buildingId]
+        //         }));
+        //     }
+        // }
+      
+        // try {
+        //     setHeartFilled(true);
+        //     console.log(userFavorites);
+        //     await toggleFavorite2(buildingId, currentUser.Id);
+        // } catch (error) {
+        //     console.error('Error toggling favorite:', error);
+       
+        //     setHeartStates(prevState => ({
+        //         ...prevState,
+        //         [buildingId]: !prevState[buildingId]
+        //     }));
+        // }
     };
 
     const totalPages = Math.ceil(hubData.data?.groupedProducts?.length / itemsPerPage);
@@ -238,7 +371,7 @@ export const List = ({ hubData, userFavorites }) => {
                                 <div className='headingContainer'>
                                     <h2 className='h2'>{getBuildingName(building)}</h2>
                                     <div className='iconsContainer'>
-                                        <img className="emptyHeart" src={heartStates[building.id] ? wholeHeart : emptyHeart} alt="heart" onClick={() => handleHeartClick(building.id)} />
+                                        <img className="emptyHeart" src={(userFavorites.some(favorite => favorite.key === building.id)) ? wholeHeart : emptyHeart} alt="heart" onClick={() => {handleHeartClick(building.id);  }} />
                                     </div>
                                 </div>
 
