@@ -5,6 +5,7 @@ import '../styles/Login.css'
 import { LoginErrorMessage } from './LoginErrorMessage.jsx';
 import { RegisterErrorMessage } from './RegisterErrorMessage.jsx';
 import PasswordChecklist from "react-password-checklist"
+import { Link } from "react-router-dom";
 
 
 export const Login = ({loginForm, handleLoginForm}) => {
@@ -157,6 +158,10 @@ export const Login = ({loginForm, handleLoginForm}) => {
                   <div className='newUser'>
                     <span>Oletko uusi käyttäjä?</span>
                     <a href='#' onClick={handleNewUser}>LUO KÄYTTÄJÄTILI</a>
+                  </div>
+                  <div className="forgot-password-link">
+                    <span>Unohtuiko salasana?</span>
+                    <Link to="/forgot-password" className='link33'>VAIHDA SALASANA</Link>
                   </div>
                 </form>
                 </div>)}

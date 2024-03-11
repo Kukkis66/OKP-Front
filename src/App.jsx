@@ -21,7 +21,6 @@ function App() {
   const [searchField, setSearchField] = useState('');
   const [loginForm, setLoginForm] = useState(false);
   const [selectedMarker, setSelectedMarker] = useState(null);
-  const [mapCenter, setMapCenter] = useState(null);
   const [userFavorites, setUserFavorites] = useState([]);
 
   const { isLoggedIn, login, logout, currentUser, showFavorites, toggleFavorite, favorites, setFavorites } = useAuth();
@@ -92,7 +91,7 @@ function App() {
           <Routes>
             <Route exact path='/' element={<>
               <Header handleLoginForm={handleLoginForm} />
-              <Input handleSearch={handleSearch} searchField={searchField} markers={hubData.data?.groupedProducts || []} hubData={hubData} updateMapMarker={updateMapMarker} updateMapCenter={updateMapCenter} />
+              <Input handleSearch={handleSearch} searchField={searchField} markers={hubData.data?.groupedProducts || []} hubData={hubData} updateMapMarker={updateMapMarker} />
               <Login loginForm={loginForm} handleLoginForm={handleLoginForm} />
               <Maps
                 searchField={searchField}
@@ -100,8 +99,6 @@ function App() {
                 hubData={hubData}
                 selectedMarker={selectedMarker}
                 updateMapMarker={updateMapMarker}
-                updateMapCenter={updateMapCenter}
-                mapCenter={mapCenter}
               />
               <List hubData={hubData} searchField={searchField} userFavorites={userFavorites}/>
               <Footer />

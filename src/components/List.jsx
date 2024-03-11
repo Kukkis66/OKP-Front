@@ -10,7 +10,6 @@ import { Popup } from './CardPopUp.jsx';
 import { getBuildingName } from './Maps.jsx';
 import { useAuth } from '../context/AuthContext.jsx';
 import { Favorites } from './Favorites.jsx';
-import wholeHeart from '../assets/whole-heart.png';
 import axios from 'axios';
 import '../styles/List.css';
 
@@ -223,7 +222,7 @@ export const List = ({ hubData, userFavorites }) => {
             </div>
 
             <div className="cardContainer">
-                {showFavorites && currentUser ? (
+                {/* {showFavorites && currentUser ? (
                     <Favorites
                         displayedItems={displayedItems}
                         handleReadMore={handleReadMore}
@@ -232,7 +231,7 @@ export const List = ({ hubData, userFavorites }) => {
                         setFavorites={setFavorites}
                         favorites={favorites}
                     />
-                ) : (
+                ) : ( */}
                     <ul>
                         {displayedItems?.map((building) => (
                             <li className="card" key={building.id}>
@@ -258,7 +257,7 @@ export const List = ({ hubData, userFavorites }) => {
                             </li>
                         ))}
                     </ul>
-                )}
+                {/* )} */}
                 {selectedBuilding && <Popup building={selectedBuilding} onClose={handleClosePopup} />}
             </div>
 

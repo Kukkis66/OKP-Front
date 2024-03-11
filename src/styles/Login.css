@@ -127,6 +127,7 @@
     font-size: 1.4rem;
     max-width: 265px;
     margin: auto;
+    padding-top: 1rem;
   }
 
 
@@ -141,6 +142,20 @@
     justify-content: end;
     align-items: center;
   }
+
+  .forgot-password-link {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    font-family: 'Mulish', sans-serif;
+    padding-block: 1rem;
+  }
+
+ .link33 {
+  font-family: 'Red Rose', serif;
+    font-weight: 300;
+    font-size: 1.1rem;
+ }
 
 
   @media only screen and (max-width: 425px) {
