@@ -48,25 +48,9 @@ export const List = ({ hubData, userFavorites }) => {
         } catch (error) {
             console.error('Error toggling favorite:', error);
         }
-    
-        // Update favorite status after toggling
-        handleHeartClick(buildingId);
     };
     
-    const handleHeartClick = async (buildingId) => {
-        try {
-            // Check if the building is already favorited
-            const isFavorite = userFavorites.some(favorite => favorite.key === buildingId);
-    
-            // Update favorite status based on the current state after toggling
-            setFavoriteStatus(prevStatus => ({
-                ...prevStatus,
-                [buildingId]: !isFavorite // Toggle the favorite status
-            }));
-        } catch (error) {
-            console.error('Error toggling favorite:', error);
-        }
-    };
+   
 
     const handleReadMore = (building) => {
         setSelectedBuilding(building);
@@ -101,18 +85,14 @@ export const List = ({ hubData, userFavorites }) => {
                                         // Check if currentUser is logged in
                                         if (currentUser && isLoggedIn) {
                                             // If logged in, toggle favorite
-                                            toggleFavorite2(building.id, currentUser.Id)
-                                            .then(() => {
-                                                // Update heart icon based on the response
-                                                handleHeartClick(building.id);
-                                            });
+                                            toggleFavorite2(building.id, currentUser.Id);
                                         } else {
                                             // If not logged in, display a message or handle the situation accordingly
                                             console.log("You need to be logged in to use this feature.");
                                             // You could also redirect the user to the login page, show a modal, etc.
                                         }
                                     }}>
-                                        {favoriteStatus[building.id] ? (
+                                        {isFavorite ? (
                                             <img className="fullHeart" src={wholeHeart} alt="full-heart" />
                                         ) : (
                                             <img className="emptyHeart" src={emptyHeart} alt="empty-heart" />

@@ -28,7 +28,7 @@ export const Header = ({handleLoginForm}) => {
                         </figure>
                     </Link>
                     <Link to="/">
-                        yeet
+                        koti
                     </Link>
                     <a >{currentUser["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"]}</a>
                     <a href='#' onClick={logout}>KIRJAUDU ULOS</a>
