@@ -9,7 +9,7 @@ export const Popup = ({ building, onClose }) => {
             <div className="cardPopup">
                 <span className="popupClose" onClick={() => { onClose(); }}><img src={close} alt="close" /></span>
                 <div className='popupCard'>
-                    <h2 className='h2-zoom'>{getBuildingName(building)}</h2> {/* Use getBuildingName function */}
+                    <h2 className='h2-zoom'>{getBuildingName(building)}</h2> 
                     <div className='info-and-photo-container'>
                         <div className='popup-info'>
                             <p className='p-zoom'>Osoite: {building.postalAddresses[0]?.streetName}</p>

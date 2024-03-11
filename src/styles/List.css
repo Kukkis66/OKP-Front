@@ -120,7 +120,7 @@ display: flex;
 }
 
 .h2 {
-font-size: 1.8rem;
+font-size: 1.6rem;
 font-family: 'Red Hat Display', sans-serif;
 text-transform: uppercase;
 font-weight: 700;
@@ -133,16 +133,17 @@ height: 6rem;
 display: flex;
 flex-direction: column;
 align-items: center;
+margin-inline-start: 1rem;
 }
-.emptyHeart {
-height: 2.5rem;
-width: 3rem;
+.emptyHeart, .fullHeart {
+height: 2.2rem;
+width: 2.8rem;
 padding-block-start: 0.2rem;
 }
 
 .pinCard {
-height: 2.5rem;
-width: 2rem;
+height: 2.6rem;
+width: 1.8rem;
 padding-block-start: 1rem;
 }
 
@@ -157,66 +158,19 @@ padding-block-end: 1rem;
 
 .p {
   font-family: 'Mulish', sans-serif;
-  font-size: 1.3rem;
+  font-size: 1.1rem;
   line-height: 34px;
 }
 
 .zoom {
-    font-family: 'Red Rose', serif;
-    font-weight: 300;
-    font-size: 1.3rem;
-    text-decoration-line: underline;
-    text-decoration-thickness: 1px;
-    text-underline-offset: 2px;
-    cursor: pointer;
-    padding-top: 1rem;
-}
-
-.picture_url {
-  width: 100%;
-  height: 200px;
-  text-align: center;
-}
-
-.picture_url img {
-  width: 100%;
-  height: 100%;
-  border-radius: 0.5rem;
-}
-
-/* .info > * {
-    padding-bottom: 1rem;
-} */
-
-.navigation-arrows {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin: 4rem; 
-}
-
-.navigation-arrows * {
-  cursor: pointer;
-}
-
-.pagination {
-    display: flex;
-    justify-content: center;
-    gap: 0.8rem;
-    /* text-decoration-line: underline; */
-    align-items: center;
-}
-
-.pagination >* {
   font-family: 'Red Rose', serif;
   font-weight: 300;
   font-size: 1.3rem;
-  /* text-decoration-line: underline; */
+  text-decoration-line: underline;
   text-decoration-thickness: 1px;
   text-underline-offset: 2px;
   cursor: pointer;
   padding-top: 1rem;
-  flex-grow: 2;
 }
 
 .picture_url {
@@ -250,6 +204,7 @@ cursor: pointer;
   display: flex;
   justify-content: center;
   gap: 0.8rem;
+  /* text-decoration-line: underline; */
   align-items: center;
 }
 
@@ -257,18 +212,18 @@ cursor: pointer;
 font-family: 'Red Rose', serif;
 font-weight: 300;
 font-size: 1.3rem;
-text-decoration-line: underline;
+/* text-decoration-line: underline; */
 text-decoration-thickness: 1px;
 text-underline-offset: 2px;
 cursor: pointer;
 }
 
 .underline {
-  text-decoration: underline;
+text-decoration: underline;
 }
 
 .active {
-  text-decoration: none !important;
+text-decoration: none !important;
 }
 
 
@@ -284,19 +239,19 @@ cursor: pointer;
   font-size: 1rem;
 }
 
-  .cardContainer ul {
-    gap: 1.5rem;
-  }
-  .card {
-    width: 235px;
-    height: 410px;
-  }
+.cardContainer ul {
+  gap: 1.5rem;
+}
+.card {
+  width: 235px;
+  height: 410px;
+}
 
 .h2 {
-  padding-block-end: 1rem;
-  min-height: 78px;
-  font-size: 20px;
-  line-height: 30px;
+padding-block-end: 1rem;
+min-height: 78px;
+font-size: 20px;
+line-height: 30px;
 }
 
 .emptyHeart {
@@ -316,28 +271,28 @@ cursor: pointer;
   justify-content: flex-end;
 }
 
-  .info > * {
-    padding-bottom: 0;
-  }
-  .p {
-    font-size: 16px;
-    line-height: 24px;
-  }
-  
-  .picture_url {
-    height: auto;
-  }
-  .picture_url img {
-    width: 100%;
-    object-fit: fill;
-    min-height: 160px;
-    max-height: 160px;
-  }
-  
-  .zoom {
-    font-size: 1rem;
-    /* padding-block-end: 1rem; */
-  }
+.info > * {
+  padding-bottom: 0;
+}
+.p {
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.picture_url {
+  height: auto;
+}
+.picture_url img {
+  width: 100%;
+  object-fit: fill;
+  min-height: 160px;
+  max-height: 160px;
+}
+
+.zoom {
+  font-size: 1rem;
+  /* padding-block-end: 1rem; */
+}
 }
 
 /* mobiili */
@@ -354,13 +309,13 @@ cursor: pointer;
 }
 
 .sortContainer img {
-  max-height: 28px;
+max-height: 28px;
 }
 .cardContainer {
-  margin: 0rem;
-  padding: 0.5rem 0;
-  border-radius: 0;
-  width: 100%;
+margin: 0rem;
+padding: 0.5rem 0;
+border-radius: 0;
+width: 100%;
 }
 
 .cardContainer ul {
@@ -369,22 +324,22 @@ cursor: pointer;
 }
 
 .card {
-  height: max-content;
-  padding: 1.5rem;
-  /* min-width: 160px; */
-  max-width: 300px;
-  /* flex-basis: 200px; */
-  flex-shrink: 0;
+height: max-content;
+padding: 1.5rem;
+/* min-width: 160px; */
+max-width: 300px;
+/* flex-basis: 200px; */
+flex-shrink: 0;
 }
 
 .headingContainer {
-  flex-direction: row;
+flex-direction: row;
 }
-  .card {
-    height: max-content;
-    padding: 1.5rem;
-    width: 235px;
-  }
+.card {
+  height: max-content;
+  padding: 1.5rem;
+  width: 235px;
+}
 
 .h2 {
   /* padding-block-end: 1rem;
@@ -435,7 +390,6 @@ cursor: pointer;
 
 .zoom {
   font-size: 16px;
-  flex-grow: 2;
 }
 
 .navigation-arrows {
@@ -529,11 +483,10 @@ cursor: pointer;
 
 .zoom {
   font-size: 2.3rem;
-  flex-grow: 2;
 }
 
 
 .navigation-arrows img {
   height: 6rem;
 }
-} */
+}

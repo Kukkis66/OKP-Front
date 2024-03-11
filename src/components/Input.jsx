@@ -3,7 +3,7 @@ import '../styles/Input.css';
 import axios from 'axios';
 import { getBuildingName } from './Maps.jsx';
 
-export const Input = ({ handleSearch, updateMapMarker }) => {
+export const Input = ({ handleSearch }) => {
   const [buildingNames, setBuildingNames] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
 
@@ -39,8 +39,7 @@ export const Input = ({ handleSearch, updateMapMarker }) => {
     const selected = buildingNames.find(building => building.name === value);
     console.log("Selected building:", selected);
     handleSearch(value);
-    // Update map marker based on selected building
-    updateMapMarker(selected ? selected.building : null);
+
   };
 
   return (

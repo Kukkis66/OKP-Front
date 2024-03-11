@@ -5,7 +5,7 @@ import '../styles/Header.css';
 import { useAuth } from '../context/AuthContext.jsx';
 
 export const Header = ({handleLoginForm}) => {
-    const { isLoggedIn, login, logout, currentUser, showFavorites, setShowFavorites, fetchFavorites } = useAuth();
+    const { isLoggedIn, login, logout } = useAuth();
     return (
         
         <header className='header'>
@@ -19,7 +19,7 @@ export const Header = ({handleLoginForm}) => {
                 </figure>
             {isLoggedIn ? (
                 <div className='login header-grid-item'>
-                    <a >{currentUser["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"]}</a>
+                    <a >NIMI</a>
                     <a href='#' onClick={logout}>KIRJAUDU ULOS</a>
                     <figure>
                         <img className='arrow' src={arrowOut} alt="logout" />
@@ -33,12 +33,7 @@ export const Header = ({handleLoginForm}) => {
                     </a>
             )}
             </div>
-            <div className='bottom-section'><h1>Löydä tietoa rakennuksista, tallenna suosikkejasi, rakenna reittejä</h1></div>
-            {currentUser && (
-                <div>
-                    <button onClick={() => {setShowFavorites(!showFavorites); fetchFavorites()}}>Click me</button>
-                </div>
-            )}
+            <div className='bottom-section'><h1>Löydä tietoa rakennuksista, tallenna suosikkejasi</h1></div>
         </header>
             
 

@@ -49,22 +49,20 @@ function App() {
     try {
       const backendRes = await fetch('http://localhost:5143/api/DataHub');
       const backendData = await backendRes.json();
-      console.log(backendData);
       setHubData(backendData);
     } catch (error) {
       console.error('Error fetching data:', error);
     }
   };
   
-  const updateMapMarker = selectedBuilding => {
-    setSelectedMarker(selectedBuilding);
-  };
+  
+  
 
   return (
     <>
       <Header handleLoginForm={handleLoginForm} />
       {showFavorites ? null : (
-        <Input handleSearch={handleSearch} searchField={searchField} markers={hubData.data?.groupedProducts || []} hubData={hubData} updateMapMarker={updateMapMarker}/>
+        <Input handleSearch={handleSearch} searchField={searchField} markers={hubData.data?.groupedProducts || []} hubData={hubData}/>
       )}
       <Login loginForm={loginForm} handleLoginForm={handleLoginForm} />
       {showFavorites ? null : (

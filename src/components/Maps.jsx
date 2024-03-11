@@ -63,12 +63,6 @@ export const getBuildingName = (building) => {
 };
 
 export const Maps = ({searchField, hubData}) => {
-
-  const { isLoaded, loadError } = useLoadScript({
-    googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAPS_APIKEY,
-    libraries,
-  });
-
   const [map, setMap] = useState(null);
   const [mapBounds, setMapBounds] = useState(null);
   const [selectedMarker, setSelectedMarker] = useState(null);
@@ -78,7 +72,12 @@ export const Maps = ({searchField, hubData}) => {
   const [showPopup, setShowPopup] = useState(false);
   const [isHeartFilled, setIsHeartFilled] = useState(false); 
   const [mapContainerHeight, setMapContainerHeight] = useState(window.innerWidth <= 425 ? 630 : 'auto');
-  
+
+  const { isLoaded, loadError } = useLoadScript({
+    googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAPS_APIKEY,
+    libraries,
+  });
+
   const markers = hubData => {
     const extractedMarkers = hubData.data?.groupedProducts?.map((building, index) => {
       const location = building.postalAddresses[0]?.location;
@@ -122,6 +121,61 @@ export const Maps = ({searchField, hubData}) => {
     });   
   };
 
+  useEffect(() => {
+    // Log the icon that is displayed when the marker is clicked
+    console.log("Icon displayed:", selectedMarker === null ? "houseIcon" : "pin");
+  }, [selectedMarker]);
+
+  const fetchWeatherData = async (lat, lng) => {
+    try {
+      const response = await fetch(`${API_BASE_URL}?lat=${lat}&lon=${lng}&appid=${API_KEY}`);
+      const data = await response.json();
+      setWeatherData(data);
+    } catch (error) {
+      console.error('Error fetching weather data:', error);
+    }
+  };
+  
+  const handleMarkerClick = (marker) => {
+    // Close the info window of the previously selected marker, if any
+    if (selectedMarker && selectedMarker.title !== marker.title) {
+      closeInfoWindow();
+    }
+
+    setSelectedMarker(marker);
+    setShowInfoWindow(true);
+    const clickedBuilding = hubData.data.groupedProducts.find(
+      (building) => getBuildingName(building) === marker.title
+    );
+    setSelectedBuilding(clickedBuilding);
+    fetchWeatherData(marker.position.lat, marker.position.lng);
+
+    // Move the map center to the clicked marker's position and set zoom to 15
+    if (map) {
+      map.panTo(marker.position);
+      map.setZoom(13.8);
+    }
+  };
+
+  const closeInfoWindow = () => {
+    // Close the info window of the currently selected marker
+    setSelectedMarker(null);
+    setSelectedBuilding(null);
+    setWeatherData(null);
+
+    // Revert the zoom level back to 13 and center to the default center
+    if (map) {
+      map.setZoom(12.3);
+      map.panTo(center);
+    }
+
+    setShowInfoWindow(false);
+  };
+
+  const handleHeartClick = () => {
+    setIsHeartFilled(!isHeartFilled); // Toggle heart state
+  };
+
   if (loadError) return <div>Error loading maps</div>;
   if (!isLoaded) return <div>Loading maps</div>;
 
@@ -156,51 +210,6 @@ export const Maps = ({searchField, hubData}) => {
         stylers: [{ visibility: "off" }], // Hide road labels
       },
     ],
-  };
-
-  const fetchWeatherData = async (lat, lng) => {
-    try {
-      const response = await fetch(`${API_BASE_URL}?lat=${lat}&lon=${lng}&appid=${API_KEY}`);
-      const data = await response.json();
-      setWeatherData(data);
-    } catch (error) {
-      console.error('Error fetching weather data:', error);
-    }
-  };
-
-  const handleMarkerClick = (marker) => {
-    console.log("Marker clicked:", marker);
-    setSelectedMarker(marker);
-    setShowInfoWindow(true);
-    const clickedBuilding = hubData.data.groupedProducts.find(
-        (building) => getBuildingName(building) === marker.title
-    );
-    setSelectedBuilding(clickedBuilding);
-    fetchWeatherData(marker.position.lat, marker.position.lng);
-
-    // Move the map center to the clicked marker's position and set zoom to 15
-    if (map) {
-        map.panTo(marker.position);
-        map.setZoom(13.8);
-    }
-};
-
-  const closeInfoWindow = () => {
-    setSelectedMarker(null); 
-    setSelectedBuilding(null);
-    setWeatherData(null);
-
-    // Revert the zoom level back to 13 and center to the default center
-    if (map) {
-      map.setZoom(12.3);
-      map.panTo(center);
-    }
-
-    setShowInfoWindow(false);
-  };
-
-  const handleHeartClick = () => {
-    setIsHeartFilled(!isHeartFilled); // Toggle heart state
   };
 
   return (
