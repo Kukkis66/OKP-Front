@@ -4,6 +4,7 @@ import '../styles/Maps.css';
 import '../styles/List.css';
 import houseIcon from '../assets/house.png';
 import { Popup } from './CardPopUp.jsx';
+import { Input } from './Input.jsx'
 import close from '../assets/close.png';
 import emptyHeart from '../assets/emptyHeart.png';
 import pin from '../assets/pin.png';
@@ -63,6 +64,10 @@ export const getBuildingName = (building) => {
 };
 
 export const Maps = ({searchField, hubData}) => {
+  const { isLoaded, loadError } = useLoadScript({
+    googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAPS_APIKEY,
+    libraries,
+  });
   const [map, setMap] = useState(null);
   const [mapBounds, setMapBounds] = useState(null);
   const [selectedMarker, setSelectedMarker] = useState(null);
@@ -72,59 +77,63 @@ export const Maps = ({searchField, hubData}) => {
   const [showPopup, setShowPopup] = useState(false);
   const [isHeartFilled, setIsHeartFilled] = useState(false); 
   const [mapContainerHeight, setMapContainerHeight] = useState(window.innerWidth <= 425 ? 630 : 'auto');
-
-  const { isLoaded, loadError } = useLoadScript({
-    googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAPS_APIKEY,
-    libraries,
-  });
-
+  
   const markers = hubData => {
-    const extractedMarkers = hubData.data?.groupedProducts?.map((building, index) => {
-      const location = building.postalAddresses[0]?.location;
-      const name = getBuildingName(building);
+    if (!hubData || !hubData.data || !hubData.data.groupedProducts) {
+      console.error("Invalid hubData:", hubData);
+      return [];
+    }
 
-      // Check if location is defined and has valid latitude and longitude
-      if (location && location.includes(',')) {
-        const [lat, lng] = location.substring(1, location.length - 1).split(',');
-        const latitude = parseFloat(lat.trim());
-        const longitude = parseFloat(lng.trim());
+    return hubData.data.groupedProducts
+      .map((building, index) => {
+        const location = building.postalAddresses[0]?.location;
+        const name = getBuildingName(building);
 
-        // Check if latitude and longitude are valid numbers
-        if (!isNaN(latitude) && !isNaN(longitude)) {
-          const marker = {
-            position: {
-              lat: latitude,
-              lng: longitude
-            },
-            title: name
-          };
-          return marker;
+        if (location && location.includes(',')) {
+          const [lat, lng] = location.substring(1, location.length - 1).split(',');
+          const latitude = parseFloat(lat.trim());
+          const longitude = parseFloat(lng.trim());
+
+          if (!isNaN(latitude) && !isNaN(longitude)) {
+            return {
+              position: { lat: latitude, lng: longitude },
+              title: name
+            };
+          }
         }
-      }
 
-      console.warn(`Invalid location data for marker ${index + 1}. Skipping...`);
-      return null;
-    }).filter(marker => marker !== null);
-
-    // Filter markers based on the search field
-    const filteredMarkers = extractedMarkers.filter(marker => {
-      return searchField === '' || marker.title.toLowerCase().includes(searchField.toLowerCase());
-    });
-
-    return filteredMarkers;
+        console.warn(`Invalid location data for marker ${index + 1}. Skipping...`);
+        return null;
+      })
+      .filter(marker => marker !== null && (searchField === '' || marker.title.toLowerCase().includes(searchField.toLowerCase())));
   };
   
-  const onMapLoad = map => {
-    setMap(map);
-    window.google.maps.event.addListener(map, 'bounds_changed', () => {
-      setMapBounds(map.getBounds());
-    });   
+  useEffect(() => {
+    if (map && selectedMarker && selectedMarker.position) {
+      const newPosition = selectedMarker.position;
+      map.panTo(newPosition);
+      map.setZoom(12.5); // Set desired zoom level
+    }
+  }, [map, selectedMarker]);
+  
+  const onMapLoad = (mapInstance) => {
+    setMap(mapInstance);
+    window.google.maps.event.addListener(mapInstance, 'bounds_changed', () => {
+      setMapBounds(mapInstance.getBounds());
+    });
+    setMapCenterAndZoom(mapInstance); // Call the function to set center and zoom
   };
 
-  useEffect(() => {
-    // Log the icon that is displayed when the marker is clicked
-    console.log("Icon displayed:", selectedMarker === null ? "houseIcon" : "pin");
-  }, [selectedMarker]);
+  const setMapCenterAndZoom = (mapInstance, selectedMarker) => {
+    if (window.innerWidth <= 425 && mapInstance && selectedMarker) {
+      mapInstance.panTo(selectedMarker.getPosition());
+      mapInstance.setZoom(12.5);
+    } else if (window.innerWidth <= 425 && mapInstance) {
+      mapInstance.panTo({ lat: 60.1699, lng: 24.9384 });
+      mapInstance.setZoom(12.5);
+    }
+  };
+
 
   const fetchWeatherData = async (lat, lng) => {
     try {
@@ -141,7 +150,7 @@ export const Maps = ({searchField, hubData}) => {
     if (selectedMarker && selectedMarker.title !== marker.title) {
       closeInfoWindow();
     }
-
+  
     setSelectedMarker(marker);
     setShowInfoWindow(true);
     const clickedBuilding = hubData.data.groupedProducts.find(
@@ -149,14 +158,23 @@ export const Maps = ({searchField, hubData}) => {
     );
     setSelectedBuilding(clickedBuilding);
     fetchWeatherData(marker.position.lat, marker.position.lng);
-
+  
     // Move the map center to the clicked marker's position and set zoom to 15
     if (map) {
-      map.panTo(marker.position);
-      map.setZoom(13.8);
+      if (window.innerWidth <= 425) {
+        map.panTo({ lat: 60.1699, lng: 24.9384 });
+        map.setZoom(13.1);
+      } else {
+        map.panTo({ lat: marker.position.lat, lng: marker.position.lng });
+        map.setZoom(13.8);
+      }
+    }
+  
+    if (window.innerWidth <= 425) {
+      setMapContainerHeight(980);
     }
   };
-
+  
   const closeInfoWindow = () => {
     // Close the info window of the currently selected marker
     setSelectedMarker(null);
@@ -165,8 +183,17 @@ export const Maps = ({searchField, hubData}) => {
 
     // Revert the zoom level back to 13 and center to the default center
     if (map) {
-      map.setZoom(12.3);
-      map.panTo(center);
+      if (window.innerWidth <= 425) {
+        map.panTo({ lat: 60.1699, lng: 24.9384 });
+        map.setZoom(12.8);
+      } else {
+        map.setZoom(12.3);
+        map.panTo(center);
+      }
+    }
+
+    if (window.innerWidth <= 425) {
+      setMapContainerHeight(window.innerWidth <= 425 ? 630 : 'auto');
     }
 
     setShowInfoWindow(false);
@@ -234,6 +261,7 @@ export const Maps = ({searchField, hubData}) => {
               onClick={() => handleMarkerClick(marker)}
             />
           ))}
+          
         </GoogleMap>
       </div>
       {showInfoWindow && selectedMarker && (
