@@ -89,24 +89,29 @@ export const ConfirmEmailPage = () => {
             {showPopup && <div className="popup1">
               <h2>Onnistui!</h2>
               <div className='popup1-message'>
-                <h1>Olet vahvistanut sähköpostiosoitteesi, voit nyt kirjautua sisään!</h1>
-                <p>Sinut uudelleenohjataan automaattisesti kotisivulle.</p>
+                <h1 className='p'>Olet vahvistanut sähköpostiosoitteesi, voit nyt kirjautua sisään!</h1>
+                <p className='p'>Sinut uudelleenohjataan automaattisesti kotisivulle.</p>
               </div>
             </div>}
             {showResendEmail && 
             <div className='resend-email-container'>
               <form onSubmit={ResendEmailConformation} className='resend-email-form'>
                 <ConfirmEmailError message={errorMessage} />
-                <label htmlFor="email" typeof='text'>Email:</label>
-                <input type="text" name='email'/>
+                <div className='resend-email-form-container'>
+                  <label htmlFor="email" typeof='text' className='p'>Email:</label>
+                  <input type="text" name='email'/>
+                </div>
                 <Notification message={resendErrorMessage} />
-                <button type='submit' className='resend-email-btn'>Lähetä</button>
+                <div className='buttonContainer'>
+                  <button type='submit' className='resend-email-btn'>Lähetä</button>
+                </div>
               </form>
             </div>}
             {!showResendEmail && 
 
               <div className="cofirm-email-lower-container">
-                  <button className='confirm-email-btn' onClick={confirmEmail}>Paina tästä vahvistaaksesi sähköpostiosoitteesi</button>
+                  <p className='vahvistaViesti p'>Vahvista sähköpostiosoitteesi</p>
+                  <button className='confirm-email-btn' onClick={confirmEmail}>Vahvista</button>
                   
               </div>
             }

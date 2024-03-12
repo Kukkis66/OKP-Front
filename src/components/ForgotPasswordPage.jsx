@@ -52,7 +52,9 @@ export const ForgotPasswordPage = () => {
                     <label htmlFor="email">Kirjoita sähköposti osoitteesi</label>
                     <input type="text" name='email'onChange={(e) => setType(e.target.value)}/>
                     <Notification message={errorMessage}/>
-                    <button disabled={!type} type='submit' className='reset-password-button'>Lähetä</button>
+                    <div className='buttonContainer'>
+                      <button disabled={!type} type='submit' className='reset-password-button'>Lähetä</button>
+                    </div>
                 </form>
             </div>
         </div>

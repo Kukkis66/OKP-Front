@@ -92,7 +92,9 @@ export const ResetPasswordPage = () => {
                           }}
                         />
                       {/* <Notification message={errorMessageText} /> */}
-                    <button type='submit' className='reset-password-button'>Vahvista</button>    
+                      <div className='buttonContainer'>
+                        <button type='submit' className='reset-password-button'>Vahvista</button>    
+                      </div>
                 </form>
             </div>
         </div>
