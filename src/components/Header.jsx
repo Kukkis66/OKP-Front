@@ -24,10 +24,10 @@ export const Header = ({handleLoginForm}) => {
                     <a href='/'>KOTI</a>
                     <Link to="/favorites">
                         <figure>
-                            <img src={wholeHeart} alt="heart" />
+                            <img className='header-heart' src={wholeHeart} alt="heart"/>
                         </figure>
                     </Link>
-                    <a >{currentUser["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"]}</a>
+                    <a >{currentUser["capitalized"]}</a>
                     <a href='#' onClick={logout}>KIRJAUDU ULOS</a>
                     <figure>
                         <img className='arrow' src={arrowOut} alt="logout" />

@@ -90,6 +90,7 @@ export const AuthProvider = ({ children }) => {
     setAuthToken(null);
     setCurrentUser(null);
     localStorage.removeItem("authToken");
+    navigateToNewPage();
   };
 
   const loginUser = async (e) => {

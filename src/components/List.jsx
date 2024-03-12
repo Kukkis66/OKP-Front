@@ -285,7 +285,6 @@ export const List = ({ hubData }) => {
                                 <div className='info'>
                                     <p className='p'>Osoite: {building.postalAddresses[0]?.streetName}</p>
                                     <p className='p'>Kaupunki: {building.postalAddresses[0]?.city}</p>
-                                    <p className='p'>Postinumero: {building.postalAddresses[0]?.postalCode}</p>
                                 </div>
 
                                 <figure className='picture_url'>

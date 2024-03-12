@@ -101,9 +101,8 @@ export const Favorites = ({}) => {
                                 </div>
                             </div>
                             <div className="info">
-                                <p className="p">Osoite: {building.postalAddresses[0]?.streetName}</p>
-                                <p className="p">Kaupunki: {building.postalAddresses[0]?.city}</p>
-                                <p className="p">Postinumero: {building.postalAddresses[0]?.postalCode}</p>
+                                <p className='p'>Osoite: {building.postalAddresses[0]?.streetName}</p>
+                                <p className='p'>Kaupunki: {building.postalAddresses[0]?.city}</p>
                             </div>
                             <figure className="picture_url">
                                 <img

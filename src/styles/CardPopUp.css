@@ -94,3 +94,11 @@
     max-width: 1.5rem;
     max-height: 1.5rem;
   }
+
+  .weekday {
+    margin-right: 0.4rem;
+  }
+
+  .aukiolo-container {
+    border: 1px solid blue;
+  }
