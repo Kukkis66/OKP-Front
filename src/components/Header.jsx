@@ -7,7 +7,7 @@ import { useAuth } from '../context/AuthContext.jsx';
 import { Link } from 'react-router-dom';
 
 export const Header = ({handleLoginForm}) => {
-    const { isLoggedIn, login, logout } = useAuth();
+    const { isLoggedIn, login, logout, currentUser } = useAuth();
     return (
         
         <header className='header'>
