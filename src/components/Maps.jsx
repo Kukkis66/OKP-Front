@@ -205,7 +205,7 @@ export const Maps = ({searchField, hubData}) => {
      // Move the map center to the clicked marker's position and set zoom 
      if (map) {
       map.panTo(marker.position);
-      map.setZoom(13.6);
+      map.setZoom(11.8);
     }
 
      // set the map container height for mobile when the building is clicked
@@ -226,7 +226,7 @@ export const Maps = ({searchField, hubData}) => {
         map.panTo({ lat: 60.1699, lng: 24.9384 });
         map.setZoom(13.6);
       } else {
-        map.setZoom(12.5);
+        map.setZoom(11.8);
         map.panTo(center);
       }
     }
@@ -327,7 +327,7 @@ export const Maps = ({searchField, hubData}) => {
       <div className={selectedBuilding ? "map" : "map full-width"}>
         <GoogleMap
           mapContainerStyle={mapContainerStyle}
-          zoom={12.3}
+          zoom={11.8}
           center={center}
           options={mapOptions}
           onLoad={onMapLoad}
