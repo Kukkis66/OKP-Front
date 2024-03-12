@@ -105,6 +105,7 @@
   .aukiolo-container {
     /* border: 1px solid blue; */
     padding-block-start: 1rem;
+    border: none;
   }
 
   .aukiolo-aika >* {
