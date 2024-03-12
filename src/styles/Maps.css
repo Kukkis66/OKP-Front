@@ -69,7 +69,7 @@ a.zoom {
     gap: 1.5rem;
   }
   .map {
-    height: 464px;
+    height: 474px;
   }
   .closeX {
     gap: 10px; /* Gap between images */
@@ -78,6 +78,9 @@ a.zoom {
       padding-inline-start: 1.5rem;
     }
   
+    .bottomContainer {
+      margin-block-start: 0.5rem;
+    }
 
   .weather-info {
   display: flex;
@@ -94,6 +97,7 @@ a.zoom {
 .weather-info img {
   width: 4rem; /* Adjust the width of the image as desired */
   height: auto; /* Maintain aspect ratio */
+  margin-block-start: 0.3rem;
 }
 
   .picture_map img {
