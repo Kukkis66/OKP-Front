@@ -104,8 +104,12 @@
 
   .aukiolo-container {
     /* border: 1px solid blue; */
-    padding-block-start: 1rem;
+    padding-block-start: 0.5rem;
     border: none;
+  }
+
+  .aukiolo-container2 >* {
+    margin-block-end: 0.5rem;
   }
 
   .aukiolo-aika >* {
@@ -162,11 +166,3 @@
 
 
   }
-  .weekday {
-    margin-right: 0.4rem;
-  }
-
-  .aukiolo-container {
-    border: 1px solid blue;
-  }
-

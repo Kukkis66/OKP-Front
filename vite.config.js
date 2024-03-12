@@ -4,10 +4,12 @@ import react from '@vitejs/plugin-react';
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  base: "OKP-Front",
   plugins: [
     react(),
     
   ],
+
 
   define: {
     // Define the environment variables for the Vite build
