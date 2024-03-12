@@ -1,16 +1,20 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import sort from '../assets/sort.png'
+import arrowDown from '../assets/arrow-down.png'
+import { Popup } from './CardPopUp.jsx'
+import '../styles/List.css'
+import arrowLeft from '../assets/arrowLeft.png'
+import arrowRight from '../assets/arrowRight.png'
+import emptyHeart from '../assets/emptyHeart.png'
+import pin from '../assets/pin.png'
+<assets />
+
+
 import React from 'react';
-import sort from '../assets/sort.png';
-import arrowDown from '../assets/arrow-down.png';
-import arrowLeft from '../assets/arrowLeft.png';
-import arrowRight from '../assets/arrowRight.png';
-import emptyHeart from '../assets/emptyHeart.png';
 import wholeHeart from '../assets/wholeHeart.png';
-import { Popup } from './CardPopUp.jsx';
 import { getBuildingName } from './Maps.jsx';
 import { useAuth } from '../context/AuthContext.jsx';
 import { Favorites } from './Favorites.jsx';
-import '../styles/List.css';
 
 
 export const List = ({ hubData }) => {
@@ -21,6 +25,8 @@ export const List = ({ hubData }) => {
 
     const [paginationArrowLeft, setPaginationArrowLeft] = useState(false);
     const [paginationArrowRight, setPaginationArrowRight] = useState(true);
+    const [buildingFavourites, setBuildingFavourites] = useState({}); // Object to store favourite status for each building
+    
     const [heartStates, setHeartStates] = useState({});
 
     const { isLoggedIn, login, logout, currentUser, showFavorites, toggleFavorite, favorites, setFavorites } = useAuth();

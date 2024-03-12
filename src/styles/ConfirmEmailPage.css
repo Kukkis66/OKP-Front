@@ -33,13 +33,13 @@
     height: 100px;
     cursor: pointer;
     border-radius: 1.5rem;
-    background-color: #ECAF60;
+    background-color: #AD7851;
     font-size: 1.6rem;
     box-shadow: 10px 5px 5px rgb(197, 194, 194);
 }
 
 .hello:hover {
-    color: greenyellow;
+    color: rgb(81, 105, 44);
 }
 
 .popup1 {
@@ -59,7 +59,7 @@
     text-align: center;
     margin-block: 2rem 2rem;
     font-size: 26px;
-    color: #0eb509;
+    color: rgb(81, 105, 44);
 }
 
 .popup1-message {
@@ -113,7 +113,7 @@
 
 .error {
     font-size: 1.2rem;
-    color: red;
+    color: rgb(188, 22, 22);
     padding-block: 0.5rem;
 }
 

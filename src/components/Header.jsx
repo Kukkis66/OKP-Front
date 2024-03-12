@@ -19,7 +19,7 @@ export const Header = ({handleLoginForm}) => {
                 </figure>
             {isLoggedIn ? (
                 <div className='login header-grid-item'>
-                    <a >NIMI</a>
+                    <a className="userName">NIMI</a>
                     <a href='#' onClick={logout}>KIRJAUDU ULOS</a>
                     <figure>
                         <img className='arrow' src={arrowOut} alt="logout" />

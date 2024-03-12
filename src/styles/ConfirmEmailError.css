@@ -22,7 +22,7 @@ p {
     text-align: center;
     margin-block: 2rem 2rem;
     font-size: 26px;
-    color: #e12007;
+    color: rgb(188, 22, 22);
 }
 
 .popup2-message {
@@ -40,10 +40,11 @@ p {
 .popup2-message p {
     font-size: 19px;
     text-align: center;
+    font-family: 'Mulish', sans-serif;
 }
 
 .resend-email-btn {
-    background-color: #ECAF60;
+    background-color: #AD7851;
     padding: 1rem;
     font-size: 1.6rem;
 }
@@ -52,7 +53,7 @@ p {
     text-align: center;
     padding: 1rem;
     font-size: 1.4rem;
-    border: 2px dotted red;
+    border: 2px dotted rgb(188, 22, 22);
 }
 
 .back-to-home-conf-error-div {
@@ -62,10 +63,11 @@ p {
 
 .back-to-home-conf-error {
     font-size: 1.8rem;
+    font-family: 'Mulish', sans-serif;
     text-decoration: none;
     padding: 0.8rem 0.8rem;
-    background-color: black;
-    color: white;
+    background-color: #1b1b1a;
+    color: #FCFAF8;
     border-radius: 1rem;
 
 }

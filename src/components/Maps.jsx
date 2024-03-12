@@ -134,6 +134,52 @@ export const Maps = ({searchField, hubData}) => {
     }
   };
 
+  // component will update the map container height whenever the window is resized
+  useEffect(() => {
+    const handleResize = () => {
+      setMapContainerHeight(window.innerWidth <= 425 ? 630 : 'auto');
+    };
+  
+    window.addEventListener('resize', handleResize);
+  
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
+  const handleMarkerClick = (marker) => {
+
+    // Close the info window of the previously selected marker, if any
+    if (selectedMarker && selectedMarker.title !== marker.title) {
+      closeInfoWindow();
+    }
+
+    console.log("Marker clicked:", marker);
+    setSelectedMarker(marker);
+    setShowInfoWindow(true); 
+    const clickedBuilding = hubData.data.groupedProducts.find(
+      building => getBuildingName(building) === marker.title);
+    setSelectedBuilding(clickedBuilding);
+    fetchWeatherData(marker.position.lat, marker.position.lng);
+
+     // Move the map center to the clicked marker's position and set zoom to 15
+     if (map) {
+      map.panTo(marker.position);
+      map.setZoom(13.8);
+    }
+
+     // set the map container height for mobile when the building is clicked
+    if (window.innerWidth <= 425) {
+      setMapContainerHeight(980);
+    }
+
+    
+  };
+
+  useEffect(() => {
+    // Log the icon that is displayed when the marker is clicked
+    console.log("Icon displayed:", selectedMarker === null ? "houseIcon" : "pin");
+  }, [selectedMarker]);
 
   const fetchWeatherData = async (lat, lng) => {
     try {
@@ -145,36 +191,7 @@ export const Maps = ({searchField, hubData}) => {
     }
   };
   
-  const handleMarkerClick = (marker) => {
-    // Close the info window of the previously selected marker, if any
-    if (selectedMarker && selectedMarker.title !== marker.title) {
-      closeInfoWindow();
-    }
-  
-    setSelectedMarker(marker);
-    setShowInfoWindow(true);
-    const clickedBuilding = hubData.data.groupedProducts.find(
-      (building) => getBuildingName(building) === marker.title
-    );
-    setSelectedBuilding(clickedBuilding);
-    fetchWeatherData(marker.position.lat, marker.position.lng);
-  
-    // Move the map center to the clicked marker's position and set zoom to 15
-    if (map) {
-      if (window.innerWidth <= 425) {
-        map.panTo({ lat: 60.1699, lng: 24.9384 });
-        map.setZoom(13.1);
-      } else {
-        map.panTo({ lat: marker.position.lat, lng: marker.position.lng });
-        map.setZoom(13.8);
-      }
-    }
-  
-    if (window.innerWidth <= 425) {
-      setMapContainerHeight(980);
-    }
-  };
-  
+
   const closeInfoWindow = () => {
     // Close the info window of the currently selected marker
     setSelectedMarker(null);
@@ -190,6 +207,10 @@ export const Maps = ({searchField, hubData}) => {
         map.setZoom(12.3);
         map.panTo(center);
       }
+    }
+
+    if (window.innerWidth <= 425) {
+      setMapContainerHeight(window.innerWidth <= 425 ? 630 : 'auto');
     }
 
     if (window.innerWidth <= 425) {
