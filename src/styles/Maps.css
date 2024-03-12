@@ -150,6 +150,7 @@ a.zoom {
       font-family: 'Red Rose', serif;
       font-weight: 300;
       font-size: 1.3rem; 
+      padding-left: 3rem;
     }
     
     .weather-info img {
@@ -157,6 +158,7 @@ a.zoom {
       height: auto; /* Maintain aspect ratio */
     }
 }
+
 /* 
 @media only screen and (min-width: 1441px) {
     .mapContainer {
