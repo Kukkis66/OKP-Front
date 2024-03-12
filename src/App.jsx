@@ -89,14 +89,13 @@ function App() {
           <Routes>
             <Route exact path='/' element={<>
               <Header handleLoginForm={handleLoginForm} />
-              <Input handleSearch={handleSearch} searchField={searchField} markers={hubData.data?.groupedProducts || []} hubData={hubData} updateMapMarker={updateMapMarker} />
+              <Input handleSearch={handleSearch} searchField={searchField} markers={hubData.data?.groupedProducts || []} hubData={hubData}/>
               <Login loginForm={loginForm} handleLoginForm={handleLoginForm} />
               <Maps
                 searchField={searchField}
                 buildings={hubData.data?.groupedProducts || []}
                 hubData={hubData}
                 selectedMarker={selectedMarker}
-                updateMapMarker={updateMapMarker}
               />
               <List hubData={hubData} searchField={searchField} />
               <Footer />
