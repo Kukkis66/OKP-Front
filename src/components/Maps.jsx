@@ -78,6 +78,7 @@ export const Maps = ({searchField, hubData}) => {
   const [showPopup, setShowPopup] = useState(false);
   const [isHeartFilled, setIsHeartFilled] = useState(false); 
   const [mapContainerHeight, setMapContainerHeight] = useState(window.innerWidth <= 425 ? 630 : 'auto');
+  
 
   const { isLoggedIn, login, logout, currentUser, showFavorites, toggleFavorite, favorites, setFavorites, heartFilled, setHeartFilled, userFavorites, setUserFavorites } = useAuth();
 
@@ -178,7 +179,7 @@ const deleteFavorite2 = async (buildingId, userId) => {
   // component will update the map container height whenever the window is resized
   useEffect(() => {
     const handleResize = () => {
-      setMapContainerHeight(window.innerWidth <= 425 ? 630 : 'auto');
+      setMapContainerHeight(window.innerWidth <= 425 ? 980 : 'auto');
     };
   
     window.addEventListener('resize', handleResize);
@@ -217,6 +218,8 @@ const deleteFavorite2 = async (buildingId, userId) => {
     
   };
 
+
+
   useEffect(() => {
     // Log the icon that is displayed when the marker is clicked
     console.log("Icon displayed:", selectedMarker === null ? "houseIcon" : "pin");
@@ -232,6 +235,8 @@ const deleteFavorite2 = async (buildingId, userId) => {
     }
   };
   
+ 
+
   const closeInfoWindow = () => {
     // Close the info window of the currently selected marker
     setSelectedMarker(null);
@@ -260,6 +265,7 @@ const deleteFavorite2 = async (buildingId, userId) => {
     setShowInfoWindow(false);
   };
 
+ 
   if (loadError) return <div>Error loading maps</div>;
   if (!isLoaded) return <div>Loading maps</div>;
 
@@ -295,7 +301,6 @@ const deleteFavorite2 = async (buildingId, userId) => {
       },
     ],
   };
-
 
   const handleHeartClick2 = async (buildingId) => {
     // Toggle the heart state
@@ -369,7 +374,6 @@ const deleteFavorite2 = async (buildingId, userId) => {
             <div className="info">
               <p className="p">Osoite: {selectedBuilding.postalAddresses[0]?.streetName}</p>
               <p className="p">Kaupunki: {selectedBuilding.postalAddresses[0]?.city}</p>
-              <p className="p">Postinumero: {selectedBuilding.postalAddresses[0]?.postalCode}</p>
             </div>
             <figure className="picture_url">
               <img
@@ -377,7 +381,7 @@ const deleteFavorite2 = async (buildingId, userId) => {
                 alt={selectedBuilding.productImages[0]?.altText}
               />
             </figure>
-            <div className="headingContainer">
+            <div className="bottomContainer">
               <a className="zoom" onClick={() => setShowPopup(true)}>LUE LISÄÄ</a>
               {showPopup && <Popup building={selectedBuilding} onClose={() => setShowPopup(false)} />}
               {weatherData && (

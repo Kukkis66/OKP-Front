@@ -89,7 +89,7 @@ function App() {
           <Routes>
             <Route exact path='/' element={<>
               <Header handleLoginForm={handleLoginForm} />
-              <Input handleSearch={handleSearch} searchField={searchField} markers={hubData.data?.groupedProducts || []} hubData={hubData}/>
+              <Input handleSearch={handleSearch} searchField={searchField} markers={hubData.data?.groupedProducts || []} hubData={hubData} />
               <Login loginForm={loginForm} handleLoginForm={handleLoginForm} />
               <Maps
                 searchField={searchField}

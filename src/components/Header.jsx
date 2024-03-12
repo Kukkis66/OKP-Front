@@ -41,7 +41,7 @@ export const Header = ({handleLoginForm}) => {
                     </a>
             )}
             </div>
-            <div className='bottom-section'><h1>Löydä tietoa rakennuksista, tallenna suosikkejasi, rakenna reittejä</h1></div>
+            <div className='bottom-section'><h1>Löydä tietoa rakennuksista, tallenna suosikkejasi</h1></div>
         </header>
             
 
