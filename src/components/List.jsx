@@ -15,6 +15,8 @@ import wholeHeart from '../assets/wholeHeart.png';
 import { getBuildingName } from './Maps.jsx';
 import { useAuth } from '../context/AuthContext.jsx';
 import { Favorites } from './Favorites.jsx';
+import axios from 'axios';
+import '../styles/List.css';
 
 
 export const List = ({ hubData }) => {
@@ -22,6 +24,8 @@ export const List = ({ hubData }) => {
     const [itemsPerPage, setItemsPerPage] = useState(6);
     const [isBackwards, setIsBackwards] = useState(true);
     const [selectedBuilding, setSelectedBuilding] = useState(null);
+    const [isFavorite, setIsFavorite] = useState(false);
+    const [favoriteStatus, setFavoriteStatus] = useState({});
 
     const [paginationArrowLeft, setPaginationArrowLeft] = useState(false);
     const [paginationArrowRight, setPaginationArrowRight] = useState(true);
@@ -29,7 +33,48 @@ export const List = ({ hubData }) => {
     
     const [heartStates, setHeartStates] = useState({});
 
-    const { isLoggedIn, login, logout, currentUser, showFavorites, toggleFavorite, favorites, setFavorites } = useAuth();
+    const { isLoggedIn, login, logout, currentUser, showFavorites, toggleFavorite, favorites, setFavorites, heartFilled, setHeartFilled, userFavorites, setUserFavorites } = useAuth();
+
+
+    const toggleFavorite1 = async (buildingId, userId) => {
+        // Check if currentUser is logged in
+        if (!currentUser) {
+            console.log("User is not logged in!");
+            return;
+        }
+    
+        try {
+                // If not favorited, add the favorite
+                const response = await axios.post('http://localhost:5143/api/Favorites', { "key": buildingId, "userId": userId });
+                console.log("Favorite added:", response);
+                return response.data;
+
+        } catch (error) {
+            console.error('Error toggling favorite:', error);
+            console.log(userId);
+        }
+    };
+
+    const deleteFavorite2 = async (buildingId, userId) => {
+        // Check if currentUser is logged in
+        if (!currentUser) {
+            console.log("User is not logged in!");
+            return;
+        }
+    
+        try {
+                // If already favorited, delete the favorite
+                const response = await axios.delete(`http://localhost:5143/api/Favorites/${buildingId}`);
+                console.log("Favorite deleted:", response);
+          
+            } catch (error) {
+                console.error('Error toggling favorite:', error);
+                console.log(userId);
+            }
+       
+    };
+    
+   
 
     const handleReadMore = (building) => {
         setSelectedBuilding(building);
@@ -78,11 +123,37 @@ export const List = ({ hubData }) => {
         setIsBackwards(!isBackwards);
     };
 
-    const handleHeartClick = (buildingId) => {
-        setHeartStates(prevState => ({
-            ...prevState,
-            [buildingId]: !prevState[buildingId]
-        }));
+    const handleHeartClick = async (buildingId) => {
+        // Toggle the heart state
+    
+        const fetchFavorites = async () => {
+              const backendRes = await fetch(`http://localhost:5143/api/Favorites/user-favorites/${currentUser.Id}`);
+              const backendData = await backendRes.json();
+              console.log(backendData);
+              return backendData;
+          
+        }
+        console.log("Here userfavorites:", userFavorites);
+
+        try {
+            const response = await fetchFavorites();
+            const isFavorite = response.some((favorite) => favorite.key === buildingId);
+    
+            if (isFavorite) {
+                await deleteFavorite2(buildingId, currentUser.Id);
+                const updatedFavorites = userFavorites.filter(favorite => favorite.key !== buildingId);
+                setUserFavorites(updatedFavorites);
+            } else {
+                const response = await toggleFavorite1(buildingId, currentUser.Id);
+                setUserFavorites([...userFavorites, response]);
+            }
+    
+            // Toggle the heart icon
+        
+        } catch (error) {
+            console.error('Error handling heart click:', error);
+        }
+        
     };
 
     const totalPages = Math.ceil(hubData.data?.groupedProducts?.length / itemsPerPage);
@@ -198,7 +269,7 @@ export const List = ({ hubData }) => {
             </div>
 
             <div className="cardContainer">
-                {showFavorites && currentUser ? (
+                {/* {showFavorites && currentUser ? (
                     <Favorites
                         displayedItems={displayedItems}
                         handleReadMore={handleReadMore}
@@ -207,21 +278,20 @@ export const List = ({ hubData }) => {
                         setFavorites={setFavorites}
                         favorites={favorites}
                     />
-                ) : (
+                ) : ( */}
                     <ul>
                         {displayedItems?.map((building) => (
                             <li className="card" key={building.id}>
                                 <div className='headingContainer'>
                                     <h2 className='h2'>{getBuildingName(building)}</h2>
                                     <div className='iconsContainer'>
-                                        <img className="emptyHeart" src={heartStates[building.id] ? wholeHeart : emptyHeart} alt="heart" onClick={() => handleHeartClick(building.id)} />
+                                        <img className="emptyHeart" src={(userFavorites.some(favorite => favorite.key === building.id)) ? wholeHeart : emptyHeart} alt="heart" onClick={() => {handleHeartClick(building.id);  }} />
                                     </div>
                                 </div>
 
                                 <div className='info'>
                                     <p className='p'>Osoite: {building.postalAddresses[0]?.streetName}</p>
                                     <p className='p'>Kaupunki: {building.postalAddresses[0]?.city}</p>
-                                    <p className='p'>Postinumero: {building.postalAddresses[0]?.postalCode}</p>
                                 </div>
 
                                 <figure className='picture_url'>
@@ -233,7 +303,7 @@ export const List = ({ hubData }) => {
                             </li>
                         ))}
                     </ul>
-                )}
+                {/* )} */}
                 {selectedBuilding && <Popup building={selectedBuilding} onClose={handleClosePopup} />}
             </div>
 

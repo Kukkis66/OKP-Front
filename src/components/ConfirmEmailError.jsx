@@ -14,7 +14,7 @@ export const ConfirmEmailError = ({ message }) => {
             </div>
             <div className="popup2">
                 <h2>Epäonnistui!</h2>
-                <p className='confirm-error'>{message}</p>
+                {/* <p className='confirm-error'>{message}</p> */}
                 <div className='popup2-message'>
                     <h1>Sähköpostin varmistaminen epäonnistui.</h1>
                     <p>Kirjoita sähköpostisi uudestaan allaolevaan kenttään ja lähetä, jotta voit varmistaa sähköpostisi uudestaan.</p>
