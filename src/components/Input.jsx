@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import '../styles/Input.css';
+import axios from 'axios';
+import { getBuildingName } from './Maps.jsx';
 
-export const Input = ({ handleSearch,searchField, updateMapMarker }) => {
-
+export const Input = ({ handleSearch }) => {
   const [buildingNames, setBuildingNames] = useState([]);
-  const [selectedBuilding, setSelectedBuilding] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
@@ -16,14 +15,10 @@ export const Input = ({ handleSearch,searchField, updateMapMarker }) => {
     try {
       const response = await axios.get('http://localhost:5143/api/DataHub');
       const names = response.data.data.groupedProducts.map(building => {
-        const name = building.productInformations[0]?.name || 
-          (building.productImages[0]?.copyright === "Kuvio" ? "Oodi" 
-          : building.productImages[0]?.copyright === "Didrichsen archives" ? "Didrichsenin taidemuseo"         
-          : building.productImages[0]?.copyright.includes("Copyright: Visit Finland")
-          ? building.productImages[0]?.copyright.split(":")[1].trim()
-          : building.productImages[0]?.copyright);
-        return { name, building }; // Return both name and building object
+        const name = getBuildingName(building);
+        return { name, building };
       });
+
       // Sort buildingNames alphabetically by name
       names.sort((a, b) => a.name.localeCompare(b.name));
       setBuildingNames(names);
@@ -38,26 +33,14 @@ export const Input = ({ handleSearch,searchField, updateMapMarker }) => {
     handleSearch(value);
   };
 
-const handleDropdownChange = event => {
-  const value = event.target.value;
-  setSearchTerm(value);
-  const selected = buildingNames.find(building => building.name === value);
-  console.log("Selected building:", selected);
-  setSelectedBuilding(selected);
-  handleSearch(value);
-  // Update map marker based on selected building
-  updateMapMarker(selected ? selected.building : null);
-};
+  const handleDropdownChange = event => {
+    const value = event.target.value;
+    setSearchTerm(value);
+    const selected = buildingNames.find(building => building.name === value);
+    console.log("Selected building:", selected);
+    handleSearch(value);
 
-
-  useEffect(() => {
-    if (selectedBuilding) {
-      updateMapMarker(selectedBuilding.building); // Pass building information to update map marker
-    } else {
-      // If no building is selected, update map marker to null to remove all markers
-      updateMapMarker(null);
-    }
-  }, [selectedBuilding, updateMapMarker]);
+  };
 
   return (
     <div className="inputContainer">
@@ -70,20 +53,16 @@ const handleDropdownChange = event => {
         value={searchTerm}
         onChange={handleInputChange}
       />
-       <datalist
+      <datalist
         className="dropdownSearch"
-        value={searchTerm}
+        id="exampleList"
         onChange={handleDropdownChange}
-        id= "exampleList"
       >
-        <option key="" value=""></option>
+        <option value=""></option>
         {buildingNames.map((building, index) => (
-          <option key={index} value={building.name}>
-            {building.name}
-          </option>
+          <option key={index} value={building.name} />
         ))}
       </datalist>
     </div>
   );
 };
-

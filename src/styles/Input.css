@@ -1,30 +1,40 @@
 .inputContainer {
-   margin: 5rem 0rem 3rem 3rem;
-   display: flex;
-   flex-direction: column;
-   padding-inline-end: 3rem;
-}
-
-.inputContainer >* {
-    flex-shrink: 1;
-}
-
-.searchInfo{
-    font-size: 2.33rem;
-    font-family: 'Red Hat Display', sans-serif;
-    font-weight: 300;
-    padding-bottom: 2rem;
-}
-
-  .inputField {
+    margin: 5rem 0rem 3rem 3rem;
+    display: flex;
+    flex-direction: column;
+    padding-inline-end: 3rem;
+ }
+ 
+ .inputContainer >* {
+     flex-shrink: 1;
+ }
+ 
+ .searchInfo{
+     font-size: 2.33rem;
+     font-family: 'Red Hat Display', sans-serif;
+     font-weight: 300;
+     padding-bottom: 2rem;
+ }
+ 
+   .inputField {
+     padding: 0.6rem;
+     font-family: 'Mulish', sans-serif;
+     /* font-size: 1rem; */
+     font-size: 18px;
+     border: solid black; 
+     border-radius: 5px;
+     max-width: 31rem;
+ }
+ 
+/* .dropdownSearch {
     padding: 0.6rem;
+    width: 1rem;
     font-family: 'Mulish', sans-serif;
-    /* font-size: 1rem; */
     font-size: 18px;
     border: solid black; 
     border-radius: 5px;
     max-width: 31rem;
-}
+} */
 
 /* .dropdownSearch {
     padding: 0.6rem;
