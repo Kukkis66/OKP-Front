@@ -77,7 +77,7 @@ export const ResetPasswordPage = () => {
                         />
                         Näytä Salasana
                       </div>
-                      
+                      <Notification message={errorMessageText} />
                     <PasswordChecklist
                           rules={["minLength","specialChar","number","capital","match"]}
                           minLength={6}
@@ -91,7 +91,7 @@ export const ResetPasswordPage = () => {
                             match: "Salasanat täsmäävät",
                           }}
                         />
-                      <Notification message={errorMessageText} />
+                      {/* <Notification message={errorMessageText} /> */}
                     <button type='submit' className='reset-password-button'>Vahvista</button>    
                 </form>
             </div>

@@ -1,8 +1,10 @@
 import silhouet from '../assets/logo-project.png';
 import arrow from '../assets/login.svg';
 import arrowOut from '../assets/logout.png'
+import wholeHeart from '../assets/whole-heart.png'
 import '../styles/Header.css';
 import { useAuth } from '../context/AuthContext.jsx';
+import { Link } from 'react-router-dom';
 
 export const Header = ({handleLoginForm}) => {
     const { isLoggedIn, login, logout } = useAuth();
@@ -19,7 +21,13 @@ export const Header = ({handleLoginForm}) => {
                 </figure>
             {isLoggedIn ? (
                 <div className='login header-grid-item'>
-                    <a className="userName">NIMI</a>
+                    <a href='/'>KOTI</a>
+                    <Link to="/favorites">
+                        <figure>
+                            <img className='header-heart' src={wholeHeart} alt="heart"/>
+                        </figure>
+                    </Link>
+                    <a >{currentUser["capitalized"]}</a>
                     <a href='#' onClick={logout}>KIRJAUDU ULOS</a>
                     <figure>
                         <img className='arrow' src={arrowOut} alt="logout" />
