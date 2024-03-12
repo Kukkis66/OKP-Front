@@ -149,10 +149,11 @@
   .user-registered-success {
     color:  #1b1b1a;
     text-align: center;
-    font-size: 1.4rem;
+    font-size: 1.6rem;
     max-width: 265px;
     margin: auto;
     padding-top: 1rem;
+    font-family: 'Mulish', sans-serif;
   }
 
 
