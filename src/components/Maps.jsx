@@ -4,7 +4,6 @@ import '../styles/Maps.css';
 import '../styles/List.css';
 import houseIcon from '../assets/house.png';
 import { Popup } from './CardPopUp.jsx';
-import { Input } from './Input.jsx'
 import close from '../assets/close.png';
 import emptyHeart from '../assets/emptyHeart.png';
 import pin from '../assets/pin.png';
@@ -191,7 +190,6 @@ export const Maps = ({searchField, hubData}) => {
     }
   };
   
-
   const closeInfoWindow = () => {
     // Close the info window of the currently selected marker
     setSelectedMarker(null);
