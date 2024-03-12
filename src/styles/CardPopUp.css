@@ -95,15 +95,25 @@
     max-height: 1.5rem;
   }
 
+  .popup-info * {
+    color: #1b1b1a;
+  }
   .weekday {
     margin-right: 0.4rem;
   }
 
   .aukiolo-container {
-    border: 1px solid blue;
+    /* border: 1px solid blue; */
+    padding-block-start: 1rem;
   }
 
+  .aukiolo-aika >* {
+    font-family: 'Mulish', sans-serif;
+  }
 
+  .picture_url {
+    
+  }
 
   @media only screen and (max-width: 768px) {
 
@@ -130,6 +140,7 @@
       bottom: 0;
       top: 0;
       width: 100%;
+      border-radius: 0;
     }
 
     .popupCard {
@@ -147,6 +158,9 @@
       line-height: 22px;
     }
 
+    .aukiolo-aika >* {
+      font-size: 0.9rem;
+    }
    
 
 

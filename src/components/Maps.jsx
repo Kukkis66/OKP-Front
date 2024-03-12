@@ -166,7 +166,7 @@ const deleteFavorite2 = async (buildingId, userId) => {
   // component will update the map container height whenever the window is resized
   useEffect(() => {
     const handleResize = () => {
-      setMapContainerHeight(window.innerWidth <= 425 ? 630 : 'auto');
+      setMapContainerHeight(window.innerWidth <= 425 ? 980 : 'auto');
     };
   
     window.addEventListener('resize', handleResize);
@@ -364,7 +364,6 @@ const deleteFavorite2 = async (buildingId, userId) => {
             <div className="info">
               <p className="p">Osoite: {selectedBuilding.postalAddresses[0]?.streetName}</p>
               <p className="p">Kaupunki: {selectedBuilding.postalAddresses[0]?.city}</p>
-              <p className="p">Postinumero: {selectedBuilding.postalAddresses[0]?.postalCode}</p>
             </div>
             <figure className="picture_url">
               <img
@@ -372,7 +371,7 @@ const deleteFavorite2 = async (buildingId, userId) => {
                 alt={selectedBuilding.productImages[0]?.altText}
               />
             </figure>
-            <div className="headingContainer">
+            <div className="bottomContainer">
               <a className="zoom" onClick={() => setShowPopup(true)}>LUE LISÄÄ</a>
               {showPopup && <Popup building={selectedBuilding} onClose={() => setShowPopup(false)} />}
               {weatherData && (

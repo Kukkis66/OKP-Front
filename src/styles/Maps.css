@@ -20,10 +20,27 @@
   flex-direction: row;
 }
 
+
 .closeX {
   padding: 1rem 0 0 2rem;
   height: 1.7rem;
   width: 1.8rem;
+}
+
+/* .picture_url {
+  margin-block-end: 1rem;
+} */
+
+.bottomContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 1rem;
+  justify-content: space-between;
+}
+
+a.zoom {
+  padding-top: 0;
 }
 
 .weather-info {
@@ -36,12 +53,12 @@
   font-family: 'Red Rose', serif;
   font-weight: 300;
   font-size: 1.3rem; 
-  padding-left: 5rem;
 }
 
 .weather-info img {
   width: 4rem; /* Adjust the width of the image as desired */
   height: auto; /* Maintain aspect ratio */
+  margin-inline-end: -1rem;
 }
 
 
@@ -60,17 +77,18 @@
       width: 1.5rem;
       padding-inline-start: 1.5rem;
     }
+  
+
   .weather-info {
   display: flex;
   align-items: center;
   flex-wrap: nowrap;
-}
+  }
 
 .weather-info p {
   font-family: 'Red Rose', serif;
   font-weight: 300;
   font-size: 1.3rem; 
-  padding-left: 5rem;
 }
 
 .weather-info img {
@@ -114,6 +132,14 @@
       padding-inline-start: 0;
     }
 
+
+    .bottomContainer {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      height: 1rem;
+    }
+
     .weather-info {
       display: flex;
       align-items: center;
@@ -124,7 +150,6 @@
       font-family: 'Red Rose', serif;
       font-weight: 300;
       font-size: 1.3rem; 
-      padding-left: 5rem;
     }
     
     .weather-info img {

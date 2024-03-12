@@ -262,8 +262,12 @@
   justify-content: center;
 }
 
-.language a, .login {
+/* .language a, .login {
   font-size: 1rem;
+} */
+
+.header-grid-item {
+  margin: 2rem 0 0;
 }
 
 .arrow {
