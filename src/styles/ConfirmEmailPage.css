@@ -24,19 +24,28 @@
     
 }
 
+.p {
+    font-family: Mulish, sans-serif;
+}
 
+.vahvistaViesti {
+    font-family: Mulish, sans-serif;
+    margin-block-end: 2rem;
+}
 
 .confirm-email-btn {
-    width: 100%;
+    background-color: var(--brown);
+    color: var(--white);
+    font-family: 'Red rose', sans-serif;
+    border-radius: 0.5rem;
+    padding: 0.5em;
     border: none;
-    box-shadow: none;
-    height: 100px;
-    cursor: pointer;
-    border-radius: 1.5rem;
-    background-color: #AD7851;
-    font-size: 1.6rem;
-    box-shadow: 10px 5px 5px rgb(197, 194, 194);
+    box-shadow: rgba(0, 0, 0, 0.5) 0 4px 2.6px;
+    text-transform: uppercase;
+    font-size: 1.5rem;
 }
+
+
 
 .hello:hover {
     color: rgb(81, 105, 44);
@@ -58,8 +67,13 @@
 .popup1 h2 {
     text-align: center;
     margin-block: 2rem 2rem;
-    font-size: 26px;
-    color: rgb(81, 105, 44);
+    /* font-size: 26px; */
+    color: #1b1b1a;
+
+    font-size: 1.6rem;
+    font-family: 'Red Hat Display', sans-serif;
+    text-transform: uppercase;
+    font-weight: 700;   
 }
 
 .popup1-message {
@@ -88,28 +102,49 @@
 }
 
 .resend-email-form {
-    width: 100%;
-    
+    width: 100%;   
 }
 
 .resend-email-form label {
     font-size: 1.4rem;
 }
 
+.resend-email-form-container {
+    margin-block-start: 2rem;
+}
 .resend-email-form input {
     width: 100%;
     height: 40px;
     margin-block: 1rem;
-    font-size: 1.6rem;
+    font-size: 1.2rem;
+    border-radius: 0.5rem;
+    border: solid black 1px;
+    padding-inline-start: 1rem;
 }
 
 .resend-email-form button {
-    width: 100%;
+    /* width: 100%;
     border: none;
     box-shadow: none;
     border-radius: 1rem;
-    
-}
+     */
+     background-color: var(--brown);
+     color: var(--white);
+     font-family: 'Red rose', sans-serif;
+     border-radius: 0.5rem;
+     padding: 0.5em;
+     /* margin-left: 1rem; */
+     border: none;
+     box-shadow: rgba(0, 0, 0, 0.5) 0 4px 2.6px;
+     text-transform: uppercase;
+ }
+
+ .buttonContainer {
+    display: flex;
+    justify-content: center;
+    margin-block-start: 2rem;
+ }
+
 
 .error {
     font-size: 1.2rem;
