@@ -94,3 +94,74 @@
     max-width: 1.5rem;
     max-height: 1.5rem;
   }
+
+  .popup-info * {
+    color: #1b1b1a;
+  }
+  .weekday {
+    margin-right: 0.4rem;
+  }
+
+  .aukiolo-container {
+    /* border: 1px solid blue; */
+    padding-block-start: 1rem;
+  }
+
+  .aukiolo-aika >* {
+    font-family: 'Mulish', sans-serif;
+  }
+
+  .picture_url {
+    
+  }
+
+  @media only screen and (max-width: 768px) {
+
+
+    .cardPopup {
+      bottom: 1rem;
+      top: 1rem;
+      width: 95%;
+    }
+
+    .info-and-photo-container {
+      flex-direction: column;
+      margin-bottom: 2rem;
+    }
+
+    .picture_popup {
+      margin-block-start: 2rem;
+    }
+  }
+
+  @media only screen and (max-width: 425px) {
+
+    .cardPopup {
+      bottom: 0;
+      top: 0;
+      width: 100%;
+      border-radius: 0;
+    }
+
+    .popupCard {
+      margin: 0 1rem;
+      padding: 2rem;
+    }
+
+    .info-and-photo-container {
+      flex-direction: column;
+      margin-bottom: 2rem;
+    }
+
+    .p-zoom {
+      font-size: 14px;
+      line-height: 22px;
+    }
+
+    .aukiolo-aika >* {
+      font-size: 0.9rem;
+    }
+   
+
+
+  }

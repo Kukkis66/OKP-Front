@@ -108,7 +108,7 @@ padding: 2rem;
 border: solid #1b1b1a9e 0.18rem;
 border-radius: 0.5rem;
 background-color: var(--white);
-width: 345px;
+width: 310px;
 height: 530px;
 display: flex;
 flex-direction: column;
@@ -120,30 +120,31 @@ display: flex;
 }
 
 .h2 {
-font-size: 1.8rem;
-font-family: 'Red Hat Display', sans-serif;
-text-transform: uppercase;
-font-weight: 700;
-line-height: 37px;
-flex-grow: 2;
-width: 75%;
-height: 6rem;
+  font-size: 1.6rem;
+  font-family: 'Red Hat Display', sans-serif;
+  text-transform: uppercase;
+  font-weight: 700;
+  line-height: 37px;
+  flex-grow: 2;
+  width: 75%;
+  height: 6rem;
 }
 .iconsContainer {
-display: flex;
-flex-direction: column;
-align-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-inline-start: 1rem;
 }
-.emptyHeart {
-height: 2.5rem;
-width: 3rem;
-padding-block-start: 0.2rem;
+.emptyHeart, .wholeHeart {
+  height: 2.2rem;
+  width: 2.8rem;
+  padding-block-start: 0.2rem;
 }
 
 .pinCard {
-height: 2.5rem;
-width: 2rem;
-padding-block-start: 1rem;
+  height: 2.6rem;
+  width: 1.8rem;
+  padding-block-start: 1rem;
 }
 
 .info {
@@ -156,9 +157,9 @@ padding-block-end: 1rem;
 }
 
 .p {
-  font-family: 'Mulish', sans-serif;
-  font-size: 1.3rem;
-  line-height: 34px;
+    font-family: 'Mulish', sans-serif;
+    font-size: 1.1rem;
+    line-height: 34px;
 }
 
 .zoom {
@@ -176,6 +177,7 @@ padding-block-end: 1rem;
 width: 100%;
 height: 200px;
 text-align: center;
+margin-block-end: 0.5rem;
 }
 
 .picture_url img {
@@ -203,7 +205,7 @@ cursor: pointer;
   display: flex;
   justify-content: center;
   gap: 0.8rem;
-  text-decoration-line: underline;
+  /* text-decoration-line: underline; */
   align-items: center;
 }
 
@@ -211,12 +213,22 @@ cursor: pointer;
 font-family: 'Red Rose', serif;
 font-weight: 300;
 font-size: 1.3rem;
-text-decoration-line: underline;
+/* text-decoration-line: underline; */
 text-decoration-thickness: 1px;
 text-underline-offset: 2px;
 cursor: pointer;
 }
 
+.underline {
+text-decoration: underline;
+}
+
+.active {
+text-decoration: none !important;
+}
+
+
+/* tablet */
 
 @media only screen and (max-width: 768px) {
 
@@ -233,13 +245,14 @@ cursor: pointer;
 }
 .card {
   width: 235px;
-  height: 400px;
+  height: 410px;
 }
 
 .h2 {
-  padding-block-end: 1rem;
-  min-height: 78px;
-  font-size: 24px;
+padding-block-end: 1rem;
+min-height: 78px;
+font-size: 20px;
+line-height: 30px;
 }
 
 .emptyHeart {
@@ -279,8 +292,11 @@ cursor: pointer;
 
 .zoom {
   font-size: 1rem;
+  /* padding-block-end: 1rem; */
 }
 }
+
+/* mobiili */
 
 @media only screen and (max-width: 425px) {
 
@@ -294,11 +310,13 @@ cursor: pointer;
 }
 
 .sortContainer img {
-  max-height: 28px;
+max-height: 28px;
 }
 .cardContainer {
-  margin: 1rem;
-  padding: 1rem 0;
+margin: 0rem;
+padding: 0.5rem 0;
+border-radius: 0;
+width: 100%;
 }
 
 .cardContainer ul {
@@ -307,9 +325,21 @@ cursor: pointer;
 }
 
 .card {
+height: max-content;
+padding: 1.5rem;
+/* min-width: 160px; */
+max-width: 300px;
+/* flex-basis: 200px; */
+flex-shrink: 0;
+}
+
+.headingContainer {
+flex-direction: row;
+}
+.card {
   height: max-content;
   padding: 1.5rem;
-  width: 300px;
+  width: 235px;
 }
 
 .h2 {
@@ -373,7 +403,7 @@ cursor: pointer;
 
 }
 
-@media only screen and (min-width: 1441px) {
+/* @media only screen and (min-width: 1441px) {
 
 .listHeader {
   font-size: 4.33rem;

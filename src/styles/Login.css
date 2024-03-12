@@ -8,8 +8,11 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 2;
+    z-index: 1;
+    overflow: auto; 
+
   }
+
   
   .popup {
     background: #F1EDE7;
@@ -19,6 +22,12 @@
     align-items: center;
     justify-content: center;
     padding: 6rem 5rem;
+    position: fixed;
+    top: 6%;
+    bottom: 6%;
+    height: 60%;
+    overflow: auto; /* Add this line */
+    max-height: calc(100% - 12%); /* Adjust this value as needed */
 }
 
   .loginContainer {
@@ -27,6 +36,7 @@
     align-items: center;
     flex-wrap: wrap;
     width: 100%;
+    /* overflow-y: auto; */
 }
 
 .LoginInputFieldsContainer {
@@ -66,11 +76,25 @@
     width: 100%;
  }
 
+
+ .show-password-btn {
+  font-family: 'Mulish', sans-serif;
+  padding-block-end: 2rem;
+ }
+ .passwordChecklist {
+  font-family: 'Mulish', sans-serif;
+ }
+
  .buttonLogin {
   margin: 2rem 0 4rem;
   width: 15rem;
+  margin-left: 1rem;
  }
- 
+
+ .buttonCreateUser {
+  margin-block-start: 3rem;
+ }
+
  .newUser {
     display: flex;
     justify-content: center;
@@ -81,6 +105,7 @@
     font-family: 'Red Rose', serif;
     font-weight: 300;
     font-size: 1.1rem;
+    color: #1b1b1a;
  }
   
   .close {
@@ -96,8 +121,76 @@
     max-height: 1.5rem;
   }
 
- 
+  .login-input-submit {
+    background-color: var(--brown);
+    color: var(--white);
+    font-family: 'Red rose', sans-serif;
+    border-radius: 0.5rem;
+    padding: 0.5rem;
+    margin-left: 1rem;
+    border: none;
+    box-shadow: rgba(0, 0, 0, 0.5) 0 4px 2.6px;
+    margin: 2rem 0 4rem;
+    width: 15rem;
+  }
 
+  .login-input-submit:hover {
+    background-color: rgb(188, 22, 22);
+  }
+
+  .login-error-message {
+    color: rgb(188, 22, 22);
+    text-align: center;
+    font-size: 1.2rem;
+    max-width: 265px;
+    margin: auto;
+  }
+
+  .user-registered-success {
+    color:  #1b1b1a;
+    text-align: center;
+    font-size: 1.4rem;
+    max-width: 265px;
+    margin: auto;
+    padding-top: 1rem;
+  }
+
+
+  .valid, .invalid {
+    /* font-size: 0.9rem; */
+    padding-block-start: 0.5rem;
+    padding-inline-start: 9rem;
+  }
+
+  .invalid * {
+    padding-inline-start: 0.5rem;
+    fill: rgb(188, 22, 22);
+  }
+
+ 
+  .show-password-btn {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+  }
+
+  .forgot-password-link {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    font-family: 'Mulish', sans-serif;
+    padding-block: 1rem;
+  }
+
+  .forgot-password-link >* {
+    color: #1b1b1a;
+  }
+
+ .link33 {
+  font-family: 'Red Rose', serif;
+    font-weight: 300;
+    font-size: 1.1rem;
+ }
 
 
   @media only screen and (max-width: 425px) {
@@ -109,8 +202,7 @@
     }
 
     .close {
-      position: fixed;
-      top: 1.5rem;
+      top: 1rem;
       right: 1rem;
     }
 
@@ -140,18 +232,39 @@
       margin-block-end: 0.5rem;
     }
 
+    .show-password-btn {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding-inline-start: 6rem;
+  }
+
+  .valid, .invalid {
+    font-size: 0.9rem;
+    padding-inline-end: 0.5rem;
+    padding-inline-start: 0rem;
+  }
+
+
     .buttonLogin {
       margin: 0 0 2rem;
       font-size: 15px;
       width: 11rem;
       margin: 2rem 0 3rem;
     }
+
+    .forgot-password-link {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-block-start: 2rem;
+    }
   }
 
-  @media only screen and (min-width: 1441px) {
+  /* @media only screen and (min-width: 1441px) {
 
     .popup {
-      padding: 13rem;
+      padding: 8rem;
     }
     .close {
       top: 4rem;
@@ -196,4 +309,4 @@
       font-size: 2.3rem;
       padding: 1rem;
     }
-  }
+  } */
