@@ -161,29 +161,10 @@ export const Maps = ({searchField, hubData}) => {
     if (window.innerWidth <= 425) {
       setMapContainerHeight(980);
     }
+
+    
   };
 
-
-  // const handleMarkerClick = (marker) => {
-  //   // Close the info window of the previously selected marker, if any
-  //   if (selectedMarker && selectedMarker.title !== marker.title) {
-  //     closeInfoWindow();
-  //   }
-
-  //   setSelectedMarker(marker);
-  //   setShowInfoWindow(true);
-  //   const clickedBuilding = hubData.data.groupedProducts.find(
-  //     (building) => getBuildingName(building) === marker.title
-  //   );
-  //   setSelectedBuilding(clickedBuilding);
-  //   fetchWeatherData(marker.position.lat, marker.position.lng);
-
-  //   // Move the map center to the clicked marker's position and set zoom to 15
-  //   if (map) {
-  //     map.panTo(marker.position);
-  //     map.setZoom(13.8);
-  //   }
-  // };
 
 
 
@@ -202,26 +183,7 @@ export const Maps = ({searchField, hubData}) => {
     }
   };
   
-  // const handleMarkerClick = (marker) => {
-  //   // Close the info window of the previously selected marker, if any
-  //   if (selectedMarker && selectedMarker.title !== marker.title) {
-  //     closeInfoWindow();
-  //   }
 
-  //   setSelectedMarker(marker);
-  //   setShowInfoWindow(true);
-  //   const clickedBuilding = hubData.data.groupedProducts.find(
-  //     (building) => getBuildingName(building) === marker.title
-  //   );
-  //   setSelectedBuilding(clickedBuilding);
-  //   fetchWeatherData(marker.position.lat, marker.position.lng);
-
-  //   // Move the map center to the clicked marker's position and set zoom to 15
-  //   if (map) {
-  //     map.panTo(marker.position);
-  //     map.setZoom(13.8);
-  //   }
-  // };
 
   const closeInfoWindow = () => {
     // Close the info window of the currently selected marker

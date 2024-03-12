@@ -8,8 +8,11 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 2;
+    z-index: 1;
+    overflow: auto; 
+
   }
+
   
   .popup {
     background: #F1EDE7;
@@ -19,6 +22,12 @@
     align-items: center;
     justify-content: center;
     padding: 6rem 5rem;
+    position: fixed;
+    top: 6%;
+    bottom: 6%;
+    height: 60%;
+    overflow: auto; /* Add this line */
+    max-height: calc(100% - 12%); /* Adjust this value as needed */
 }
 
   .loginContainer {
@@ -27,6 +36,7 @@
     align-items: center;
     flex-wrap: wrap;
     width: 100%;
+    /* overflow-y: auto; */
 }
 
 .LoginInputFieldsContainer {
@@ -66,11 +76,25 @@
     width: 100%;
  }
 
+
+ .show-password-btn {
+  font-family: 'Mulish', sans-serif;
+  padding-block-end: 2rem;
+ }
+ .passwordChecklist {
+  font-family: 'Mulish', sans-serif;
+ }
+
  .buttonLogin {
   margin: 2rem 0 4rem;
   width: 15rem;
+  margin-left: 1rem;
  }
- 
+
+ .buttonCreateUser {
+  margin-block-start: 3rem;
+ }
+
  .newUser {
     display: flex;
     justify-content: center;
@@ -110,11 +134,11 @@
   }
 
   .login-input-submit:hover {
-    background-color: red;
+    background-color: rgb(188, 22, 22);
   }
 
   .login-error-message {
-    color: red;
+    color: rgb(188, 22, 22);
     text-align: center;
     font-size: 1.2rem;
     max-width: 265px;
@@ -122,7 +146,7 @@
   }
 
   .user-registered-success {
-    color: #0d8820;
+    color:  #1b1b1a;
     text-align: center;
     font-size: 1.4rem;
     max-width: 265px;
@@ -131,8 +155,14 @@
 
 
   .valid, .invalid {
-    font-size: 1.2rem;
+    /* font-size: 0.9rem; */
     padding-block-start: 0.5rem;
+    padding-inline-start: 9rem;
+  }
+
+  .invalid * {
+    padding-inline-start: 0.5rem;
+    fill: rgb(188, 22, 22);
   }
 
  
@@ -181,6 +211,20 @@
     .newUser span {
       margin-block-end: 0.5rem;
     }
+
+    .show-password-btn {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding-inline-start: 6rem;
+  }
+
+  .valid, .invalid {
+    font-size: 0.9rem;
+    padding-inline-end: 0.5rem;
+    padding-inline-start: 0rem;
+  }
+
 
     .buttonLogin {
       margin: 0 0 2rem;

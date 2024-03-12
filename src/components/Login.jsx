@@ -92,6 +92,7 @@ export const Login = ({loginForm, handleLoginForm}) => {
                           minLength={6}
                           value={password}
                           valueAgain={confirmPassword}
+                          className='passwordChecklist'
                           messages={{
                             minLength: "Salasana on vähintään 6 merkkiä pitkä",
                             specialChar: "Salasanassa on vähintään 1 erikoismerkki",
@@ -103,7 +104,7 @@ export const Login = ({loginForm, handleLoginForm}) => {
                       </div>
                       {userRegistered && <p className='user-registered-success'>Käyttäjä on luotu! Vahvista sähköposti osoitteesi</p>}
                       <div className='loginCenter'>
-                        <button type='submit' className='button buttonLogin'>LUO KÄYTTÄJÄTILI</button>
+                        <button type='submit' className='button buttonLogin buttonCreateUser'>LUO KÄYTTÄJÄTILI</button>
                       </div>
                     </form>
                   </div>

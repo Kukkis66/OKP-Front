@@ -12,11 +12,9 @@ import pin from '../assets/pin.png'
 
 import React from 'react';
 import wholeHeart from '../assets/wholeHeart.png';
-import { Popup } from './CardPopUp.jsx';
 import { getBuildingName } from './Maps.jsx';
 import { useAuth } from '../context/AuthContext.jsx';
 import { Favorites } from './Favorites.jsx';
-import '../styles/List.css';
 
 
 export const List = ({ hubData }) => {
