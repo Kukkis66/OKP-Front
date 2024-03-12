@@ -135,7 +135,7 @@ export const AuthProvider = ({ children }) => {
       headers: {
         'Content-Type':'application/json'
       },
-      body:JSON.stringify({'email':e.target.email.value, 'username':e.target.username.value, 'password':e.target.password.value, 'confirmPassword': e.target.confirmPassword.value, 'roles': ["Reader"]})
+      body:JSON.stringify({'email':e.target.email.value, 'username':e.target.username.value, 'password':e.target.password.value, 'confirmPassword': e.target.confirmPassword.value})
     });
     
     if (response.status == 200) {

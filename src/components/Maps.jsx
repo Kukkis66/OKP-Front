@@ -79,7 +79,6 @@ export const Maps = ({searchField, hubData}) => {
   const [isHeartFilled, setIsHeartFilled] = useState(false); 
   const [mapContainerHeight, setMapContainerHeight] = useState(window.innerWidth <= 425 ? 630 : 'auto');
   
-
   const { isLoggedIn, login, logout, currentUser, showFavorites, toggleFavorite, favorites, setFavorites, heartFilled, setHeartFilled, userFavorites, setUserFavorites } = useAuth();
 
   const toggleFavorite1 = async (buildingId, userId) => {
@@ -101,24 +100,24 @@ export const Maps = ({searchField, hubData}) => {
     }
 };
 
-const deleteFavorite2 = async (buildingId, userId) => {
-    // Check if currentUser is logged in
-    if (!currentUser) {
-        console.log("User is not logged in!");
-        return;
-    }
+  const deleteFavorite2 = async (buildingId, userId) => {
+      // Check if currentUser is logged in
+      if (!currentUser) {
+          console.log("User is not logged in!");
+          return;
+      }
 
-    try {
-            // If already favorited, delete the favorite
-            const response = await axios.delete(`http://localhost:5143/api/Favorites/${buildingId}`);
-            console.log("Favorite deleted:", response);
-      
-        } catch (error) {
-            console.error('Error toggling favorite:', error);
-            console.log(userId);
-        }
-   
-};
+      try {
+              // If already favorited, delete the favorite
+              const response = await axios.delete(`http://localhost:5143/api/Favorites/${buildingId}`);
+              console.log("Favorite deleted:", response);
+        
+          } catch (error) {
+              console.error('Error toggling favorite:', error);
+              console.log(userId);
+          }
+    
+  };
   
   const markers = hubData => {
     if (!hubData || !hubData.data || !hubData.data.groupedProducts) {
@@ -157,14 +156,7 @@ const deleteFavorite2 = async (buildingId, userId) => {
       map.setZoom(12.5); // Set desired zoom level
     }
   }, [map, selectedMarker]);
-  
-  const onMapLoad = (mapInstance) => {
-    setMap(mapInstance);
-    window.google.maps.event.addListener(mapInstance, 'bounds_changed', () => {
-      setMapBounds(mapInstance.getBounds());
-    });
-    setMapCenterAndZoom(mapInstance); // Call the function to set center and zoom
-  };
+
 
   const setMapCenterAndZoom = (mapInstance, selectedMarker) => {
     if (window.innerWidth <= 425 && mapInstance && selectedMarker) {
@@ -172,8 +164,16 @@ const deleteFavorite2 = async (buildingId, userId) => {
       mapInstance.setZoom(12.5);
     } else if (window.innerWidth <= 425 && mapInstance) {
       mapInstance.panTo({ lat: 60.1699, lng: 24.9384 });
-      mapInstance.setZoom(12.5);
+      mapInstance.setZoom(13.6);
     }
+  };
+
+  const onMapLoad = (mapInstance) => {
+    setMap(mapInstance);
+    window.google.maps.event.addListener(mapInstance, 'bounds_changed', () => {
+      setMapBounds(mapInstance.getBounds());
+    });
+    setMapCenterAndZoom(mapInstance); // Call the function to set center and zoom
   };
 
   // component will update the map container height whenever the window is resized
@@ -190,13 +190,11 @@ const deleteFavorite2 = async (buildingId, userId) => {
   }, []);
 
   const handleMarkerClick = (marker) => {
-
-    // Close the info window of the previously selected marker, if any
+  // Close the info window of the previously selected marker, if any
     if (selectedMarker && selectedMarker.title !== marker.title) {
       closeInfoWindow();
     }
 
-    console.log("Marker clicked:", marker);
     setSelectedMarker(marker);
     setShowInfoWindow(true); 
     const clickedBuilding = hubData.data.groupedProducts.find(
@@ -204,38 +202,17 @@ const deleteFavorite2 = async (buildingId, userId) => {
     setSelectedBuilding(clickedBuilding);
     fetchWeatherData(marker.position.lat, marker.position.lng);
 
-     // Move the map center to the clicked marker's position and set zoom to 15
+     // Move the map center to the clicked marker's position and set zoom 
      if (map) {
       map.panTo(marker.position);
-      map.setZoom(13.8);
+      map.setZoom(13.6);
     }
 
      // set the map container height for mobile when the building is clicked
     if (window.innerWidth <= 425) {
       setMapContainerHeight(980);
-    }
-
-    
+    }  
   };
-
-
-
-  useEffect(() => {
-    // Log the icon that is displayed when the marker is clicked
-    console.log("Icon displayed:", selectedMarker === null ? "houseIcon" : "pin");
-  }, [selectedMarker]);
-
-  const fetchWeatherData = async (lat, lng) => {
-    try {
-      const response = await fetch(`${API_BASE_URL}?lat=${lat}&lon=${lng}&appid=${API_KEY}`);
-      const data = await response.json();
-      setWeatherData(data);
-    } catch (error) {
-      console.error('Error fetching weather data:', error);
-    }
-  };
-  
- 
 
   const closeInfoWindow = () => {
     // Close the info window of the currently selected marker
@@ -247,9 +224,9 @@ const deleteFavorite2 = async (buildingId, userId) => {
     if (map) {
       if (window.innerWidth <= 425) {
         map.panTo({ lat: 60.1699, lng: 24.9384 });
-        map.setZoom(12.8);
+        map.setZoom(13.6);
       } else {
-        map.setZoom(12.3);
+        map.setZoom(12.5);
         map.panTo(center);
       }
     }
@@ -265,6 +242,15 @@ const deleteFavorite2 = async (buildingId, userId) => {
     setShowInfoWindow(false);
   };
 
+  const fetchWeatherData = async (lat, lng) => {
+    try {
+      const response = await fetch(`${API_BASE_URL}?lat=${lat}&lon=${lng}&appid=${API_KEY}`);
+      const data = await response.json();
+      setWeatherData(data);
+    } catch (error) {
+      console.error('Error fetching weather data:', error);
+    }
+  };
  
   if (loadError) return <div>Error loading maps</div>;
   if (!isLoaded) return <div>Loading maps</div>;
