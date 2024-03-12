@@ -76,7 +76,6 @@ export const Maps = ({searchField, hubData}) => {
   const [showInfoWindow, setShowInfoWindow] = useState(false);
   const [weatherData, setWeatherData] = useState(null);
   const [showPopup, setShowPopup] = useState(false);
-  const [isHeartFilled, setIsHeartFilled] = useState(false); 
   const [mapContainerHeight, setMapContainerHeight] = useState(window.innerWidth <= 425 ? 630 : 'auto');
   
   const { isLoggedIn, login, logout, currentUser, showFavorites, toggleFavorite, favorites, setFavorites, heartFilled, setHeartFilled, userFavorites, setUserFavorites } = useAuth();
@@ -98,7 +97,7 @@ export const Maps = ({searchField, hubData}) => {
         console.error('Error toggling favorite:', error);
         console.log(userId);
     }
-};
+  };
 
   const deleteFavorite2 = async (buildingId, userId) => {
       // Check if currentUser is logged in
@@ -153,18 +152,17 @@ export const Maps = ({searchField, hubData}) => {
     if (map && selectedMarker && selectedMarker.position) {
       const newPosition = selectedMarker.position;
       map.panTo(newPosition);
-      map.setZoom(12.5); // Set desired zoom level
+      map.setZoom(13.6); 
     }
   }, [map, selectedMarker]);
-
 
   const setMapCenterAndZoom = (mapInstance, selectedMarker) => {
     if (window.innerWidth <= 425 && mapInstance && selectedMarker) {
       mapInstance.panTo(selectedMarker.getPosition());
-      mapInstance.setZoom(12.5);
+      mapInstance.setZoom(11.8);
     } else if (window.innerWidth <= 425 && mapInstance) {
       mapInstance.panTo({ lat: 60.1699, lng: 24.9384 });
-      mapInstance.setZoom(13.6);
+      mapInstance.setZoom(12.9);
     }
   };
 
@@ -176,12 +174,11 @@ export const Maps = ({searchField, hubData}) => {
     setMapCenterAndZoom(mapInstance); // Call the function to set center and zoom
   };
 
-  // component will update the map container height whenever the window is resized
   useEffect(() => {
     const handleResize = () => {
       setMapContainerHeight(window.innerWidth <= 425 ? 980 : 'auto');
     };
-  
+
     window.addEventListener('resize', handleResize);
   
     return () => {
@@ -194,7 +191,6 @@ export const Maps = ({searchField, hubData}) => {
     if (selectedMarker && selectedMarker.title !== marker.title) {
       closeInfoWindow();
     }
-
     setSelectedMarker(marker);
     setShowInfoWindow(true); 
     const clickedBuilding = hubData.data.groupedProducts.find(
@@ -205,9 +201,8 @@ export const Maps = ({searchField, hubData}) => {
      // Move the map center to the clicked marker's position and set zoom 
      if (map) {
       map.panTo(marker.position);
-      map.setZoom(11.8);
+      map.setZoom(13.6);
     }
-
      // set the map container height for mobile when the building is clicked
     if (window.innerWidth <= 425) {
       setMapContainerHeight(980);
@@ -343,8 +338,7 @@ export const Maps = ({searchField, hubData}) => {
               }}
               onClick={() => handleMarkerClick(marker)}
             />
-          ))}
-          
+          ))}  
         </GoogleMap>
       </div>
       {showInfoWindow && selectedMarker && (
@@ -384,4 +378,5 @@ export const Maps = ({searchField, hubData}) => {
       )}
     </div>
   );
+
 };
