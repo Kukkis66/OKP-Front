@@ -64,6 +64,11 @@
     justify-content: flex-end;
     color: var(--black);
   }
+
+  a {
+    text-decoration: none;
+    color: #1b1b1a;
+  }
   
   .arrow {
     max-height: 2rem;
