@@ -76,10 +76,10 @@
     width: 100%;
  }
 
- .login1 {
+ .login1>a{
   font-family: 'Red Rose', serif;
   font-weight: 300;
-  font-size: 1.3rem;
+  font-size: 1.1rem;
   text-decoration-line: underline;
   text-decoration-thickness: 1px;
   text-underline-offset: 2px;
@@ -118,6 +118,13 @@
     color: #1b1b1a;
  }
   
+ .login1>a{
+  flex-basis: 1;
+ }
+
+ .login1>span {
+  text-decoration: none;
+ }
   .close {
     position: absolute;
     top: 2rem;

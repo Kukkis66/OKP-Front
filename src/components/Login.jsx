@@ -109,7 +109,7 @@ export const Login = ({loginForm, handleLoginForm}) => {
                       </div>
                     </form>
                   </div>
-                  <div className='newUser login'>
+                  <div className='newUser login1'>
                     <span>Onko sinulla jo käyttäjätili?</span>
                     <a href='#' onClick={handleNewUser}>KIRJAUDU SISÄÄN</a>
                   </div>
@@ -156,11 +156,11 @@ export const Login = ({loginForm, handleLoginForm}) => {
                     <button type='submit' className='button buttonLogin' disabled={!email}>KIRJAUDU SISÄÄN</button>
                     {/* <input className='login-input-submit' disabled={!email} type="submit" value="KIRJAUDU SISÄÄN" /> */}
                   </div>
-                  <div className='newUser'>
+                  <div className='newUser login1'>
                     <span>Oletko uusi käyttäjä?</span>
-                    <a className='login1' href='#' onClick={handleNewUser}>LUO KÄYTTÄJÄTILI</a>
+                    <a  href='#' onClick={handleNewUser}>LUO KÄYTTÄJÄTILI</a>
                   </div>
-                  <div className="forgot-password-link">
+                  <div className="forgot-password-link login1">
                     <span>Unohtuiko salasana?</span>
                     <Link to="/forgot-password" className='login1 link33'>VAIHDA SALASANA</Link>
                   </div>
