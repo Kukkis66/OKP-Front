@@ -109,7 +109,7 @@ export const Login = ({loginForm, handleLoginForm}) => {
                       </div>
                     </form>
                   </div>
-                  <div className='newUser'>
+                  <div className='newUser login'>
                     <span>Onko sinulla jo käyttäjätili?</span>
                     <a href='#' onClick={handleNewUser}>KIRJAUDU SISÄÄN</a>
                   </div>
@@ -158,11 +158,11 @@ export const Login = ({loginForm, handleLoginForm}) => {
                   </div>
                   <div className='newUser'>
                     <span>Oletko uusi käyttäjä?</span>
-                    <a href='#' onClick={handleNewUser}>LUO KÄYTTÄJÄTILI</a>
+                    <a className='login1' href='#' onClick={handleNewUser}>LUO KÄYTTÄJÄTILI</a>
                   </div>
                   <div className="forgot-password-link">
                     <span>Unohtuiko salasana?</span>
-                    <Link to="/forgot-password" className='link33'>VAIHDA SALASANA</Link>
+                    <Link to="/forgot-password" className='login1 link33'>VAIHDA SALASANA</Link>
                   </div>
                 </form>
                 </div>)}
