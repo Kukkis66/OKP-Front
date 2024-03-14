@@ -300,8 +300,9 @@
 }
 
 .silhouet {
-  width: 50rem;
+  width: 34rem;
   margin: 4rem 10rem -5.4rem;
+  padding-inline-start: 0;
 }
 /* 
 .arrow {

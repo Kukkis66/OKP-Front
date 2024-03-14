@@ -108,7 +108,7 @@ padding: 2rem;
 border: solid #1b1b1a9e 0.18rem;
 border-radius: 0.5rem;
 background-color: var(--white);
-width: 310px;
+width: 315px;
 height: 530px;
 display: flex;
 flex-direction: column;
@@ -347,7 +347,7 @@ flex-direction: row;
   min-height: 78px; */
   font-size: 20px;
   line-height: 28px;
-  padding-inline-end: 2rem;
+  /* padding-inline-end: 2rem; */
 }
 
 /* .iconsContainer {
